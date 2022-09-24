@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   parse_inputs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/23 22:52:20 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 03:31:19 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 	int	i;
 	int	*arr;
 	char	*digit1;
+	ssize_t	nb;
 
 	if (!ps || !nbs_strtab)
 		return (-1);
@@ -69,6 +70,7 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 	ps->stk_ref.arr = ps->__stk_mem + (2 * sizeof(int) * ps->stack_max);
 	ps->A = &ps->stk_a;
 	ps->B = &ps->stk_b;
+	ps->ref = &ps->stk_ref;
 	arr = ps->stk_a.arr;
 	i = -1;
 	while (++i < ps->stack_max)
@@ -76,9 +78,13 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 		if (!validate_single_input(nbs_strtab[i]))
 			return (-1);
 		digit1 = find_first_digit(nbs_strtab[i]);
-		arr[i] = ft_atol(nbs_strtab[i]);
-		if (*digit1 && !arr[i])
+		nb = ft_atol(nbs_strtab[i]);
+		if ((*digit1 && !nb) || nb < INT_MIN || INT_MAX < nb)
+		{
+			printf("nb %zd failed ! Test1 %d, Test2 %d\n", nb, nb < INT_MIN, INT_MAX < nb);
 			return (-1);
+		}
+		arr[i] = (int)nb;
 	}
 	ps->stk_a.len = ps->stack_max;
 	ps->stk_b.len = 0;

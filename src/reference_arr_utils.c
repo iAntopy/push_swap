@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 22:53:20 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/23 23:57:19 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 03:00:17 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	build_ref_array(t_ps *ps)
 		return (-1);
 	ft_printf("Enter build ref_array\n");
 	ft_printf("Copying from ptr %p to %p size %d\n", ps->ref->arr, ps->A->arr, ps->A->len);
-	ft_memcpy(ps->ref->arr, ps->A->arr, ps->A->len);
+	ft_memcpy(ps->ref->arr, ps->A->arr, sizeof(int) * ps->A->len);
 	ft_printf("build ref_array : stack A copied\n");
 	garbage_sort(ps->ref->arr, ps->ref->len);
 	ft_printf("build ref_array : garbage in garbage out\n");

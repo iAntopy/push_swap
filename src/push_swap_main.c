@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/23 23:56:49 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 03:37:34 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ int	main(int argc, char **argv)
 	
 //	garbage_sort(ps.stk_a.arr, ps.stk_a.len);
 	build_ref_array(&ps);
-//	print_stacks(&ps);
-//	print_ref_array(&ps);
-	ps.stk_ref.arr[ps.stk_ref.len] = 99;
-
+	print_stacks(&ps);
+	print_ref_array(&ps);
 	return (clear_ps(&ps, EXIT_SUCCESS));
 }

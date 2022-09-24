@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 04:05:46 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/23 23:41:28 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 03:37:02 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	print_ref_array(t_ps *ps)
 {
 	int	i;
 
-	ft_printf("[ ");
+	ft_printf("\nReference array :\n\t[ ");
 	i = -1;
 	while (++i < (ps->stk_ref.len - 1))
 	{

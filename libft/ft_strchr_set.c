@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling.c                                   :+:      :+:    :+:   */
+/*   ft_strchr_set.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/06 07:11:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/23 23:20:44 by iamongeo         ###   ########.fr       */
+/*   Created: 2022/09/13 08:19:40 by iamongeo          #+#    #+#             */
+/*   Updated: 2022/09/14 15:13:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pswap.h"
+#include "libft.h"
 
-int	repport_error(void)
+char	*ft_strchr_set(const char *s, const char *set)
 {
-	ft_putstr_fd("Error\n", 2);
-	return (-1);
+	if (!s || !set)
+		return (NULL);
+	while (*s && !ft_strchr(set, *s))
+		s++;
+	if (*s)
+		return ((char *)s);
+	return (NULL);
 }
-/*
-int	repport_err_clear_strtab(char ***tab)
-{
-	if (tab)
-		strtab_clear(&tab);
-	return (repport_error());
-}
-*/

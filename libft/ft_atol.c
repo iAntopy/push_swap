@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 15:53:26 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/03 16:44:55 by iamongeo         ###   ########.fr       */
+/*   Created: 2022/09/23 18:25:44 by iamongeo          #+#    #+#             */
+/*   Updated: 2022/09/23 20:09:33 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+ssize_t	ft_atol(const char *str)
 {
-	char			*mstr;
-	unsigned int	len;
-	unsigned int	i;
+	size_t	nb;
+	int		sign;
 
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	if (!malloc_free_p(sizeof(char) * (len + 1), (void **)&mstr))
-		return (NULL);
-	i = -1;
-	while (++i < len)
-		mstr[i] = f(i, s[i]);
-	mstr[i] = '\0';
-	return (mstr);
+	nb = 0;
+	sign = 1;
+	while (*str && ft_isspace(*str))
+		str++;
+	if (*str && ft_issign(*str))
+	{
+		if (!ft_isdigit(*(str + 1)))
+			return (0);
+		sign -= 2 * (*str == '-');
+		str++;
+	}
+	while (*str && ft_isdigit(*str))
+		nb = (nb * 10) + (*(str++) - '0');
+	return (sign * nb);
 }

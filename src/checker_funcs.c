@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fperror.c                                          :+:      :+:    :+:   */
+/*   checker_funcs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 15:30:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/06/12 23:08:42 by iamongeo         ###   ########.fr       */
+/*   Created: 2022/09/23 21:05:54 by iamongeo          #+#    #+#             */
+/*   Updated: 2022/09/23 21:19:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <errno.h>
-#include <stdio.h>
-#include "ft_printf.h"
+#include "pswap.h"
 
-void	*fperror(char *fmt, ...)
+int	stk_issorted(t_stk *s)
 {
-	va_list	ap;
+	int	i;
 
-	va_start(ap, fmt);
-	ft_vprintf(fmt, &ap);
-	perror(" ");
-	va_end(ap);
-	return (NULL);
+	i = -1;
+	while (++i < (s->len - 1))
+		if (s->arr[i] > s->arr[i + 1])
+			return (0);
+	return (1);
+}
+
+int	stk_slice_issorted(t_stk *s, int start, int end)
+{
+	int	i;
+
+	if ((0 <= start) && (start <= end) && (end < s->len))
+		return (repport_error());
+	i = start - 1;
+	while (++i < (end - 1))
+		if (s->arr[i] > s->arr[i + 1])
+			return (0);
+	return (1);
 }

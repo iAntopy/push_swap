@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 03:11:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/23 04:05:34 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/23 20:14:56 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ void	psw_rotate(t_stk *A, t_stk *B, int rev)
 
 void	psw_swap(t_stk *A, t_stk *B)
 {
-	int	temp;
-
 	if (A && (A->len > 1))
-		ft_swap(A->arr, A->arr + 1);
+		ft_swap_i(A->arr, A->arr + 1);
 	if (B && (B->len > 1))
-		ft_swap(B->arr, B->arr + 1);
+		ft_swap_i(B->arr, B->arr + 1);
 }
 
 void	psw_push(t_stk *dst, t_stk *src)

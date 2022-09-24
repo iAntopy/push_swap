@@ -7,7 +7,8 @@ _SRC	=	push_swap_main \
 			stack_moves		\
 			checker_funcs	\
 			reference_arr_utils \
-			print_stacks
+			print_stacks		\
+			sort_3_5
 
 SRC			= $(addprefix $(SRC_DIR), $(_SRC))
 

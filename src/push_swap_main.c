@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 03:37:34 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 08:18:45 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 int	clear_ps(t_ps *ps, int status)
 {
 	if (ps->stk_a.arr)
-		malloc_free_p(0, (void **)&ps->__stk_mem);
-//	if (ps->stk_b.arr)
-//		malloc_free_p(0, (void **)&ps->stk_b.arr);
-//	if (ps->ref_array)
-//		malloc_free_p(0, (void **)&ps->ref_array);
-
+		malloc_free_p(0, (void **)&ps->stk_a.arr);
+	if (ps->stk_b.arr)
+		malloc_free_p(0, (void **)&ps->stk_b.arr);
+	if (ps->stk_ref.arr)
+		malloc_free_p(0, (void **)&ps->stk_ref.arr);
 	return (status);
 }
 
@@ -67,18 +66,24 @@ void	unittest_pswap_moves(t_ps *ps)
 
 int	main(int argc, char **argv)
 {
-	t_ps	ps;
+	const char	*strmoves[] = {
+		"ra", "rb", "rr", "rra", "rrb", "rrr",
+		"sa", "sb", "ss", "pa", "pb"};
+	t_ps		ps;
 
 	ft_memclear(&ps, sizeof(t_ps));
 	if (parse_inputs(&ps, argc, argv) < 0)
 		return (clear_ps(&ps, repport_error()));
-	
-//	unittest_pswap_moves(&ps);
+	ps.strmoves = (char **)strmoves;
 	ft_printf("\nInit stacks :\n");
 	print_stacks(&ps);
-	
-//	garbage_sort(ps.stk_a.arr, ps.stk_a.len);
-	build_ref_array(&ps);
+	build_ref_array_and_substitute_in_stack_a(&ps);
+	ft_printf("\n\nPost build refs print : \n");
+	print_ref_array(&ps);
+	print_stacks(&ps);
+	print_ref_array(&ps);
+	psw_sort3(&ps);
+	ft_printf("\n\nPost sort3 print : \n");
 	print_stacks(&ps);
 	print_ref_array(&ps);
 	return (clear_ps(&ps, EXIT_SUCCESS));

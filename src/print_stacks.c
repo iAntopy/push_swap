@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 04:05:46 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 03:37:02 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 08:17:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	print_stacks(t_ps *ps)
 	int	i;
 	int	max_len;
 
-	A = &ps->stk_a;
-	B = &ps->stk_b;
+	A = ps->A;
+	B = ps->B;
 	max_len = A->len + ((B->len - A->len) * (B->len > A->len));
 	print_header();
 	i = -1;
@@ -73,13 +73,13 @@ void	print_stacks(t_ps *ps)
 
 void	print_ref_array(t_ps *ps)
 {
-	int	i;
+	int	*arr;
+	int	len;
 
 	ft_printf("\nReference array :\n\t[ ");
-	i = -1;
-	while (++i < (ps->stk_ref.len - 1))
-	{
-		ft_printf("%d, ", ps->stk_ref.arr[i]);
-	}
-	ft_printf("%d ]\n", ps->stk_ref.arr[i]);
+	arr = ps->ref->arr;
+	len = ps->stack_max;
+	while (--len)
+		ft_printf("%d, ", *(arr++));
+	ft_printf("%d ]\n", *arr);
 }

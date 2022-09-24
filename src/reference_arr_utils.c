@@ -6,25 +6,33 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 22:53:20 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 03:00:17 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 08:05:12 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
 
-static int	*ft_min_i(int *arr, int size)
+void	garbage_sort(int *arr, int size)
 {
-	int	val;
+	int	i;
+	int	j;
+	int	imax;
 	int	*min;
 
-	val = INT_MAX;
-	min = &val;
-	while (size--)
-		if (*(arr++) < *min)
-			min = arr - 1;
-	return (min);
+	imax = INT_MAX;
+	i = -1;	
+	while (++i < (size - 1))
+	{
+		min = &imax;
+		j = i;
+		while (++j < size)
+			if (arr[j] < *min)
+				min = arr + j;
+		if (*min < arr[i])
+			ft_swap_i(min, arr + i);
+	}
 }
-
+/*
 void	garbage_sort(int *arr, int size)
 {
 	int	i;
@@ -38,16 +46,38 @@ void	garbage_sort(int *arr, int size)
 			ft_swap_i(min, arr + i);
 	}
 }
+*/
+static void	substitute_stack_a_values_for_indices(t_ps *ps)
+{
+	int	i;
+	int	j;
+	int	x;
+	int	*arr;
+	int	*refs;
 
-int	build_ref_array(t_ps *ps)
+	arr = ps->A->arr;
+	refs = ps->ref->arr;
+	i = -1;
+	while (++i < ps->stack_max)
+	{
+		x = arr[i];
+		j = -1;
+		while (++j < ps->stack_max)
+			if (x == refs[j])
+				break ;
+		arr[i] = j;
+	}
+}
+
+int	build_ref_array_and_substitute_in_stack_a(t_ps *ps)
 {
 	if (!ps)
 		return (-1);
-	ft_printf("Enter build ref_array\n");
-	ft_printf("Copying from ptr %p to %p size %d\n", ps->ref->arr, ps->A->arr, ps->A->len);
 	ft_memcpy(ps->ref->arr, ps->A->arr, sizeof(int) * ps->A->len);
-	ft_printf("build ref_array : stack A copied\n");
+	print_ref_array(ps);
 	garbage_sort(ps->ref->arr, ps->ref->len);
-	ft_printf("build ref_array : garbage in garbage out\n");
+	print_ref_array(ps);
+	substitute_stack_a_values_for_indices(ps);
+	print_ref_array(ps);
 	return (0);
 }

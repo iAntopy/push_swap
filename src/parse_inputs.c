@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 03:31:19 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 08:15:27 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 	if (!ps || !nbs_strtab)
 		return (-1);
 	ps->stack_max = (int)strtab_len(nbs_strtab);
-	if (!malloc_free_p(3 * sizeof(int) * ps->stack_max, (void **)&ps->__stk_mem))//stk_a.arr))
+	ft_printf("stack_max : %d, malloced array size : %d\n", ps->stack_max, sizeof(int) * ps->stack_max);
+	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_a.arr);
+	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_b.arr);
+	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_ref.arr);
+	if (!ps->stk_a.arr || !ps->stk_b.arr || !ps->stk_ref.arr)
 		return (-1);
-	ps->stk_a.arr = ps->__stk_mem;
-	ps->stk_b.arr = ps->__stk_mem + (sizeof(int) * ps->stack_max);
-	ps->stk_ref.arr = ps->__stk_mem + (2 * sizeof(int) * ps->stack_max);
 	ps->A = &ps->stk_a;
 	ps->B = &ps->stk_b;
 	ps->ref = &ps->stk_ref;

@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 03:11:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 08:22:13 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:35:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,6 @@ void	psw_push(t_stk *dst, t_stk *src)
 	src->len--;
 	dst->len++;
 }
-/*
-char	*psw_move_decoder(char move)
-{
-	if (move == 'r')
-		return ("ra");
-	else if (move == 'R')
-		return ("rb");
-	else if (move == 't')
-		return ("rb");
-	else if (move == 'o')
-		return ("rb");
-	else if (move == 'O')
-		return ("rb");
-	else if (move == 'T')
-		return ("rb");
-	else if (move == 's')
-		return ("rb");
-	else if (move == 'S')
-		return ("rb");
-	else if (move == 'Z')
-		return ("rb");
-	else if (move == 'p')
-		return ("rb");
-	else if (move == 'P')
-		return ("rb");
-	ft_printf("%s\n", );
-
-}
-*/
 
 void	psw_move(t_ps *ps, int move)
 {
@@ -118,37 +89,9 @@ void	psw_move(t_ps *ps, int move)
 		psw_push(ps->A, ps->B);
 	else if (move == M_PB)
 		psw_push(ps->B, ps->A);
+	ps->nb_moves++;
 	ft_printf("%s\n", ps->strmoves[move]);
 }
-/*
-{
-	int	ret;
-
-	ret = 0;
-	if (ft_strcmp("ra", move) == 0)
-		ret = psw_rotate(ps->A, NULL, 0);
-	else if (ft_strcmp("rb", move) == 0)
-		ret = psw_rotate(NULL, ps->B, 0);
-	else if (ft_strcmp("rra", move) == 0)
-		ret = psw_rotate(ps->A, NULL, 1);
-	else if (ft_strcmp("rrb", move) == 0)
-		ret = psw_rotate(NULL, ps->B, 1);
-	else if (ft_strcmp("rrr", move) == 0)
-		ret = psw_rotate(ps->A, ps->B, 1);
-	else if (ft_strcmp("sa", move) == 0)
-		ret = psw_swap(ps->A, NULL);
-	else if (ft_strcmp("sb", move) == 0)
-		ret = psw_swap(NULL, ps->B);
-	else if (ft_strcmp("ss", move) == 0)
-		ret = psw_swap(ps->A, ps->B);
-	else if (ft_strcmp("pa", move) == 0)
-		ret = psw_swap(ps->A, ps->B);
-	else if (ft_strcmp("pb", move) == 0)
-		ret = psw_push(ps->B, ps->A);
-	if (ret)
-		ft_printf("%s\n", move);
-}
-*/
 
 void	psw_recipe(t_ps *ps, int nb_moves, ...)
 {
@@ -160,34 +103,3 @@ void	psw_recipe(t_ps *ps, int nb_moves, ...)
 		psw_move(ps, (int)va_arg(ap, int));
 	va_end(ap);
 }
-
-/*
-void	psw_recipe(t_ps *ps, char *recipe)
-{
-	while (recipe++)
-	{
-		if (*(recipe - 1) == 'r')
-			psw_rotate(ps->A, NULL, 0);
-		else if (*(recipe - 1) == 'R')
-			psw_rotate(NULL, ps->B, 0);
-		else if (*(recipe - 1) == 't')
-			psw_rotate(ps->A, ps->B, 0);
-		else if (*(recipe - 1) == 'o')
-			psw_rotate(ps->A, NULL, 1);
-		else if (*(recipe - 1) == 'O')
-			psw_rotate(ps->A, NULL, 1);
-		else if (*(recipe - 1) == 'T')
-			psw_rotate(ps->A, ps->B, 1);
-		else if (*(recipe - 1) == 's')
-			psw_swap(ps->A, NULL);
-		else if (*(recipe - 1) == 'S')
-			psw_swap(NULL, ps->B);
-		else if (*(recipe - 1) == 'Z')
-			psw_swap(ps->A, ps->B);
-		else if (*(recipe - 1) == 'p')
-			psw_push(ps->A, ps->B);
-		else if (*(recipe - 1) == 'P')
-			psw_push(ps->B, ps->A);
-	}
-}
-*/

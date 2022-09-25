@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 08:14:05 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:19:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_push_swap
 	t_stk	*ref;
 //	int		*__stk_mem;
 	char	**strmoves;
+	int	nb_moves;
 }	t_ps;
 
 enum	e_err_codes
@@ -80,19 +81,32 @@ int	build_ref_array_and_substitute_in_stack_a(t_ps *ps);
 
 ////// CHECKER FUNCS /////////
 int	stk_issorted(t_stk *s);
+int	stk_seek_sorted_phase(t_ps *ps, t_stk *s);
 int	stk_slice_issorted(t_stk *s, int start, int end);
 
 ////// REGULAR SORTING ALGOS //////////
 void	garbage_sort(int *arr, int size);
 
 ////// PUSH SWAP SORTING ALGOS //////////
-void	psw_sort3(t_ps *ps);
+void	psw_sort2(t_ps *ps, t_stk *s);
+void	psw_sort3(t_ps *ps, t_stk *s);
+void	psw_sort4(t_ps *ps, t_stk *s);
+
+////// ANALYSIS FUNCTION //////////
+int	*find_lowest(t_stk *s);
+int	*find_highest(t_stk *s);
+int	*find_in_stack(t_stk *s, int value);
+int	distance_from_head(t_stk *s, int value);
+int	distance_from_head_to_vptr(t_stk *s, int *vptr);
+int	find_longest_sorted_sequence(t_stk *s, int **seq_start);
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);
 void	psw_push(t_stk *dst, t_stk *src);
 void	psw_rotate(t_stk *A, t_stk *B, int reverse);
 void	psw_move(t_ps *ps, int move);
+void	psw_move_to(t_ps *ps, t_stk *s, int value);
+void	psw_move_to_vptr(t_ps *ps, t_stk *s, int *vptr);
 void	psw_recipe(t_ps *ps, int nb_moves, ...);
 
 ///// CLEAR FUNCS and ERROR HANDLING //////////

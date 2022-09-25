@@ -5,10 +5,13 @@ _SRC	=	push_swap_main \
 			parse_inputs	\
 			error_handling	\
 			stack_moves		\
+			stack_moves2		\
 			checker_funcs	\
 			reference_arr_utils \
 			print_stacks		\
-			sort_3_5
+			sort_3_5		\
+			dist_funcs		\
+			analysis_funcs
 
 SRC			= $(addprefix $(SRC_DIR), $(_SRC))
 

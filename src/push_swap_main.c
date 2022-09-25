@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 08:18:45 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:36:12 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,30 @@ int	main(int argc, char **argv)
 	ft_memclear(&ps, sizeof(t_ps));
 	if (parse_inputs(&ps, argc, argv) < 0)
 		return (clear_ps(&ps, repport_error()));
+
 	ps.strmoves = (char **)strmoves;
+	ps.nb_moves = 0;
 	ft_printf("\nInit stacks :\n");
 	print_stacks(&ps);
+
 	build_ref_array_and_substitute_in_stack_a(&ps);
 	ft_printf("\n\nPost build refs print : \n");
+
 	print_ref_array(&ps);
 	print_stacks(&ps);
-	print_ref_array(&ps);
-	psw_sort3(&ps);
-	ft_printf("\n\nPost sort3 print : \n");
+
+	ft_printf("\n\nPre sort print : \n");
+	if (ps.stack_max == 3)
+		psw_sort3(&ps, ps.A);
+	else
+		psw_sort4(&ps, ps.A);
+	ft_printf("\n\nPost sort print : \n");
 	print_stacks(&ps);
-	print_ref_array(&ps);
+	ft_printf("nb moves at exit : %d\n", ps.nb_moves);
+//	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
+//	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
+//	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));
+//	ft_printf("dist from head to ref 3 : %d\n", distance_from_head(ps.A, 3));
+//	ft_printf("dist from head to ref 4 : %d\n", distance_from_head(ps.A, 4));
 	return (clear_ps(&ps, EXIT_SUCCESS));
 }

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 08:15:27 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/25 23:40:22 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@ static int	validate_single_input(char *nb)
 
 	i = -1;
 	while (nb[++i])
-	   if (!(ft_isdigit(nb[i]) || ft_issign(nb[i])))
+	   if (!(ft_isdigit(nb[i]) || ft_issign(nb[i]))
+			   || (ft_issign(nb[i]) && !ft_isdigit(nb[i + 1]))
+			   || (i > 0 && ft_issign(nb[i]) && !ft_isspace(i - 1)))
 		   return (0);
 	return (1);
 }
 
 static char	*find_first_digit(char *str)
 {
-	while (!ft_isdigit(*str))
+	if (!str || !(*str))
+		return (NULL);
+	while (*str && !ft_isdigit(*str))
 		str++;
 	return (str);
 }
@@ -53,17 +57,9 @@ static int	doublon_and_limit_check(t_stk *A)
 	return (0);
 }
 
-static int	init_stacks(t_ps *ps, char **nbs_strtab)
+static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 {
-	int	i;
-	int	*arr;
-	char	*digit1;
-	ssize_t	nb;
-
-	if (!ps || !nbs_strtab)
-		return (-1);
 	ps->stack_max = (int)strtab_len(nbs_strtab);
-	ft_printf("stack_max : %d, malloced array size : %d\n", ps->stack_max, sizeof(int) * ps->stack_max);
 	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_a.arr);
 	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_b.arr);
 	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_ref.arr);
@@ -72,6 +68,23 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 	ps->A = &ps->stk_a;
 	ps->B = &ps->stk_b;
 	ps->ref = &ps->stk_ref;
+	ps->temp = &ps->stk_temp;
+	ps->stk_a.len = ps->stack_max;
+	ps->stk_b.len = 0;
+	ps->stk_ref.len = ps->stack_max;
+	ps->stk_temp.len = 0;;
+	return (0);
+}
+
+static int	init_stacks(t_ps *ps, char **nbs_strtab)
+{
+	int	i;
+	int	*arr;
+	char	*digit1;
+	ssize_t	nb;
+
+	if (!ps || !nbs_strtab || init_push_swap_struct(ps, nbs_strtab) < 0)
+		return (-1);
 	arr = ps->stk_a.arr;
 	i = -1;
 	while (++i < ps->stack_max)
@@ -87,9 +100,6 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 		}
 		arr[i] = (int)nb;
 	}
-	ps->stk_a.len = ps->stack_max;
-	ps->stk_b.len = 0;
-	ps->stk_ref.len = ps->stack_max;
 	return (0);
 }
 
@@ -106,7 +116,6 @@ int	parse_inputs(t_ps *ps, int argc, char **argv)
 	{
 		if (argc > 2)
 			return(repport_error());
-
 		nbs_strtab = ft_split_space(argv[1]);
 		if (!nbs_strtab || !(*(nbs_strtab)))
 			status = -1;

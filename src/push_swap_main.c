@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 23:36:12 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/25 23:45:25 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	clear_ps(t_ps *ps, int status)
 		malloc_free_p(0, (void **)&ps->stk_b.arr);
 	if (ps->stk_ref.arr)
 		malloc_free_p(0, (void **)&ps->stk_ref.arr);
+	if (ps->stk_temp.arr)
+		malloc_free_p(0, (void **)&ps->stk_temp.arr);
 	return (status);
 }
 
@@ -80,10 +82,12 @@ int	main(int argc, char **argv)
 	ft_printf("\nInit stacks :\n");
 	print_stacks(&ps);
 
-	build_ref_array_and_substitute_in_stack_a(&ps);
+	if (build_ref_array_and_substitute_in_stack_a(&ps) < 0)
+		return (clear_ps(&ps, repport_error()));
 	ft_printf("\n\nPost build refs print : \n");
 
-	print_ref_array(&ps);
+//	print_ref_array(&ps);
+	print_single_stack(ps.ref);
 	print_stacks(&ps);
 
 	ft_printf("\n\nPre sort print : \n");
@@ -94,6 +98,22 @@ int	main(int argc, char **argv)
 	ft_printf("\n\nPost sort print : \n");
 	print_stacks(&ps);
 	ft_printf("nb moves at exit : %d\n", ps.nb_moves);
+
+
+	t_stk	*s;
+	const int	n_lows = 2;
+
+	s = get_n_lowest_members(&ps, ps.A, n_lows);
+	ft_printf("get_n_lowest_members returned with ptr : %p\n", s);
+	if (s)
+	{
+		ft_printf("print %d lowerest members of stack A : \n", n_lows);
+		print_single_stack(ps.temp);
+	}
+	else
+		ft_printf("get_n_lowest_members FAILED \n", s);
+		
+
 //	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
 //	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
 //	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));

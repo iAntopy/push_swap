@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 04:05:46 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 08:17:13 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/25 23:30:45 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,59 @@
 
 static void	print_header(void)
 {
-	ft_printf("                           (.)                          \n");
-	ft_printf("                          ( + )                         \n");
-	ft_printf("                        @(+{ }+)@                       \n");
-	ft_printf("                      @(+{  +  }+)@                     \n");
-	ft_printf("                    @(+{  +   +  }+)@                   \n");
-	ft_printf("                 @@(+{  +  @-@  +  }+)@@                \n");
-	ft_printf("              @@@(+)@(+{  @(+)@  }+)@(+)@@@             \n");
-	ft_printf("         @@@@@@(+)@(+)@@   @-@   @@(+)@(+)@@@@@@        \n");
-	ft_printf("     @@@@@@@@(+)@(+)@(+)@       @(+)@(+)@(+)@@@@@@@     \n");
-	ft_printf("  @(@@@@@@@(+)@(+)@(+){ PUSH SWAP }(+)@(+)@(+)@@@@@@)@  \n");
-	ft_printf(" @(@@@@@@                                      @@@@@@)@ \n");
+	ft_printf("                           (.)\n");
+	ft_printf("                          ( + )\n");
+	ft_printf("                        @(+{ }+)@\n");
+	ft_printf("                      @(+{  +  }+)@\n");
+	ft_printf("                    @(+{  +   +  }+)@\n");
+	ft_printf("                 @@(+{  +  @-@  +  }+)@@\n");
+	ft_printf("              @@@(+)@(+{  @(+)@  }+)@(+)@@@\n");
+	ft_printf("         @@@@@@(+)@(+)@@   @-@   @@(+)@(+)@@@@@@\n");
+	ft_printf("     @@@@@@@@(+)@(+)@(+)@       @(+)@(+)@(+)@@@@@@@\n");
+	ft_printf("  @(@@@@@@@(+)@(+)@(+){ PUSH SWAP }(+)@(+)@(+)@@@@@@)@\n");
+	ft_printf(" @(@@@@@@                                      @@@@@@)@\n");
 	ft_printf("@(@@@~~~~~~~~~~~~~~~~~~~{ STACKS }~~~~~~~~~~~~~~~~~@@@)@\n");
 	ft_printf("@(@            A            ||            B          @)@\n");
 	ft_printf("@)@~~~~~~~~~~~~~~~~~~~~~~~~~||~~~~~~~~~~~~~~~~~~~~~~~@(@\n");
-//	ft_printf("@(@                         ||                       @)@\n");
 }
 
 static void	print_bottom(void)
 {
-//	ft_printf("@)@                         ||                       @(@\n");
 	ft_printf("@(@~~~~~~~~~~~~~~~~~~~~~~~~@||@~~~~~~~~~~~~~~~~~~~~~~@)@\n");
 	ft_printf(" @(@@@@@~~~~~~~~~(+)~~~~~@@@@@@@~~~~~~(+)~~~~~~~~@@@@)@@\n");
-	ft_printf("    @@@@@@@@@~~(+) (+)~~@@@(++)@@@~~(+) (+)~~@@@@@@@@   \n");
-	ft_printf("          @@@@@@@(+)@@@@@(+)@@(+)@@@@@(+)@@@@@@         \n");
-	ft_printf("                @@@@@@@@@@@(++)@@@@@@@@@@@              \n");
-	ft_printf("                         @@@@@@@@                       \n");
-	ft_printf("                           @@@@                         \n");
-	ft_printf("                            @@                          \n");
+	ft_printf("    @@@@@@@@@~~(+) (+)~~@@@(++)@@@~~(+) (+)~~@@@@@@@@\n");
+	ft_printf("          @@@@@@@(+)@@@@@(+)@@(+)@@@@@(+)@@@@@@\n");
+	ft_printf("                @@@@@@@@@@@(++)@@@@@@@@@@@\n");
+	ft_printf("                         @@@@@@@@\n");
+	ft_printf("                           @@@@\n");
+	ft_printf("                            @@\n");
+}
+
+static void	print_header_single(void)
+{
+	ft_printf("                   (.)\n");
+	ft_printf("                  ( + )\n");
+	ft_printf("                @(+{ }+)@\n");
+	ft_printf("              @(+{  +  }+)@\n");
+	ft_printf("            @(+{  +   +  }+)@\n");
+	ft_printf("          @(+{  +  @-@  +  }+)@\n");
+	ft_printf("        @(+)@(+{  @(+)@  }+)@(+)@\n");
+	ft_printf("     @@(+)@(+)@@   @-@   @@(+)@(+)@@\n");
+	ft_printf("  @@@(+)@(+)@(+){       }(+)@(+)@(+)@@@\n");
+	ft_printf("@(@(+)@(+)@(+){   STACK   }(+)@(+)@(+)@)@\n");
+	ft_printf("@(@@@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@@@)@\n");
+}
+
+static void	print_bottom_single(void)
+{
+	ft_printf("@(@@@~~~~~~~~~~~~~~~@~~~~~~~~~~~~~~~~@@@)@\n");
+	ft_printf(" @(@@@@~~~~(+)~~~~~@@@~~~~~(+)~~~~~@@@@)@\n");
+	ft_printf("   @@@@@~(+) (+)~@@(+)@@~(+) (+)~@@@@@\n");
+	ft_printf("        @@@(+)@@@(+)@(+)@@@(+)@@@\n");
+	ft_printf("          @@@@@@@@@(+)@@@@@@@@@\n");
+	ft_printf("                 @@@@@@@\n");
+	ft_printf("                   @@@\n");
+	ft_printf("                    @\n");
 }
 
 void	print_stacks(t_ps *ps)
@@ -71,6 +96,19 @@ void	print_stacks(t_ps *ps)
 	print_bottom();
 }
 
+void	print_single_stack(t_stk *s)
+{
+	int	i;
+
+	print_header_single();
+	
+	i = -1;
+	while (++i < s->len)
+		printf("@%c@          %10d                @%c@\n",
+			')' - (i % 2), s->arr[i], '(' + (i % 2));
+	print_bottom_single();
+}
+/*
 void	print_ref_array(t_ps *ps)
 {
 	int	*arr;
@@ -83,3 +121,4 @@ void	print_ref_array(t_ps *ps)
 		ft_printf("%d, ", *(arr++));
 	ft_printf("%d ]\n", *arr);
 }
+*/

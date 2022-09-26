@@ -4,6 +4,7 @@ SRC_DIR		= src/
 _SRC	=	push_swap_main \
 			parse_inputs	\
 			error_handling	\
+			std_sorting_algos	\
 			stack_moves		\
 			stack_moves2		\
 			checker_funcs	\
@@ -11,7 +12,8 @@ _SRC	=	push_swap_main \
 			print_stacks		\
 			sort_3_5		\
 			dist_funcs		\
-			analysis_funcs
+			analysis_funcs	\
+			chunkers
 
 SRC			= $(addprefix $(SRC_DIR), $(_SRC))
 

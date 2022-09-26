@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:32:06 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 23:53:06 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:31:03 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 	ft_printf("get_n_lowest_members : Start \n");
 	ft_printf("get_n_lowest_members : ps, s, n : %p, %p, %d \n", ps, s, n);
 	if (!ps || !s || n < 1 || n > s->len
-			|| !ft_printf("here\n")
-			|| !ft_printf("here2\n")
 			|| !malloc_free_p(0, (void **)&ps->temp->arr)
-			|| !ft_printf("here too\n")
 			|| !malloc_free_p(sizeof(int) * n, (void **)&ps->temp->arr))
 		return (NULL);
 	ft_printf("get_n_lowest_members : passed if checks \n");
@@ -56,6 +53,6 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 			ps->temp->arr[ps->temp->len++] = *low;
 
 	}
-	garbage_sort(ps->temp->arr, ps->temp->len);
+//	garbage_sort(ps->temp->arr, ps->temp->len);
 	return (ps->temp);
 }

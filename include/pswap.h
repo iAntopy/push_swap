@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 23:16:49 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:02:06 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,28 @@ typedef struct s_stack
 	int	len;
 }	t_stk;
 
+typedef struct s_test_stacks_env
+{
+	t_stk	stk_ts;
+	t_stk	*ts;
+	int		*te_moves_list;
+	int	nb_moves;
+}	t_te;
+
 typedef struct s_push_swap
 {
-	int		stack_max;
-//	int		*ref_array;	
-	t_stk	stk_a;
-	t_stk	stk_b;
-	t_stk	stk_ref;
-	t_stk	stk_temp;
-	t_stk	*A;
-	t_stk	*B;
-	t_stk	*ref;
-	t_stk	*temp;
-//	int		*__stk_mem;
-	char	**strmoves;
-	int	nb_moves;
+	int			stack_max;
+	t_stk		stk_a;
+	t_stk		stk_b;
+	t_stk		stk_ref;
+	t_stk		stk_temp;
+	t_stk		*A;
+	t_stk		*B;
+	t_stk		*ref;
+	t_stk		*temp;
+	t_te		te;
+	char		**strmoves;
+	int			nb_moves;
 }	t_ps;
 
 enum	e_err_codes
@@ -60,19 +67,6 @@ enum	e_decoder
 	M_PA = 9,
 	M_PB = 10
 };
-
-// Recipes convertion chart : 
-//	r = ra
-//	R = rb
-//	t = rr
-//	o = rra
-//	O = rrb
-//	T = rrr
-//	s = sa
-//	S = sb
-//	Z = ss
-//	p = pa
-//	P = pb
 
 int	parse_inputs(t_ps *ps, int argc, char **argv);
 void	print_stacks(t_ps *ps);

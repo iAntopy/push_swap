@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/26 18:02:06 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/28 21:39:05 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ typedef struct s_test_stacks_env
 {
 	t_stk	stk_ts;
 	t_stk	*ts;
-	int		*te_moves_list;
-	int	nb_moves;
+	t_varr	*moves_list;
+	int		cur_run;
+	int		nb_moves;
 }	t_te;
 
 typedef struct s_push_swap

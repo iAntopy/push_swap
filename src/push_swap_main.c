@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 23:45:25 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/28 18:59:59 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	main(int argc, char **argv)
 		"sa", "sb", "ss", "pa", "pb"};
 	t_ps		ps;
 
+	ft_printf("argv [1] : %s\n", argv[1]);
+//	return (0);
 	ft_memclear(&ps, sizeof(t_ps));
 	if (parse_inputs(&ps, argc, argv) < 0)
 		return (clear_ps(&ps, repport_error()));

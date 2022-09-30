@@ -7,6 +7,8 @@ _SRC	=	push_swap_main \
 			std_sorting_algos	\
 			stack_moves		\
 			stack_moves2		\
+			stack_moves_test_env		\
+			stack_moves2_test_env		\
 			checker_funcs	\
 			reference_arr_utils \
 			print_stacks		\

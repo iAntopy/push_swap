@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/28 21:39:05 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/29 20:23:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_test_stacks_env
 	t_stk	stk_ts;
 	t_stk	*ts;
 	t_varr	*moves_list;
+	int		*near_c;
+	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
 }	t_te;
@@ -44,7 +46,6 @@ typedef struct s_push_swap
 	t_stk		*B;
 	t_stk		*ref;
 	t_stk		*temp;
-	t_te		te;
 	char		**strmoves;
 	int			nb_moves;
 }	t_ps;
@@ -99,6 +100,11 @@ int	distance_from_head(t_stk *s, int value);
 int	distance_from_head_to_vptr(t_stk *s, int *vptr);
 int	find_longest_sorted_sequence(t_stk *s, int **seq_start);
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n);
+
+///// STACK UTILS ///////
+void	*stk_clear(t_stk *s);
+t_stk	*st_copy(t_stk *dst, t_stk *src);
+/////////////////////////
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/28 18:59:59 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:18:45 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 int	clear_ps(t_ps *ps, int status)
 {
-	if (ps->stk_a.arr)
-		malloc_free_p(0, (void **)&ps->stk_a.arr);
-	if (ps->stk_b.arr)
-		malloc_free_p(0, (void **)&ps->stk_b.arr);
-	if (ps->stk_ref.arr)
-		malloc_free_p(0, (void **)&ps->stk_ref.arr);
-	if (ps->stk_temp.arr)
-		malloc_free_p(0, (void **)&ps->stk_temp.arr);
+	stk_clear(ps->A);
+	stk_clear(ps->B);
+	stk_clear(ps->ref);
+	stk_clear(ps->temp);
 	return (status);
 }
 

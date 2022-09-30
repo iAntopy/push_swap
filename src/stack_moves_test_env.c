@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 21:15:39 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/28 21:31:38 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:38:09 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	te_rotate(t_te *te, int rev)
 		temp = ts->arr[idx_from];
 		ft_memmove(ts->arr + rev, ts->arr + !rev, sizeof(int) * len);
 		ts->arr[idx_to] = temp;
-		te->cur_run += 1 - (2 * (rev == 0));
-		nb_moves++;
+		te->cur_run += 1 - (2 * (rev == 1));
+		te->nb_moves++;
 	}
 }
 
@@ -52,13 +52,11 @@ void	te_push(t_te *te)
 
 void	te_move(t_te *te, int move)
 {
-	ft_printf("psw_move : entered \n");
+	ft_printf("te_move : entered \n");
 	if (move == M_RA)
 		psw_rotate(te->ta, NULL, 0);
 	else if (move == M_RRA)
 		psw_rotate(te->ta, NULL, 1);
-	else if (move == M_SA)
-		psw_swap(te->ta, NULL);
 	else if (move == M_PA)
 		psw_push(te->ta, te->tb);
 //	ft_printf("%s\n", ps->strmoves[move]);

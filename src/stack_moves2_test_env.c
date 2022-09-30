@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:39:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/28 21:38:42 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:01:51 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	te_move_to(t_te *te, int value)
 			te_move(te, M_RRA);
 }
 
-void	te_move_to_vptr(t_te *te, t_stk *s, int *vptr)
+void	te_move_to_vptr(t_te *te, int *vptr)
 {
 	int	dist;
 
 	if (!ps || !s || !vptr)
 		return ;
-	dist = distance_from_head_to_vptr(s, vptr);
+	dist = distance_from_head_to_vptr(te->ts, vptr);
 	if (dist > 0)
 		while (dist--)
-			te_move(ps, M_RA);
+			te_move(te, M_RA);
 	else if (dist < 0)
 		while (dist++)
-			te_move(ps, M_RRA);
+			te_move(te, M_RRA);
 }

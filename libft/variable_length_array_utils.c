@@ -1,45 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc_free.c                                      :+:      :+:    :+:   */
+/*   variable_length_array_utils.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/12 23:16:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/21 18:34:13 by iamongeo         ###   ########.fr       */
+/*   Created: 2022/09/30 22:45:39 by iamongeo          #+#    #+#             */
+/*   Updated: 2022/09/30 22:45:52 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	malloc_free_p(size_t size, void **ptr)
-{	
-	if (size)
-	{
-		if (!ptr)
-			return (0);
-		*ptr = malloc(size);
-		return (*ptr != NULL);
-	}
-	else if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-	return (1);
-}
+void	varr_print(t_varr *va)
+{
+	size_t	i;
 
-void	*malloc_free(size_t size, void **ptr)
-{	
-	if (size)
+	if (!va->len)
+		ft_printf("[/]\n");
+	else if (va->len == 1)
+		printf("[ %d ]\n", va->arr[0]);
+	else
 	{
-		*ptr = malloc(size);
-		if (*ptr)
-			return (*ptr);
+		ft_printf("[ ");
+		i = -1;
+		while (++i < (va->len - 1))
+			ft_printf("%d, ", va->arr[i]);
+		ft_printf("%d ] \n", va->arr[i]);
 	}
-	else if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-	return (NULL);
 }

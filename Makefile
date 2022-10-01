@@ -5,6 +5,7 @@ _SRC	=	push_swap_main \
 			parse_inputs	\
 			error_handling	\
 			std_sorting_algos	\
+			stack_utils			\
 			stack_moves		\
 			stack_moves2		\
 			stack_moves_test_env		\
@@ -15,7 +16,9 @@ _SRC	=	push_swap_main \
 			sort_3_5		\
 			dist_funcs		\
 			analysis_funcs	\
-			chunkers
+			analysis_funcs2	\
+			chunkers		\
+			pathfinding_funcs	
 
 SRC			= $(addprefix $(SRC_DIR), $(_SRC))
 

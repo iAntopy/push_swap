@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:39:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/29 19:01:51 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/09/30 23:23:48 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	te_move_to(t_te *te, int value)
 {
 	int	dist;
 
-	if (!ps || !s)
+	if (!te)
 		return ;
 	dist = distance_from_head(te->ts, value);
 	if (dist > 0)
@@ -31,7 +31,7 @@ void	te_move_to_vptr(t_te *te, int *vptr)
 {
 	int	dist;
 
-	if (!ps || !s || !vptr)
+	if (!te || !vptr)
 		return ;
 	dist = distance_from_head_to_vptr(te->ts, vptr);
 	if (dist > 0)

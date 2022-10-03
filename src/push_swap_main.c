@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/29 18:18:45 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:44:01 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ int	main(int argc, char **argv)
 	print_single_stack(ps.ref);
 	print_stacks(&ps);
 
-	ft_printf("\n\nPre sort print : \n");
-	if (ps.stack_max == 3)
-		psw_sort3(&ps, ps.A);
-	else
-		psw_sort4(&ps, ps.A);
-	ft_printf("\n\nPost sort print : \n");
-	print_stacks(&ps);
-	ft_printf("nb moves at exit : %d\n", ps.nb_moves);
+//	ft_printf("\n\nPre sort print : \n");
+//	if (ps.stack_max == 3)
+//		psw_sort3(&ps, ps.A);
+//	else
+//		psw_sort4(&ps, ps.A);
+//	ft_printf("\n\nPost sort print : \n");
+//	print_stacks(&ps);
+//	ft_printf("nb moves at exit : %d\n", ps.nb_moves);
 
 
 	t_stk	*s;
@@ -111,7 +111,9 @@ int	main(int argc, char **argv)
 	else
 		ft_printf("get_n_lowest_members FAILED \n", s);
 		
-
+	stk_clear(s);
+	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, 3);
+	ft_printf("optimal_path ptr : %p \n", optimal_path);
 //	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
 //	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
 //	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));

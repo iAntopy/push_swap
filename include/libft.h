@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:20:53 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/30 23:42:02 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:36:50 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ char	**ft_split_set(char const *s, char *set);
 char	**ft_split_space(char const *s);
 char	*ft_itoa(int n);
 double	ft_atof(const char *str);
-int		ft_pow(int nb, int exp);
+int		ft_pow(const int nb, int exp);
+int		ft_abs(const int nb);
 char	*ft_strlower(char *str);
 char	*ft_strupper(char *str);
 
@@ -209,6 +210,7 @@ t_varr	*varr_create(size_t size);
 void	*varr_clear(t_varr **va);
 t_varr	*varr_copy(t_varr *va);
 t_varr	*varr_append(t_varr *va, int nb);
+t_varr	*varr_concatenate(t_varr *dst, t_varr *va);
 t_varr	*varr_remove(t_varr *va, size_t idx);
 void	varr_print(t_varr *va);
 ///////////////////////////////////////

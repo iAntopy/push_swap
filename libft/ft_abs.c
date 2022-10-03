@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pow.c                                           :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/11 20:24:41 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/02 19:32:03 by iamongeo         ###   ########.fr       */
+/*   Created: 2022/10/02 19:12:42 by iamongeo          #+#    #+#             */
+/*   Updated: 2022/10/02 19:31:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_pow(const int nb, int exp)
+int	ft_abs(const int nb)
 {
-	int	res;
+	int	mask;
 
-	if (!exp)
-		return (1);
-	if (!nb || (exp < 0))
-		return (0);
-	res = nb;
-	while (--exp)
-		res *= nb;
-	return (res);
+	mask = nb >> 31;
+	return ((nb ^ mask) - mask);
 }
+/*
+int	main()
+{
+	int	a = 15;
+	int	b = -15;
+
+	ft_printf("a, ft_abs(a) : %d, %d\n", a, ft_abs(a));
+	ft_printf("b, ft_abs(b) : %d, %d\n", b, ft_abs(b));
+	return (0);
+}
+*/

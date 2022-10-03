@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/30 23:39:46 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:44:56 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,9 @@ void	te_recipe(t_te *te, int nb_move, ...);
 void	te_move_to(t_te *te, int value);
 void	te_move_to_vptr(t_te *te, int *vptr);
 
+/////// PUSH_SWAP ALGORITH FUNCS //////////
+t_varr	*push_n_lowest(t_ps *ps, t_stk *s, int n);
+///////////////////////////////////////////
 
 ///// CLEAR FUNCS and ERROR HANDLING //////////
 int	clear_ps(t_ps *ps, int status);

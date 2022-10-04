@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:32:06 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/26 16:31:03 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 01:20:56 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,28 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 	}
 //	garbage_sort(ps->temp->arr, ps->temp->len);
 	return (ps->temp);
+}
+
+int	get_nb_members_intersect(t_stk *large, t_stk *small)
+{
+	int	i;
+	int	j;
+	int	n;
+
+	n = 0;
+	i = -1;
+	while ((n < small->len) && (++i < large->len))
+	{
+		j = -1;
+		while (++j < small->len)
+		{
+			if (large->arr[i] == small->arr[j])
+			{
+				n++;
+				break ;
+			}
+		}
+	}
+	ft_printf("get_nb_members_intersect : nb members in common between large (len %d) stk and small (len %d) stk given : %d\n", large->len, small->len, n);
+	return (n);
 }

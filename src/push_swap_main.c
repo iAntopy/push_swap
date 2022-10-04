@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/02 19:44:01 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 02:42:56 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ int	main(int argc, char **argv)
 		ft_printf("get_n_lowest_members FAILED \n", s);
 		
 	stk_clear(s);
-	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, 3);
+	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, ps.A->len / 3);
 	ft_printf("optimal_path ptr : %p \n", optimal_path);
+	varr_print(optimal_path);
 //	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
 //	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
 //	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));

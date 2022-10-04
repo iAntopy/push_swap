@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/02 19:44:56 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 01:21:14 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	distance_from_head(t_stk *s, int value);
 int	distance_from_head_to_vptr(t_stk *s, int *vptr);
 int	find_longest_sorted_sequence(t_stk *s, int **seq_start);
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n);
+int	get_nb_members_intersect(t_stk *large, t_stk *small);
 
 ///// STACK UTILS ///////
 void	*stk_clear(t_stk *s);
@@ -124,6 +125,7 @@ t_stk	*stk_copy(t_stk *dst, t_stk *src);
 //////////////////////////
 
 ///// TEST ENV FUNCS /////////
+void	te_print(t_te *te);
 void	te_rotate(t_te *te, int rev);
 void	te_push(t_te *te);
 void	te_move(t_te *te, int move);

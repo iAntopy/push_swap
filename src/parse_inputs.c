@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 23:40:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:29:59 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 	ps->stk_a.len = ps->stack_max;
 	ps->stk_b.len = 0;
 	ps->stk_ref.len = ps->stack_max;
-	ps->stk_temp.len = 0;;
+	ps->stk_temp.len = 0;
+	ps->chk_size = ft_sqrt(ps->stack_max);
 	return (0);
 }
 
@@ -93,7 +94,7 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 			return (-1);
 		digit1 = find_first_digit(nbs_strtab[i]);
 		nb = ft_atol(nbs_strtab[i]);
-		if ((*digit1 && !nb) || nb < INT_MIN || INT_MAX < nb)
+		if ((digit1 && *digit1 && *digit1 != '0' && !nb) || nb < INT_MIN || INT_MAX < nb)
 		{
 			printf("nb %zd failed ! Test1 %d, Test2 %d\n", nb, nb < INT_MIN, INT_MAX < nb);
 			return (-1);
@@ -111,7 +112,7 @@ int	parse_inputs(t_ps *ps, int argc, char **argv)
 
 	nbs_strtab = NULL;
 	status = 0;
-	is_single_str = (ft_strchr(argv[1], ' ') != 0);
+	is_single_str = (ft_strchr(argv[1], ' ') != NULL);
 	if (is_single_str)
 	{
 		if (argc > 2)

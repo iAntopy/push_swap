@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:49:37 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/02 21:16:30 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:34:16 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_varr	*varr_create(size_t n)
 	return (va);
 }
 
-t_varr	*varr_append(t_varr *va, int nb)
+t_varr	*varr_append(t_varr *va, int value)
 {
 	int		*new_arr;
 	size_t	new_size;
@@ -56,7 +56,7 @@ t_varr	*varr_append(t_varr *va, int nb)
 		va->arr = new_arr;
 		va->__cur_size = new_size;
 	}
-	va->arr[va->len++] = nb;
+	va->arr[va->len++] = value;
 	return (va);
 }
 

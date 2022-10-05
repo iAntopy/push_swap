@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 02:42:56 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:05:24 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int argc, char **argv)
 //	print_stacks(&ps);
 //	ft_printf("nb moves at exit : %d\n", ps.nb_moves);
 
-
+/*
 	t_stk	*s;
 	const int	n_lows = 2;
 
@@ -110,11 +110,17 @@ int	main(int argc, char **argv)
 	}
 	else
 		ft_printf("get_n_lowest_members FAILED \n", s);
-		
-	stk_clear(s);
-	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, ps.A->len / 3);
-	ft_printf("optimal_path ptr : %p \n", optimal_path);
-	varr_print(optimal_path);
+*/
+
+	psw_sort5(&ps);
+	ft_printf("Stacks after sort5 : \n");
+	print_stacks(&ps);
+	ft_printf("Nb moves : %d\n", ps.nb_moves);
+
+
+//	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, ps.A->len / 3);
+//	ft_printf("optimal_path ptr : %p \n", optimal_path);
+//	varr_print(optimal_path);
 //	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
 //	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
 //	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));

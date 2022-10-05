@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 02:47:35 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:13:09 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ void	psw_sort4(t_ps *ps, t_stk *s)
 	int	*low;
 	int	is_b;
 
-	int	*seq_start;
-	int	longest_seq;
+//	int	*seq_start;
+//	int	longest_seq;
 
-	ft_printf("Entering sort 4 : ps ? %d : stack len ? %d, sorted ? %d\n", !!ps, s->len, stk_issorted(s));
-	longest_seq = find_longest_sorted_sequence(s, &seq_start);
-	ft_printf("longest sorted seq len : %d, ptr : %p, value at ptr : %d\n", longest_seq, seq_start, *seq_start);
-	if (!ps || !s || stk_issorted(s) || s->len > 4)
+//	ft_printf("Entering sort 4 : ps ? %d : stack len ? %d, sorted ? %d\n", !!ps, s->len, stk_issorted(s));
+//	longest_seq = find_longest_sorted_sequence(s, &seq_start);
+//	ft_printf("longest sorted seq len : %d, ptr : %p, value at ptr : %d\n", longest_seq, seq_start, *seq_start);
+	if (!ps || !s || s->len > 4 || stk_issorted(s) || stk_seek_sorted_phase(ps, s))
 		return ;
 	printf("sort4 : Up to good start\n");
 	if (s->len < 4)
@@ -91,8 +91,6 @@ void	psw_sort4(t_ps *ps, t_stk *s)
 		psw_sort3(ps, s);
 		return ;
 	}
-	if (stk_seek_sorted_phase(ps, s))
-		return ;
 	is_b = (s == ps->B);
 	low = find_lowest(s);
 	psw_move_to_vptr(ps, s, low);
@@ -103,4 +101,45 @@ void	psw_sort4(t_ps *ps, t_stk *s)
 //	ft_printf("sort4 : len A, len B after sort3 : %d, %d\n", ps->A->len, ps->B->len);
 	psw_move(ps, M_PA + is_b);
 //	ft_printf("sort4 : len A, len B last first push : %d, %d\n", ps->A->len, ps->B->len);
+}
+
+// Assumes sort stack A
+void	psw_sort5(t_ps *ps)//, t_stk *s)
+{
+	t_varr	*shortest_path;
+	int		move;
+
+	if (!ps || ps->A->len > 5 || stk_issorted(ps->A) || stk_seek_sorted_phase(ps, ps->A))
+		return ;
+	if (ps->A->len < 5)
+	{
+		psw_sort4(ps, ps->A);
+		return ;
+	}
+	shortest_path = path_to_n_lowest(ps, ps->A, 2);
+	ft_printf("sort5 : shortest path found to 2 lowest : \n");
+	varr_print(shortest_path);
+	while (find_value_in_stack(ps->temp, ps->A->arr[0]))
+		psw_move(ps, M_PB);
+	while (ps->A->len > 3 && !varr_isempty(shortest_path))
+	{
+		varr_pop_front(shortest_path, &move);
+		ft_printf("sort5 : moves to exec : %d\n", move);
+		if (move < 0)
+			while (move++)
+				psw_move(ps, M_RRA);
+		else if (move > 0)
+			while (move--)
+				psw_move(ps, M_RA);
+		while (find_value_in_stack(ps->temp, ps->A->arr[0]))
+			psw_move(ps, M_PB);
+	}
+	ft_printf("sort5 : stacks after push 2 lowest :\n");
+	print_stacks(ps);
+	psw_sort3(ps, ps->A);
+	psw_move(ps, M_PA);
+	psw_move(ps, M_PA);
+	if (ps->A->arr[0] > ps->A->arr[1])
+		psw_move(ps, M_SA);
+	varr_clear(&shortest_path);
 }

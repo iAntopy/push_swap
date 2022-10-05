@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 01:21:14 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/04 22:56:55 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_push_swap
 	t_stk		*temp;
 	char		**strmoves;
 	int			nb_moves;
+	int			chk_size;
 }	t_ps;
 
 enum	e_err_codes
@@ -90,6 +91,7 @@ void	garbage_sort(int *arr, int size);
 void	psw_sort2(t_ps *ps, t_stk *s);
 void	psw_sort3(t_ps *ps, t_stk *s);
 void	psw_sort4(t_ps *ps, t_stk *s);
+void	psw_sort5(t_ps *ps);
 
 ////// ANALYSIS FUNCTION //////////
 int	*find_value_in_stack(t_stk *s, int value);
@@ -104,11 +106,6 @@ int	distance_from_head_to_vptr(t_stk *s, int *vptr);
 int	find_longest_sorted_sequence(t_stk *s, int **seq_start);
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n);
 int	get_nb_members_intersect(t_stk *large, t_stk *small);
-
-///// STACK UTILS ///////
-void	*stk_clear(t_stk *s);
-t_stk	*st_copy(t_stk *dst, t_stk *src);
-/////////////////////////
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);
@@ -134,7 +131,7 @@ void	te_move_to(t_te *te, int value);
 void	te_move_to_vptr(t_te *te, int *vptr);
 
 /////// PUSH_SWAP ALGORITH FUNCS //////////
-t_varr	*push_n_lowest(t_ps *ps, t_stk *s, int n);
+t_varr	*path_to_n_lowest(t_ps *ps, t_stk *s, int n);
 ///////////////////////////////////////////
 
 ///// CLEAR FUNCS and ERROR HANDLING //////////

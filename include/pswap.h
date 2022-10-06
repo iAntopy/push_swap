@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 22:56:55 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:39:37 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,28 @@
 
 # include "libft.h"
 
-typedef struct s_stack
+typedef struct	s_stack
 {
 	int	*arr;
 	int	len;
 }	t_stk;
 
+//
+typedef struct	s_chunk_stack
+{
+	t_varr	**chk_stk;
+	t_varr	*cur_high;
+	t_varr	*cur_low;
+	int		i_high;
+	int		i_low;
+	int		nb_chks;
+	int		chk_size;
+	int		last_chk_size;
+}	t_chks;
+
 typedef struct s_test_stacks_env
 {
+	t_chks	chks;
 	t_stk	stk_ts;
 	t_stk	*ts;
 	t_varr	*moves;
@@ -48,7 +62,10 @@ typedef struct s_push_swap
 	t_stk		*temp;
 	char		**strmoves;
 	int			nb_moves;
+	t_chks		chks;
 	int			chk_size;
+	int			last_chk_size;
+	int			nb_chks;
 }	t_ps;
 
 enum	e_err_codes
@@ -120,6 +137,13 @@ void	psw_recipe(t_ps *ps, int nb_moves, ...);
 void	*stk_clear(t_stk *s);
 t_stk	*stk_copy(t_stk *dst, t_stk *src);
 //////////////////////////
+
+///// CHUNK STACK UTILS ///////
+t_chks	*chks_init(t_chks *chks, t_ps *ps);
+t_chks	*chks_copy(t_chks *dst, t_chks *src);
+void	*chks_clear(t_chks *chks);
+void	chks_print(t_chks *chks);
+///////////////////////////////
 
 ///// TEST ENV FUNCS /////////
 void	te_print(t_te *te);

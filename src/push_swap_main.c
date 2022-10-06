@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 18:05:24 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/05 20:56:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	clear_ps(t_ps *ps, int status)
 	stk_clear(ps->B);
 	stk_clear(ps->ref);
 	stk_clear(ps->temp);
+	chks_clear(&ps->chks);
 	return (status);
 }
 
@@ -112,11 +113,29 @@ int	main(int argc, char **argv)
 		ft_printf("get_n_lowest_members FAILED \n", s);
 */
 
+/*
 	psw_sort5(&ps);
 	ft_printf("Stacks after sort5 : \n");
 	print_stacks(&ps);
 	ft_printf("Nb moves : %d\n", ps.nb_moves);
+*/
 
+	if (!chks_init(&ps.chks, &ps))
+	{
+		ft_printf("main : chks_init FAILED\n");
+		return (1);
+	}
+	ft_printf("main : chks init\n");
+	chks_print(&ps.chks);
+
+	t_chks	chks2;
+	if (!chks_copy(&chks2, &ps.chks))
+	{
+		ft_printf("main : chks_copy FAILED\n");
+		return (1);
+	}
+	ft_printf("main : chks copy : \n");
+	chks_print(&chks2);
 
 //	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, ps.A->len / 3);
 //	ft_printf("optimal_path ptr : %p \n", optimal_path);

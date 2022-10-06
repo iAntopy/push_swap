@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 20:29:59 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:33:27 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,17 @@ static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 	ps->stk_b.len = 0;
 	ps->stk_ref.len = ps->stack_max;
 	ps->stk_temp.len = 0;
-	ps->chk_size = ft_sqrt(ps->stack_max);
+	ps->nb_chks = ft_sqrt(ps->stack_max);
+	ft_printf("init_ps_struct : ft_sqrt(stack_max) : %d\n", ps->nb_chks);
+	ps->nb_chks -= ((ps->nb_chks * ps->nb_chks) > ps->stack_max);
+	ps->chk_size = ps->stack_max / ps->nb_chks;
+	ft_printf("init_ps_struct : chk size : %d\n", ps->chk_size);
+	ps->last_chk_size = ps->stack_max - (ps->nb_chks * ps->chk_size);
+	ps->nb_chks += (ps->last_chk_size > 0);
+	ps->last_chk_size += (ps->last_chk_size == 0) * ps->chk_size;
+	ft_printf("init_ps_struct : chk size : %d\n", ps->chk_size);
+	ft_printf("init_ps_struct : last chk size : %d\n", ps->last_chk_size);
+	ft_printf("init_ps_struct : ft_sqrt(stack_max) : %d\n", ps->stack_max);
 	return (0);
 }
 

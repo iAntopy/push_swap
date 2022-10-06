@@ -18,7 +18,8 @@ _SRC	=	push_swap_main \
 			analysis_funcs	\
 			analysis_funcs2	\
 			chunkers		\
-			pathfinding_funcs	
+			pathfinding_funcs	\
+			chunk_stack_utils	
 
 SRC			= $(addprefix $(SRC_DIR), $(_SRC))
 

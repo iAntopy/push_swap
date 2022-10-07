@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:21:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 18:11:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ static void	chks_init_data(t_chks *chks, t_ps *ps)
 	chks->last_chk_size += (chks->last_chk_size == 0) * chks->chk_size;
 	chks->i_low = (chks->nb_chks - 1) / 2;
 	chks->i_high = chks->i_low + 1;
+	chks->i_high -= (chks->i_high >= chks->nb_chks);
 }
 
 t_chks	*chks_init(t_chks *chks, t_ps *ps)

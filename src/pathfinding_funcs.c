@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 15:45:42 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 18:09:18 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 	if(!tec || !tec->ch)
 		return (NULL);
 	ft_printf("\n\n\n\n\n----------------REC : ENTERING RECURSIVE PATHFINDING CHKS --------------\n\n");
-	ft_printf("REC : te->nb_moves : %d\n", tec->nb_moves);
+	ft_printf("RECC : te->nb_moves : %d\n", tec->nb_moves);
 	ft_memclear(&tec1, sizeof(tec1));
 	ft_memclear(&tec2, sizeof(tec2));
 	while (tec->ts->len > 5)
@@ -158,10 +158,10 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 		delta1 = tec->near_c - tec->ts->arr;
 		delta2 = tec->ts->len - (tec->near_cc - tec->ts->arr);
 
-		ft_printf("REC : delta1, delta2 : %d, %d\n", delta1, delta2);
+		ft_printf("RECC : delta1, delta2 : %d, %d\n", delta1, delta2);
 		if (tec->ts->len > 6 && (ft_abs(delta2 - delta1)) <= (tec->ts->len * PATH_THREASHOLD))//tec->threashold))
 		{
-			ft_printf("\nREC : Split\n");
+			ft_printf("\nRECC : Split\n");
 			if (!tec_copy(&tec1, tec) || !tec_copy(&tec2, tec))
 				return (tec_clear(&tec1, 1));
 			tec_clear(tec, 1);
@@ -180,14 +180,15 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 		}
 		else
 		{
-			ft_printf("\nREC : No Split\n");
-			te_move_to_vptr(tec, tec->near_c + (tec->near_cc - tec->near_c) * (delta1 > delta2));
-			while (find_value_in_stack(sub, tec->ts->arr[0]))
+			ft_printf("\nRECC : No Split\n");
+			tec_move_to_vptr(tec, tec->near_c + (tec->near_cc - tec->near_c) * (delta1 > delta2));
+			while (chks_is_in_cur_chks(tec->ch, tec1.ts->arr[0]))
+//			while (find_value_in_stack(sub, tec->ts->arr[0]))
 				tec_push(tec);
 		}
 	}
-	ft_printf("REC : EXITED BIG WHILE !!\n");
-	ft_printf("REC : path found at end of branch : \n");
+	ft_printf("RECC : EXITED BIG WHILE !!\n");
+	ft_printf("RECC : path found at end of branch : \n");
 	varr_print(tec->moves);
 
 	tec_clear(&tec1, tec1.moves != tec->moves);
@@ -197,17 +198,17 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 
 t_varr	*optimal_push_a_to_b(t_ps *ps)
 {
-	t_tec	*tec;
+	t_tec	tec;
 	t_varr	*shortest_path;
 
-	if (!ps || ps->stack_max <= 5 || !tec_init(&tec, ps->A))
+	if (!ps || ps->stack_max <= 5 || !tec_init(ps, &tec, ps->A))
 		return (NULL);
-	
-	shortest_path = recursive_pathfinder_path_chks(&tec, ext, s->len);
+
+	shortest_path = recursive_pathfinder_chks(&tec);
 	if (!shortest_path)
-		return (te_clear(&tec, 1));
+		return (tec_clear(&tec, 1));
 	varr_print(shortest_path);
-	te_clear(&tec, 0);
+	tec_clear(&tec, 0);
 	return (shortest_path);
 }
 

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:59:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 19:05:21 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 18:22:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,15 @@ int	*find_fst_chks_member_in_stk_clockwise(t_stk *s, t_chks *chks)
 {
 	int		i;
 	
+	ft_printf("find counter_clock member : Entered\n");
 	if (!s || !chks)
 		return (NULL);
+	ft_printf("find counter_clock member : Passed checks\n");
 	i = -1;
+	ft_printf("find counter_clock member : init len : %d, %d\n", s->len, i);
 	while (++i < s->len)
 	{
+		ft_printf("find counter_clock member : looking for %d in chunk\n", s->arr[i]);
 		if (chks_is_in_cur_chks(chks, s->arr[i]))
 //		if (find_value_in_stack(chk, s->arr[i]))
 			return (s->arr + i);

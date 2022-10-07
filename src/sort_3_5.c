@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 18:13:09 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/06 23:15:10 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	psw_sort5(t_ps *ps)//, t_stk *s)
 		psw_sort4(ps, ps->A);
 		return ;
 	}
-	shortest_path = path_to_n_lowest(ps, ps->A, 2);
+	shortest_path = path_to_n_extreme(ps, ps->A, 2, 1);
 	ft_printf("sort5 : shortest path found to 2 lowest : \n");
 	varr_print(shortest_path);
 	while (find_value_in_stack(ps->temp, ps->A->arr[0]))

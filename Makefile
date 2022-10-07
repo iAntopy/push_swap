@@ -1,25 +1,30 @@
 
 SRC_DIR		= src/
 
-_SRC	=	push_swap_main \
-			parse_inputs	\
-			error_handling	\
-			std_sorting_algos	\
-			stack_utils			\
-			stack_moves		\
-			stack_moves2		\
-			stack_moves_test_env		\
-			stack_moves2_test_env		\
-			checker_funcs	\
-			reference_arr_utils \
-			print_stacks		\
-			sort_3_5		\
-			dist_funcs		\
-			analysis_funcs	\
-			analysis_funcs2	\
-			chunkers		\
-			pathfinding_funcs	\
-			chunk_stack_utils	
+_SRC	=	push_swap_main			\
+			parse_inputs			\
+			error_handling			\
+			std_sorting_algos		\
+			stack_utils				\
+			stack_moves				\
+			stack_moves2			\
+			stack_moves_test_env	\
+			stack_moves2_test_env	\
+			stack_moves_tec			\
+			stack_moves2_tec		\
+			checker_funcs			\
+			reference_arr_utils 	\
+			print_stacks			\
+			sort_3_5				\
+			dist_funcs				\
+			analysis_funcs			\
+			analysis_funcs2			\
+			chunkers				\
+			pathfinding_funcs		\
+			chunk_stack_utils		\
+			chunk_stack_utils2		\
+			test_env_utils			\
+			test_env_chunks_utils
 
 SRC			= $(addprefix $(SRC_DIR), $(_SRC))
 

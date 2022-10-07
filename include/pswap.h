@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/05 18:39:37 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/06 23:51:40 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct	s_stack
 	int	len;
 }	t_stk;
 
-//
 typedef struct	s_chunk_stack
 {
 	t_varr	**chk_stk;
@@ -39,7 +38,7 @@ typedef struct	s_chunk_stack
 
 typedef struct s_test_stacks_env
 {
-	t_chks	chks;
+//	t_chks	chks;
 	t_stk	stk_ts;
 	t_stk	*ts;
 	t_varr	*moves;
@@ -47,7 +46,22 @@ typedef struct s_test_stacks_env
 	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
+	int		threashold;
 }	t_te;
+
+typedef struct s_test_stacks_chunks_env
+{
+	t_chks	chks;
+	t_stk	stk_ts;
+	t_stk	*ts;
+	t_chks	*ch;
+	t_varr	*moves;
+	int		*near_c;
+	int		*near_cc;
+	int		cur_run;
+	int		nb_moves;
+	int		threashold;
+}	t_tec;
 
 typedef struct s_push_swap
 {
@@ -56,16 +70,14 @@ typedef struct s_push_swap
 	t_stk		stk_b;
 	t_stk		stk_ref;
 	t_stk		stk_temp;
+	t_chks		chks;
 	t_stk		*A;
 	t_stk		*B;
 	t_stk		*ref;
 	t_stk		*temp;
+	t_chks		*ch;
 	char		**strmoves;
 	int			nb_moves;
-	t_chks		chks;
-	int			chk_size;
-	int			last_chk_size;
-	int			nb_chks;
 }	t_ps;
 
 enum	e_err_codes
@@ -111,18 +123,21 @@ void	psw_sort4(t_ps *ps, t_stk *s);
 void	psw_sort5(t_ps *ps);
 
 ////// ANALYSIS FUNCTION //////////
-int	*find_value_in_stack(t_stk *s, int value);
-int	*find_lowest(t_stk *s);
-int	*find_highest(t_stk *s);
-int	*find_in_stack(t_stk *s, int value);
-int	*find_fst_chk_member_in_stk_clockwise(t_stk *s, t_stk *chk);
-int	*find_fst_chk_member_in_stk_counter_clockwise(t_stk *s, t_stk *chk);
+int		*find_value_in_stack(t_stk *s, int value);
+int		*find_lowest(t_stk *s);
+int		*find_highest(t_stk *s);
+int		*find_in_stack(t_stk *s, int value);
+int		*find_fst_chk_member_in_stk_clockwise(t_stk *s, t_stk *chk);
+int		*find_fst_chk_member_in_stk_counter_clockwise(t_stk *s, t_stk *chk);
+int		*find_fst_chks_member_in_stk_clockwise(t_stk *s, t_chks *chks);
+int		*find_fst_chks_member_in_stk_counter_clockwise(t_stk *s, t_chks *chks);
 
-int	distance_from_head(t_stk *s, int value);
-int	distance_from_head_to_vptr(t_stk *s, int *vptr);
-int	find_longest_sorted_sequence(t_stk *s, int **seq_start);
+int		distance_from_head(t_stk *s, int value);
+int		distance_from_head_to_vptr(t_stk *s, int *vptr);
+int		find_longest_sorted_sequence(t_stk *s, int **seq_start);
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n);
-int	get_nb_members_intersect(t_stk *large, t_stk *small);
+t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n);
+int		get_nb_members_intersect(t_stk *large, t_stk *small);
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);
@@ -143,10 +158,15 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps);
 t_chks	*chks_copy(t_chks *dst, t_chks *src);
 void	*chks_clear(t_chks *chks);
 void	chks_print(t_chks *chks);
+t_varr	*chks_is_in_cur_chks(t_chks *chks, int value);
+int		chks_are_empty(t_chks *chks);
 ///////////////////////////////
 
-///// TEST ENV FUNCS /////////
+///// TEST STACK ENV FUNCS /////////
+t_te	*te_init(t_te *te, t_stk *s);
 void	te_print(t_te *te);
+void	*te_clear(t_te *te, int clear_moves);
+void	*te_copy(t_te *dst, t_te *src);
 void	te_rotate(t_te *te, int rev);
 void	te_push(t_te *te);
 void	te_move(t_te *te, int move);
@@ -154,8 +174,21 @@ void	te_recipe(t_te *te, int nb_move, ...);
 void	te_move_to(t_te *te, int value);
 void	te_move_to_vptr(t_te *te, int *vptr);
 
+///// TEST STACK CHUNKS ENV FUNCS /////////
+t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s);
+void	tec_print(t_tec *tec);
+void	*tec_clear(t_tec *tec, int clear_moves);
+void	*tec_copy(t_tec *dst, t_tec *src);
+void	tec_rotate(t_tec *tec, int rev);
+void	tec_push(t_tec *tec);
+void	tec_move(t_tec *tec, int move);
+void	tec_recipe(t_tec *tec, int nb_move, ...);
+void	tec_move_to(t_tec *tec, int value);
+void	tec_move_to_vptr(t_tec *tec, int *vptr);
+
 /////// PUSH_SWAP ALGORITH FUNCS //////////
-t_varr	*path_to_n_lowest(t_ps *ps, t_stk *s, int n);
+t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, int n, int find_lowest);
+t_varr	*optimal_push_a_to_b(t_ps *ps);
 ///////////////////////////////////////////
 
 ///// CLEAR FUNCS and ERROR HANDLING //////////

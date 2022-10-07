@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 20:22:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 03:00:37 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:52:19 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	*find_highest(t_stk *s)
 			high = arr + i;
 	return (high);
 }
-
+/*
 int	find_longest_sorted_sequence(t_stk *s, int **seq_start)
 {
 	int	*arr;
@@ -84,3 +84,4 @@ int	find_longest_sorted_sequence(t_stk *s, int **seq_start)
 	*seq_start = best_seq_p;
 	return (longest_seq);
 }
+*/

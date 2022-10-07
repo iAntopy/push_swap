@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/05 20:56:29 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/06 23:16:37 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ int	main(int argc, char **argv)
 	ft_printf("main : chks copy : \n");
 	chks_print(&chks2);
 
-//	t_varr	*optimal_path = push_n_lowest(&ps, ps.A, ps.A->len / 3);
-//	ft_printf("optimal_path ptr : %p \n", optimal_path);
-//	varr_print(optimal_path);
+	t_varr	*optimal_path = path_to_n_extreme(&ps, ps.A, 5, 0);
+	ft_printf("optimal_path ptr : %p \n", optimal_path);
+	varr_print(optimal_path);
 //	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
 //	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
 //	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));

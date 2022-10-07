@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_env_utils.c                                   :+:      :+:    :+:   */
+/*   test_env_chunks_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:39:45 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:49:33 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s)
 	ft_memclear(tec, sizeof(*tec));
 	tec->ts = &tec->stk_ts;
 	tec->ch = &tec->chks;
-	tec->threashold = (int)(s->len * (2.0f/100.0f));
+//	tec->threashold = (int)(s->len * (2.0f/100.0f));
 	if (!stk_copy(tec->ts, s))
 		return (tec_clear(tec, 1));
 	if (!chks_init(tec->ch, ps))
 		return (tec_clear(tec, 1));
-	tec->moves = varr_moves(1);
+	tec->moves = varr_create(1);
 	if (!tec->moves)
 		return (tec_clear(tec, 1));
 	return (tec);
@@ -64,7 +64,7 @@ void	*tec_copy(t_tec *dst, t_tec *src)
 	ft_memclear(dst, sizeof(*dst));
 	dst->ts = &dst->stk_ts;
 	dst->ch = &dst->chks;
-	dst->threashold = src->threashold;
+//	dst->threashold = src->threashold;
 	if (!stk_copy(dst->ts, src->ts))
 		return (NULL);
 	if (!chks_copy(dst->ch, src->ch))

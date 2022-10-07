@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 21:15:39 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 18:48:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:40:43 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	te_rotate(t_te *te, int rev)
 void	te_push(t_te *te)
 {
 	t_stk	*ts;
-	int		value;
+//	int		value;
 
 	if (!te)
 		return ;
@@ -47,7 +47,7 @@ void	te_push(t_te *te)
 	ts = te->ts;
 	if (ts->len == 0)
 		return ;
-	value = ts->arr[0];
+//	value = ts->arr[0];
 	if (ts->len > 1)
 		ft_memmove(ts->arr, ts->arr + 1, sizeof(int) * (ts->len - 1));
 	ts->len--;

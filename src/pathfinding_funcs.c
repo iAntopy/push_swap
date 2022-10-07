@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:51:35 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:45:42 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len)
 		delta2 = te->ts->len - (te->near_cc - te->ts->arr);
 
 		ft_printf("REC : delta1, delta2 : %d, %d\n", delta1, delta2);
-		if (((ori_len - te->ts->len) < (sub->len - 1)) && (ft_abs(delta2 - delta1)) <= te->threashold)
+		if (((ori_len - te->ts->len) < (sub->len - 1)) && (ft_abs(delta2 - delta1)) <= (te->ts->len * PATH_THREASHOLD))//te->threashold)
 		{
 			ft_printf("\nREC : Split\n");
 			if (!te_copy(&te1, te) || !te_copy(&te2, te))
@@ -151,22 +151,22 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 	ft_memclear(&tec2, sizeof(tec2));
 	while (tec->ts->len > 5)
 	{
-		tec->near_c = find_fst_chks_member_in_stk_clockwise(te->ts, ch);
-		tec->near_cc = find_fst_chks_member_in_stk_counter_clockwise(te->ts, ch);
-		if (!te->near_c)
+		tec->near_c = find_fst_chks_member_in_stk_clockwise(tec->ts, tec->ch);
+		tec->near_cc = find_fst_chks_member_in_stk_counter_clockwise(tec->ts, tec->ch);
+		if (!tec->near_c)
 			break ;
 		delta1 = tec->near_c - tec->ts->arr;
 		delta2 = tec->ts->len - (tec->near_cc - tec->ts->arr);
 
 		ft_printf("REC : delta1, delta2 : %d, %d\n", delta1, delta2);
-		if (tec->ts->len > 6 && (ft_abs(delta2 - delta1)) <= tec->threashold)
+		if (tec->ts->len > 6 && (ft_abs(delta2 - delta1)) <= (tec->ts->len * PATH_THREASHOLD))//tec->threashold))
 		{
 			ft_printf("\nREC : Split\n");
 			if (!tec_copy(&tec1, tec) || !tec_copy(&tec2, tec))
-				return (tec_clear(&te1, 1));
+				return (tec_clear(&tec1, 1));
 			tec_clear(tec, 1);
 			tec_move_to_vptr(&tec1, tec1.near_c);
-			while (chks_is_in_cur_chks(sub, tec1.ts->arr[0]))
+			while (chks_is_in_cur_chks(tec->ch, tec1.ts->arr[0]))
 				tec_push(&tec1);
 			if (tec1.ts->len <= 5)
 				break ;

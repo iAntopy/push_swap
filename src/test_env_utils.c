@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:39:01 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:46:48 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_te	*te_init(t_te *te, t_stk *s)
 		return (NULL);
 	ft_memclear(te, sizeof(*te));
 	te->ts = &te->stk_ts;
-	te->threashold = (int)(s->len * (2.0f/100.0f));
+//	te->threashold = (int)(s->len * (2.0f/100.0f));
 	if (!stk_copy(te->ts, s))
 		return (te_clear(te, 1));
 	te->moves = varr_create(1);
@@ -60,7 +60,7 @@ void	*te_copy(t_te *dst, t_te *src)
 		return (NULL);
 	ft_memclear(dst, sizeof(*dst));
 	dst->ts = &dst->stk_ts;
-	dst->threashold = src->threashold;
+//	dst->threashold = src->threashold;
 	if (!stk_copy(dst->ts, src->ts))
 		return (NULL);
 	dst->moves = varr_copy(src->moves);

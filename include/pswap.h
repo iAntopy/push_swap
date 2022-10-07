@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:51:40 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:47:21 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <unistd.h>
 
 # include "libft.h"
+
+# define PATH_THREASHOLD 2.0f / 100.0f
 
 typedef struct	s_stack
 {
@@ -46,7 +48,7 @@ typedef struct s_test_stacks_env
 	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
-	int		threashold;
+//	int		threashold;
 }	t_te;
 
 typedef struct s_test_stacks_chunks_env
@@ -60,7 +62,7 @@ typedef struct s_test_stacks_chunks_env
 	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
-	int		threashold;
+//	int		threashold;
 }	t_tec;
 
 typedef struct s_push_swap

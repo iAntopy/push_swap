@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:16:37 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:39:39 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,12 @@ int	main(int argc, char **argv)
 	t_varr	*optimal_path = path_to_n_extreme(&ps, ps.A, 5, 0);
 	ft_printf("optimal_path ptr : %p \n", optimal_path);
 	varr_print(optimal_path);
+	varr_clear(&optimal_path);
+	
+	optimal_path = optimal_push_a_to_b(&ps);
+	ft_printf("optimal push a to b path %p :\n", optimal_path);
+	varr_print(optimal_path);
+	varr_clear(&optimal_path);
 //	ft_printf("dist from head to ref 0 : %d\n", distance_from_head(ps.A, 0));
 //	ft_printf("dist from head to ref 1 : %d\n", distance_from_head(ps.A, 1));
 //	ft_printf("dist from head to ref 2 : %d\n", distance_from_head(ps.A, 2));

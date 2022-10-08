@@ -6,11 +6,19 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 21:05:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 01:40:18 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 22:49:02 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
+
+int	stk_head(t_stk *s)
+{
+	if (s->len)
+		return (s->arr[0]);
+	else
+		return (0);
+}
 
 int	stk_issorted(t_stk *s)
 {

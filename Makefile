@@ -2,6 +2,7 @@
 SRC_DIR		= src/
 
 _SRC	=	push_swap_main			\
+			push_swap_algo			\
 			parse_inputs			\
 			error_handling			\
 			std_sorting_algos		\

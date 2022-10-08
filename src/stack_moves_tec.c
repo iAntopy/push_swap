@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:55:00 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 19:11:34 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:31:49 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ void	tec_rotate(t_tec *tec, int rev)
 void	tec_push(t_tec *tec)
 {
 	t_stk	*ts;
-	t_varr	*low;
-	t_varr	*high;
 	int		value;
 
 	if (!tec)
 		return ;
+	ft_printf("<=== TEC PUSH ACTIVATE !! PUSH VALUE : %d ===>\n", tec->ts->arr[0]);
 	ft_printf("tec_push : tec->ts->len : %d, tec->nb_moves : %d\n", tec->ts->len, tec->nb_moves);
 	ts = tec->ts;
 	if (ts->len == 0)
@@ -57,17 +56,15 @@ void	tec_push(t_tec *tec)
 		varr_append(tec->moves, tec->cur_run);
 	tec->cur_run = 0;
 
-	low = tec->ch->cur_low;
-	high = tec->ch->cur_high;
-	varr_remove(low, value);
-	varr_remove(high, value);
-	if (varr_is_empty(low))
-		low = NULL;
-	if (varr_is_empty(high))
-		high = NULL;
-	if (!low && tec->ch->i_low > 0)
+	varr_remove(tec->ch->cur_low, value);
+	varr_remove(tec->ch->cur_high, value);
+	if (varr_is_empty(tec->ch->cur_low))
+		tec->ch->cur_low = NULL;
+	if (varr_is_empty(tec->ch->cur_high))
+		tec->ch->cur_high = NULL;
+	if (!tec->ch->cur_low && tec->ch->i_low > 0)
 		tec->ch->cur_low = tec->ch->chk_stk[--tec->ch->i_low];
-	else if (!high && tec->ch->i_high < (tec->ch->nb_chks - 1))
+	else if (!tec->ch->cur_high && tec->ch->i_high < (tec->ch->nb_chks - 1))
 		tec->ch->cur_high = tec->ch->chk_stk[++tec->ch->i_high];
 }
 

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:32:06 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:28:24 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 21:58:57 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 	int	*low;
 
 	if (!ps || !s || n < 1 || n > s->len
-			|| !malloc_free_p(0, (void **)&ps->temp->arr)
-			|| !malloc_free_p(sizeof(int) * n, (void **)&ps->temp->arr))
+			|| !ft_free_p((void **)&ps->temp->arr)
+			|| !ft_malloc_p(sizeof(int) * n, (void **)&ps->temp->arr))
 		return (NULL);
 	ps->temp->len = 0;
 	while (ps->temp->len < n)
@@ -78,8 +78,8 @@ t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n)
 	int	*high;
 
 	if (!ps || !s || n < 1 || n > s->len
-			|| !malloc_free_p(0, (void **)&ps->temp->arr)
-			|| !malloc_free_p(sizeof(int) * n, (void **)&ps->temp->arr))
+			|| !ft_free_p((void **)&ps->temp->arr)
+			|| !ft_malloc_p(sizeof(int) * n, (void **)&ps->temp->arr))
 		return (NULL);
 	ps->temp->len = 0;
 	while (ps->temp->len < n)
@@ -88,7 +88,6 @@ t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n)
 		high = find_highest_excluding(s, ps->temp);
 		if (high)
 			ps->temp->arr[ps->temp->len++] = *high;
-
 	}
 	return (ps->temp);
 }

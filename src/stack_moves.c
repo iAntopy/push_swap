@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 03:11:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/24 23:35:29 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 23:34:55 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	psw_swap(t_stk *A, t_stk *B)
 		ft_swap_i(B->arr, B->arr + 1);
 }
 
-void	psw_push(t_stk *dst, t_stk *src)
+void	psw_push(t_stk *dst, t_stk *src, t_chks *chks)
 {
 	int	val;
 
@@ -62,11 +62,22 @@ void	psw_push(t_stk *dst, t_stk *src)
 	dst->arr[0] = val;
 	src->len--;
 	dst->len++;
+	if (!chks)
+		return;
+	varr_remove(chks->cur_low, val);
+	varr_remove(chks->cur_high, val);
+	if (varr_is_empty(chks->cur_low))
+		chks->cur_low = NULL;
+	if (varr_is_empty(chks->cur_high))
+		chks->cur_high = NULL;
+	if (!chks->cur_low && chks->i_low > 0)
+		chks->cur_low = chks->chk_stk[--chks->i_low];
+	else if (!chks->cur_high && chks->i_high < (chks->nb_chks - 1))
+		chks->cur_high = chks->chk_stk[++chks->i_high];
 }
 
 void	psw_move(t_ps *ps, int move)
 {
-	ft_printf("psw_move : entered \n");
 	if (move == M_RA)
 		psw_rotate(ps->A, NULL, 0);
 	else if (move == M_RB)
@@ -86,9 +97,9 @@ void	psw_move(t_ps *ps, int move)
 	else if (move == M_SS)
 		psw_swap(ps->A, ps->B);
 	else if (move == M_PA)
-		psw_push(ps->A, ps->B);
+		psw_push(ps->A, ps->B, NULL);
 	else if (move == M_PB)
-		psw_push(ps->B, ps->A);
+		psw_push(ps->B, ps->A, ps->ch);
 	ps->nb_moves++;
 	ft_printf("%s\n", ps->strmoves[move]);
 }

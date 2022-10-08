@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 18:09:18 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 23:11:38 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,32 +146,48 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 	if(!tec || !tec->ch)
 		return (NULL);
 	ft_printf("\n\n\n\n\n----------------REC : ENTERING RECURSIVE PATHFINDING CHKS --------------\n\n");
-	ft_printf("RECC : te->nb_moves : %d\n", tec->nb_moves);
+	ft_printf("RECC : tec->nb_moves : %d\n", tec->nb_moves);
 	ft_memclear(&tec1, sizeof(tec1));
 	ft_memclear(&tec2, sizeof(tec2));
 	while (tec->ts->len > 5)
 	{
+		ft_printf("current tec stack : \n");
+		print_single_stack(tec->ts);
 		tec->near_c = find_fst_chks_member_in_stk_clockwise(tec->ts, tec->ch);
 		tec->near_cc = find_fst_chks_member_in_stk_counter_clockwise(tec->ts, tec->ch);
 		if (!tec->near_c)
 			break ;
+		ft_printf("RECC : near_c and near_cc found : %d, %d\n", *tec->near_c, *tec->near_cc);
+//		delta1 = distance_from_head_to_vptr(tec->ts, tec->near_c);
+//		delta2 = distance_from_head_to_vptr(tec->ts, tec->near_cc);
 		delta1 = tec->near_c - tec->ts->arr;
 		delta2 = tec->ts->len - (tec->near_cc - tec->ts->arr);
+
+///		while (tec->near_cc > tec->ts->arr && chks_is_in_cur_chks(tec->ch, *(tec->near_cc - 1)))
+//			tec->near_cc--;
 
 		ft_printf("RECC : delta1, delta2 : %d, %d\n", delta1, delta2);
 		if (tec->ts->len > 6 && (ft_abs(delta2 - delta1)) <= (tec->ts->len * PATH_THREASHOLD))//tec->threashold))
 		{
 			ft_printf("\nRECC : Split\n");
 			if (!tec_copy(&tec1, tec) || !tec_copy(&tec2, tec))
+			{
+				ft_printf("\nRECC : TEC COPY FAILED\n");
 				return (tec_clear(&tec1, 1));
+			}
+			ft_printf("RECC : post split clearing original tec\n");
 			tec_clear(tec, 1);
+			ft_printf("RECC : post split clearing original tec SUCCESSFULL\n");
+			ft_printf("RECC : post split moving tec1 to near_c\n");
 			tec_move_to_vptr(&tec1, tec1.near_c);
-			while (chks_is_in_cur_chks(tec->ch, tec1.ts->arr[0]))
+			while (chks_is_in_cur_chks(tec->ch, tec1.ts->arr[0], NULL))
 				tec_push(&tec1);
 			if (tec1.ts->len <= 5)
 				break ;
+			ft_printf("RECC : post split moving tec2 to near_cc\n");
 			tec_move_to_vptr(&tec2, tec2.near_cc);
 			tec_push(&tec2);
+			ft_printf("RECC : post split going recursive baby !\n");
 			if (!recursive_pathfinder_chks(&tec1)
 				|| !recursive_pathfinder_chks(&tec2))
 				return ((t_varr *)((size_t)tec_clear(&tec1, 1) & (size_t)tec_clear(&tec2, 1)));
@@ -182,7 +198,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec)
 		{
 			ft_printf("\nRECC : No Split\n");
 			tec_move_to_vptr(tec, tec->near_c + (tec->near_cc - tec->near_c) * (delta1 > delta2));
-			while (chks_is_in_cur_chks(tec->ch, tec1.ts->arr[0]))
+			while (chks_is_in_cur_chks(tec->ch, tec->ts->arr[0], NULL))
 //			while (find_value_in_stack(sub, tec->ts->arr[0]))
 				tec_push(tec);
 		}
@@ -208,6 +224,7 @@ t_varr	*optimal_push_a_to_b(t_ps *ps)
 	if (!shortest_path)
 		return (tec_clear(&tec, 1));
 	varr_print(shortest_path);
+	ft_printf("\n\n\noptimal push a to b : optimal nb of moves : %d\n", tec.nb_moves);
 	tec_clear(&tec, 0);
 	return (shortest_path);
 }

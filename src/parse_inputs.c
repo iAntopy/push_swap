@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 18:39:02 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 22:05:01 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,15 @@ static int	doublon_and_limit_check(t_stk *A)
 
 static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 {
+	ft_printf("init push swap struct : entered\n");
 	ps->stack_max = (int)strtab_len(nbs_strtab);
-	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_a.arr);
-	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_b.arr);
-	malloc_free_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_ref.arr);
-	if (!ps->stk_a.arr || !ps->stk_b.arr || !ps->stk_ref.arr)
+	if (!ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_a.arr)
+		|| !ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_b.arr)
+		|| !ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_ref.arr))
 		return (-1);
+	ft_printf("init push swap struct : checks passed \n");
+//	if (!ps->stk_a.arr || !ps->stk_b.arr || !ps->stk_ref.arr)
+//		return (-1);
 	ps->A = &ps->stk_a;
 	ps->B = &ps->stk_b;
 	ps->ref = &ps->stk_ref;
@@ -74,8 +77,6 @@ static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 	ps->stk_b.len = 0;
 	ps->stk_ref.len = ps->stack_max;
 	ps->stk_temp.len = 0;
-	if (!chks_init(&ps->chks, ps))
-		return (-1);
 	/*
 	ps->nb_chks = ft_sqrt(ps->stack_max);
 	ft_printf("init_ps_struct : ft_sqrt(stack_max) : %d\n", ps->nb_chks);
@@ -99,8 +100,10 @@ static int	init_stacks(t_ps *ps, char **nbs_strtab)
 	char	*digit1;
 	ssize_t	nb;
 
+	ft_printf("init stack : entered \n");
 	if (!ps || !nbs_strtab || init_push_swap_struct(ps, nbs_strtab) < 0)
 		return (-1);
+	ft_printf("init stack : checks passed \n");
 	arr = ps->stk_a.arr;
 	i = -1;
 	while (++i < ps->stack_max)
@@ -125,6 +128,7 @@ int	parse_inputs(t_ps *ps, int argc, char **argv)
 	char	**nbs_strtab;
 	int		status;
 
+	ft_printf("parse input : Entered \n");
 	nbs_strtab = NULL;
 	status = 0;
 	is_single_str = (ft_strchr(argv[1], ' ') != NULL);
@@ -139,10 +143,17 @@ int	parse_inputs(t_ps *ps, int argc, char **argv)
 	else
 		nbs_strtab = argv + 1;
 	if (!status && init_stacks(ps, nbs_strtab) < 0)
+	{
+		ft_printf("parse input : init_stack_failed\n");
 		status = -1;
+	}
 	if (!status && doublon_and_limit_check(&ps->stk_a) < 0)
+	{
+		ft_printf("parse input : doublon limit failed\n");
 		status = -1;
+	}
 	if (is_single_str)
 		strtab_clear(&nbs_strtab);
+	ft_printf("parse input : Exit. status : %d\n", status);
 	return (status);
 }

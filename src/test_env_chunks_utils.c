@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 18:12:02 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:17:32 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,30 @@ t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s)
 void	*tec_copy(t_tec *dst, t_tec *src)
 {
 	ft_printf("\n\ntec_copy : Entered\n");
+	ft_printf("\n\ntec_copy : trying to copy :\n");
+	tec_print(src);
+
 	if (!dst || !src)
 		return (NULL);
 	ft_memclear(dst, sizeof(*dst));
 	dst->ts = &dst->stk_ts;
 	dst->ch = &dst->chks;
 //	dst->threashold = src->threashold;
+	ft_printf("tec_copy : stk copy attempt\n");
 	if (!stk_copy(dst->ts, src->ts))
 		return (NULL);
+	ft_printf("tec_copy : stk copy SUCCESS\n");
+	ft_printf("tec_copy : chk copy attempt\n");
+	chks_print(src->ch);
 	if (!chks_copy(dst->ch, src->ch))
 		return (tec_clear(dst, 1));
+	ft_printf("tec_copy : chk copy SUCCESS\n");
+	ft_printf("tec_copy : varr copy attempt\n");
+	varr_print(src->moves);
 	dst->moves = varr_copy(src->moves);
 	if (!dst->moves)
 		return (tec_clear(dst, 1));
+	ft_printf("tec_copy : varr copy SUCCESS\n");
 	dst->near_c = src->near_c;
 	dst->near_cc = src->near_cc;
 	if (dst->near_c)
@@ -80,5 +91,6 @@ void	*tec_copy(t_tec *dst, t_tec *src)
 		dst->near_cc = dst->stk_ts.arr + (src->near_cc - src->stk_ts.arr);
 	dst->cur_run = src->cur_run;
 	dst->nb_moves = src->nb_moves;
+	ft_printf("tec_copy : exit SUCCESS\n");
 	return (dst);
 }

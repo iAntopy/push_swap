@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 15:47:21 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:18:54 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,19 @@ enum	e_decoder
 	M_PB = 10
 };
 
-int	parse_inputs(t_ps *ps, int argc, char **argv);
+int		psw_algo_manager(t_ps *ps);
+int		parse_inputs(t_ps *ps, int argc, char **argv);
 void	print_stacks(t_ps *ps);
 void	print_single_stack(t_stk *s);
 //void	print_ref_array(t_ps *ps);
 
 ////// REFFERENCE ARRAY FUNCS ////////// 
-int	build_ref_array_and_substitute_in_stack_a(t_ps *ps);
+int		build_ref_array_and_substitute_in_stack_a(t_ps *ps);
 
 ////// CHECKER FUNCS /////////
-int	stk_issorted(t_stk *s);
-int	stk_seek_sorted_phase(t_ps *ps, t_stk *s);
-int	stk_slice_issorted(t_stk *s, int start, int end);
+int		stk_issorted(t_stk *s);
+int		stk_seek_sorted_phase(t_ps *ps, t_stk *s);
+int		stk_slice_issorted(t_stk *s, int start, int end);
 
 ////// REGULAR SORTING ALGOS //////////
 void	garbage_sort(int *arr, int size);
@@ -143,7 +144,7 @@ int		get_nb_members_intersect(t_stk *large, t_stk *small);
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);
-void	psw_push(t_stk *dst, t_stk *src);
+void	psw_push(t_stk *dst, t_stk *src, t_chks *chks);
 void	psw_rotate(t_stk *A, t_stk *B, int reverse);
 void	psw_move(t_ps *ps, int move);
 void	psw_move_to(t_ps *ps, t_stk *s, int value);
@@ -151,6 +152,7 @@ void	psw_move_to_vptr(t_ps *ps, t_stk *s, int *vptr);
 void	psw_recipe(t_ps *ps, int nb_moves, ...);
 
 ////// STACK UTILS ////////
+int		stk_head(t_stk *s);
 void	*stk_clear(t_stk *s);
 t_stk	*stk_copy(t_stk *dst, t_stk *src);
 //////////////////////////
@@ -160,7 +162,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps);
 t_chks	*chks_copy(t_chks *dst, t_chks *src);
 void	*chks_clear(t_chks *chks);
 void	chks_print(t_chks *chks);
-t_varr	*chks_is_in_cur_chks(t_chks *chks, int value);
+t_varr	*chks_is_in_cur_chks(t_chks *chks, int value, t_varr **holder);
 int		chks_are_empty(t_chks *chks);
 ///////////////////////////////
 
@@ -194,7 +196,7 @@ t_varr	*optimal_push_a_to_b(t_ps *ps);
 ///////////////////////////////////////////
 
 ///// CLEAR FUNCS and ERROR HANDLING //////////
-int	clear_ps(t_ps *ps, int status);
-int	repport_error(void);
+int		psw_clear(t_ps *ps, int status);
+int		repport_error(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/08 00:18:51 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:26:40 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 	}
 	ft_printf("chks_init : varr at ptr 0 post while ");
 	varr_print(chks->chk_stk[0]);
-	if (!chks_init_single_chk(chks->chk_stk + i,
-				(i * chks->chk_size), chks->last_chk_size))
+	if (!chks_init_single_chk(chks->chk_stk + i, (i * chks->chk_size), chks->last_chk_size))
 	{
 		ft_printf("chks_init : last chk FAILED !\n");
 		return (chks_clear(chks));

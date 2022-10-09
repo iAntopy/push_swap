@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 22:45:39 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/05 20:42:32 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/09 08:29:04 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	*varr_clear(t_varr **va)
 {
 	if (!va)
 		return (NULL);
-	malloc_free_p(0, (void **)&((*va)->arr));
-	malloc_free_p(0, (void **)va);
+	ft_free_p((void **)&((*va)->arr));
+	ft_free_p((void **)va);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:32:06 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 21:58:57 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/09 08:55:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	*find_highest_excluding(t_stk *s, t_stk *exclusions)
 	return (high);
 }
 
-// mallocs new stack array
+// Mallocs new stack array in ps->temp.
+// Deletes and overrides current temp if one exists.
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 {
 	int	*low;
@@ -62,7 +63,7 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 	ps->temp->len = 0;
 	while (ps->temp->len < n)
 	{
-		ft_printf("get_n_lowest_members : while at temp len %d\n", ps->temp->len);
+//		ft_printf("get_n_lowest_members : while at temp len %d\n", ps->temp->len);
 		low = find_lowest_excluding(s, ps->temp);
 		if (low)
 			ps->temp->arr[ps->temp->len++] = *low;
@@ -72,7 +73,8 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 	return (ps->temp);
 }
 
-// mallocs new stack array
+// Mallocs new stack array in ps->temp.
+// Deletes and overrides current temp if one exists.
 t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n)
 {
 	int	*high;
@@ -84,15 +86,14 @@ t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n)
 	ps->temp->len = 0;
 	while (ps->temp->len < n)
 	{
-		ft_printf("get_n_lowest_members : while at temp len %d\n", ps->temp->len);
+//		ft_printf("get_n_lowest_members : while at temp len %d\n", ps->temp->len);
 		high = find_highest_excluding(s, ps->temp);
 		if (high)
 			ps->temp->arr[ps->temp->len++] = *high;
 	}
 	return (ps->temp);
 }
-
-
+/*
 int	get_nb_members_intersect(t_stk *large, t_stk *small)
 {
 	int	i;
@@ -113,6 +114,7 @@ int	get_nb_members_intersect(t_stk *large, t_stk *small)
 			}
 		}
 	}
-	ft_printf("get_nb_members_intersect : nb members in common between large (len %d) stk and small (len %d) stk given : %d\n", large->len, small->len, n);
+//	ft_printf("get_nb_members_intersect : nb members in common between large (len %d) stk and small (len %d) stk given : %d\n", large->len, small->len, n);
 	return (n);
 }
+*/

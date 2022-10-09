@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 23:10:05 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/09 04:28:57 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	psw_clear(t_ps *ps, int status)
 	stk_clear(ps->B);
 	stk_clear(ps->ref);
 	stk_clear(ps->temp);
+	varr_clear(&ps->va_temp);
 	chks_clear(&ps->chks);
 	return (status);
 }

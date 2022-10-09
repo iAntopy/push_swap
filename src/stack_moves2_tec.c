@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 18:10:23 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 18:14:14 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/09 08:48:38 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ void	tec_move_to_vptr(t_tec *tec, int *vptr)
 {
 	int	dist;
 
-	ft_printf("tec_move_to_vptr : Entered\n");
-	tec_print(tec);
+//	ft_printf("tec_move_to_vptr : Entered\n");
+//	tec_print(tec);
 //	ft_printf("tec_move_to_vptr : tec %p, vptr : %p\n", tec, vptr);
 //	ft_printf("tec_move_to_vptr : tec->ts %p, tec->near_c %p, tec->near_cc %p\n", tec->ts, tec->near_c, tec->near_cc);
 	if (!tec || !vptr)
 		return ;
-	ft_printf("tec_move_to_vptr : passed checks\n");
+//	ft_printf("tec_move_to_vptr : passed checks\n");
 	dist = distance_from_head_to_vptr(tec->ts, vptr);
-	ft_printf("tec_move_to_vptr : dist from %p to %p : %d\n", tec->ts->arr, vptr, dist);
+//	ft_printf("tec_move_to_vptr : dist from %p to %p : %d\n", tec->ts->arr, vptr, dist);
 	if (dist > 0)
 		while (dist--)
 			tec_move(tec, M_RA);

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:35:39 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 21:59:24 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/09 08:54:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*stk_clear(t_stk *s)
 {
 	if (!s)
 		return (NULL);
-	ft_printf("stk_clear : entered, freeing s->arr %p\n", s->arr);
+//	ft_printf("stk_clear : entered, freeing s->arr %p\n", s->arr);
 	ft_free_p((void **)&s->arr);
 	s->len = 0;
 	return (NULL);

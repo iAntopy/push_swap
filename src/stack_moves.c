@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 03:11:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 23:34:55 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/09 08:37:22 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	psw_move(t_ps *ps, int move)
 	else if (move == M_RRA)
 		psw_rotate(ps->A, NULL, 1);
 	else if (move == M_RRB)
-		psw_rotate(ps->A, NULL, 1);
+		psw_rotate(NULL, ps->B, 1);
 	else if (move == M_RRR)
 		psw_rotate(ps->A, ps->B, 1);
 	else if (move == M_SA)

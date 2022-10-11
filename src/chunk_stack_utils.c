@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 09:17:55 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:45:21 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ t_chks	*chks_copy(t_chks *dst, t_chks *src)
 	i = -1;
 	while (++i < src->nb_chks)
 	{
-		dst->chk_stk[i] = varr_copy(src->chk_stk[i]);
-//		ft_printf("chks_copy : i = %d, varr_copy result ptr : %p\n", i, dst->chk_stk[i]);
-		if (!dst->chk_stk[i])
+		if (!varr_copy(src->chk_stk[i], dst->chk_stk + i))
 			return (chks_clear(dst));
+//		ft_printf("chks_copy : i = %d, varr_copy result ptr : %p\n", i, dst->chk_stk[i]);
+//		if (!dst->chk_stk[i])
+//			return (chks_clear(dst));
 	}
 //	ft_printf("chks_copy : all varr_copy SUCCESSFULL\n");
 	dst->i_high = src->i_high;
@@ -124,8 +125,11 @@ static void	chks_init_data(t_chks *chks, t_ps *ps)
 	chks->last_chk_size = n - (chks->nb_chks * chks->chk_size);
 	chks->nb_chks += (chks->last_chk_size > 0);
 	chks->last_chk_size += (chks->last_chk_size == 0) * chks->chk_size;
+
 	chks->i_low = chks->nb_chks / 2;
-	chks->i_low -= (chks->nb_chks % 2 == 1);
+	chks->i_low -= (chks->i_low > 0);
+//	chks->i_low -= (chks->nb_chks % 2 == 1);
+
 	chks->i_high = chks->i_low + 1;
 	chks->i_high -= (chks->i_high >= chks->nb_chks);
 }
@@ -143,11 +147,11 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 	ft_memclear(chks, sizeof(*chks));
 	if (!chks || !ps)
 		return (NULL);
-	ft_printf("chks_init : malloced chk_stk (%p) SUCCESSFULL\n", chks->chk_stk);
 	chks_init_data(chks, ps);
 	chks->chk_stk = ft_calloc(sizeof(t_varr *), chks->nb_chks);
 	if (!chks->chk_stk)
 		return (NULL);
+	ft_printf("chks_init : malloced chk_stk (%p) SUCCESSFULL\n", chks->chk_stk);
 ///	if (!ft_malloc_p(sizeof(t_varr *) * chks->nb_chks, (void **)&chks->chk_stk))
 //		return (NULL);
 //	ft_printf("chks_init : clearing chk_stk\n");

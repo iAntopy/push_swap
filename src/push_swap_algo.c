@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 09:56:20 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:41:45 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 const char	*get_solution_for_high_chunk(int *hc)
 {
 	static const char	*solver_table[24] = {
-		"pppp", "ppr", "ppps", "p", "p", "p", 
-		"pps", "pps", "pp+ps-", "pp+psp-", "pp+p+ps--", "ppp++ps--",
-		"ppsps", "ppsp+ps-", "p+pps-", "ppp+s+ps--", "pp++pp--", "pp++pps--",
-		"p+ppp-", "p+ppps-", "p+ppsp-", "p+pp+ps--", "p+ppsps-", "p+p+pps--"};
-	
+//		"pppp", "pp", "ppps", "p", "p", "p", 
+//		"pps", "pps", "pp+ps-", "pp+psp-", "pp+p+ps--", "ppp++ps--",
+///		"ppsps", "ppsp+ps-", "p+pps-", "ppp+s+ps--", "pp++pp--", "pp++pps--",
+//		"p+ppp-", "p+ppps-", "p+ppsp-", "p+pp+ps--", "p+ppsps-", "p+p+pps--"};
+//	{
+		"pppp",		"pp",		"ppps",		"p",			"p",		"p",
+		"pps",		"pps",		"pp+ps-",	"ppp++ps--",	"pp+psp-",	"pp+p+ps--",
+		"ppsps",	"ppsp+ps-",	"p+pps-",	"ppp+s+ps--",	"pp++pp--",	"pp++pps--",
+		"p+ppp-",	"p+ppps-",	"p+ppsp-",	"p+pp+ps--",	"p+ppsps-",	"p+p+pps--"
+	};
+
 	if (!hc)
 	{
 		ft_printf("get solution for high chunk : hc ptr is NULL\n", hc);
@@ -158,14 +164,18 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 //	ft_printf("psw_push stack a : checks cleared \n");
 //	psw_push_all_cur_chks_members_to_b(ps);
 //	ft_printf("psw_push stack a : start push DONE \n");
-//	ft_printf("psw_push stack a : list of moves : \n");
-//	varr_print(path);
+	ft_printf("psw_push stack a : list of moves : \n");
+	varr_print(path);
 //	ft_printf("psw_push stack a : path len %d\n", path->len);
-//	ft_printf("psw_push stack a : stack at start of push opt path :\n");
-//	print_stacks(ps);
+	ft_printf("psw_push stack a : stack at start of push opt path :\n");
+	print_stacks(ps);
 	i = -1;
 	while (++i < path->len)
+	{
 		follow_path_step_and_push(ps, path, i, 0);
+		ft_printf("psw_push stack a : stacks after first push batch : \n");
+		print_stacks(ps);
+	}
 /*
 	{
 		ft_printf("psw_push stack a : in while. Move delta : %d \n", path->arr[i]);
@@ -206,6 +216,7 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 int	psw_algo_manager(t_ps *ps)
 {
 	t_varr	*opt_path;
+	t_varr	*opt_mbrs;
 
 	ft_printf("psw_algo_manager : Entered. Stack A len : %d\n", ps->A->len);
 	if (ps->A->len <= 5)
@@ -214,6 +225,8 @@ int	psw_algo_manager(t_ps *ps)
 		psw_sort5(ps);
 		return (0);
 	}
+	opt_path = NULL;
+	opt_mbrs = NULL;
 /*
 ///////////////////////// STAGE 1 \\\\\\\\\\\\\\\\\\\\\\\\\\
 //	- Push all stack A members except 5 in stack B
@@ -232,7 +245,15 @@ int	psw_algo_manager(t_ps *ps)
 		return (-1);
 //	ft_printf("init chks SUCCESS\n");
 //	chks_print(ps->ch);
-	opt_path = optimal_push_a_to_b(ps);
+	if (!optimal_push_a_to_b(ps))
+	{
+		ft_printf("Algo manager : recursive pathfinder failed !\n");
+		return (-1);
+	}
+	opt_path = NULL;
+	opt_mbrs = NULL;
+	opt_path = ps->shortest[0];
+	opt_mbrs = ps->shortest[1];
 	ft_printf("optimal path : ");
 	varr_print(opt_path);
 	print_stacks(ps);
@@ -240,9 +261,15 @@ int	psw_algo_manager(t_ps *ps)
 	chks_print(ps->ch);
 	psw_push_stack_a_with_opt_path(ps, opt_path);
 //	varr_clear(&opt_path);
-	psw_sort5(ps);
 	ft_printf("Chunks after push : \n");
 	chks_print(ps->ch);
+
+	chks_clear(ps->ch);
+	varr_clear(ps->shortest);
+	varr_clear(ps->shortest + 1);
+
+	if (psw_sort5(ps) < 0)
+		return (-1);
 
 /*
 ///////////////////////// STAGE 2 \\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -284,7 +311,7 @@ int	psw_algo_manager(t_ps *ps)
 
 12	- [1, 3, 2, 0] : PA, PA, SA, PA, SA, <reset>			+5 mvs (miss 1)
 13	- [1, 3, 0, 2] : PA, PA, SA, PA, RA, PA, SA, RRA		8 mvs
-14	- [1, 2, 3, 0] : PA, RA, PA, PA, SA, RA, <reset>		+6 mvs (miss 1)
+14	- [1, 2, 3, 0] : PA, RA, PA, PA, SA, RRA, <reset>		+6 mvs (miss 1)
 15	- [1, 2, 0, 3] : PA, PA, PA, RA, SA, RA, PA, SA, RRA, RRA	10 mvs
 16	- [1, 0, 3, 2] : PA, PA, RA, RA, PA, PA, RRA, RRA		8 mvs
 17	- [1, 0, 2, 3] : PA, PA, RA, RA, PA, PA, SA, RRA, RRA		9 mvs
@@ -295,6 +322,13 @@ int	psw_algo_manager(t_ps *ps)
 21	- [0, 2, 1, 3] : PA, RA, PA, PA, RA, PA, SA, RRA, RRA		9 mvs
 22	- [0, 1, 3, 2] : PA, RA, PA, PA, SA, PA, SA, RRA		8 mvs
 23	- [0, 1, 2, 3] : PA, RA, PA, RA, PA, PA, SA, RRA, RRA		9 mvs
+
+{
+	"pppp",		"pp",		"ppps",		"p",			"p",		"p",
+	"pps",		"pps",		"pp+ps-",	"ppp++ps--",	"pp+psp-",	"pp+p+ps--",
+	"ppsps",	"ppsp+ps-",	"p+pps-",	"ppp+s+ps--",	"pp++pp--",	"pp++pps--",
+	"p+ppp-",	"p+ppps-",	"p+ppsp-",	"p+pp+ps--",	"p+ppsps-",	"p+p+pps--"
+}
 
 
 */
@@ -325,22 +359,26 @@ int	psw_algo_manager(t_ps *ps)
 	while (ps->B->len >= 4)
 	{
 		ft_printf("Algo manager : stacks while pushing B to A :\n");
-		print_stacks(ps);
-		opt_path = path_to_n_extreme(ps, ps->B, 4, 0);
+		print_single_stack(ps->B);
+		if (!path_to_n_extreme(ps, ps->B, 4, 0) || !opt_path || !opt_mbrs)
+			return (-1);
+		
 		ft_printf("Algo manager : opt_path : %p\n", opt_path);
 		varr_print(opt_path);
-		ft_printf("Algo manager : members found in order : %p\n", ps->va_temp);
-		varr_print(ps->va_temp);
-		varr_isub(ps->va_temp, varr_min(ps->va_temp));
+
+		ft_printf("Algo manager : members found in order : %p\n", opt_mbrs);
+		varr_print(opt_mbrs);
+		
+		varr_isub(opt_mbrs, varr_min(opt_mbrs));
 		ft_printf("Algo manager : members path identity (after sub min) : \n");
-		varr_print(ps->va_temp);
-		if (!ps->va_temp)
-			return (-1);
-		recipe = get_solution_for_high_chunk(ps->va_temp->arr);
+		varr_print(opt_mbrs);
+		
+		recipe = get_solution_for_high_chunk(opt_mbrs->arr);
+		
 		ft_printf("Algo manager : solution found for high path : %s\n", recipe);
 		execute_recipe(ps, opt_path, recipe);
 		varr_clear(&opt_path);
-		varr_clear(&ps->va_temp);
+		varr_clear(&opt_mbrs);
 	}
 
 	ft_printf("Algo manager : stack before last 3 :\n");

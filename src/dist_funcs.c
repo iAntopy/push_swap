@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 21:25:09 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/29 19:15:47 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:18:42 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	*find_value_in_stack(t_stk *s, int value)
 {
-	int	*arr;
-	int	i;
+	int		*arr;
+	size_t	i;
 
 	arr = s->arr;
 	i = -1;

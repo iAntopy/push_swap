@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:32:06 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 08:55:29 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:13:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	*find_lowest_excluding(t_stk *s, t_stk *exclusions)
 {
-	int	val;
-	int	*low;
-	int	*arr;
-	int	i;
+	int		val;
+	int		*low;
+	int		*arr;
+	size_t	i;
 
 	val = INT_MAX;
 	low = &val;
@@ -33,10 +33,10 @@ int	*find_lowest_excluding(t_stk *s, t_stk *exclusions)
 
 int	*find_highest_excluding(t_stk *s, t_stk *exclusions)
 {
-	int	val;
-	int	*high;
-	int	*arr;
-	int	i;
+	int		val;
+	int		*high;
+	int		*arr;
+	size_t	i;
 
 	val = INT_MIN;
 	high = &val;
@@ -52,11 +52,11 @@ int	*find_highest_excluding(t_stk *s, t_stk *exclusions)
 
 // Mallocs new stack array in ps->temp.
 // Deletes and overrides current temp if one exists.
-t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
+t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, size_t n)
 {
 	int	*low;
 
-	if (!ps || !s || n < 1 || n > s->len
+	if (!ps || !s || n > s->len
 			|| !ft_free_p((void **)&ps->temp->arr)
 			|| !ft_malloc_p(sizeof(int) * n, (void **)&ps->temp->arr))
 		return (NULL);
@@ -75,11 +75,11 @@ t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n)
 
 // Mallocs new stack array in ps->temp.
 // Deletes and overrides current temp if one exists.
-t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n)
+t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, size_t n)
 {
 	int	*high;
 
-	if (!ps || !s || n < 1 || n > s->len
+	if (!ps || !s || n > s->len
 			|| !ft_free_p((void **)&ps->temp->arr)
 			|| !ft_malloc_p(sizeof(int) * n, (void **)&ps->temp->arr))
 		return (NULL);

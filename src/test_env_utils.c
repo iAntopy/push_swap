@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 08:44:16 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:18:12 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,32 @@ void	te_print(t_te *te)
 	ft_printf("\no-----------------------------------------o\n\n");
 }
 
-void	*te_clear(t_te *te, int clear_moves)
+void	*te_clear(t_te *te)//, int clear_moves)
 {
 	if (!te)
 		return (NULL);
-//	ft_printf("te_clear : entered, attempting to stk_clear. clear_moves : %d\n", clear_moves);
+	ft_printf("te_clear : entered, attempting to stk_clear.");
 //	te_print(te);
 	stk_clear(te->ts);
-	if (clear_moves)
-	{
-//		ft_printf("te_clear : \n");
-		varr_clear(&te->moves);
-		varr_clear(&te->members);
-	}
-//	ft_memclear(te, sizeof(*te));
+	te->ts = NULL;
+	te->near_c = NULL;
+	te->near_cc = NULL;
+	varr_clear(&te->moves);
+	varr_clear(&te->members);
 	return (NULL);
 }
+//	if (clear_moves)
+//	{
+//		ft_printf("te_clear : CLEAR MOVES\n");
+//		varr_clear(&te->moves);
+//		varr_clear(&te->members);
+//		te->moves = NULL;
+//		te->members = NULL;
+//		return (NULL);
+//	}
+//	else
+//		return (te->moves);
+//}
 
 // Creates copy of some reference stack to test hypothetical moves and
 // find optimal paths.
@@ -52,11 +62,11 @@ t_te	*te_init(t_te *te, t_stk *s)
 	te->ts = &te->stk_ts;
 //	te->threashold = (int)(s->len * (2.0f/100.0f));
 	if (!stk_copy(te->ts, s))
-		return (te_clear(te, 1));
+		return (te_clear(te));
 	te->moves = varr_create(1);
 	te->members = varr_create(1);
 	if (!te->moves)
-		return (te_clear(te, 1));
+		return (te_clear(te));
 	return (te);
 }
 
@@ -66,19 +76,21 @@ void	*te_copy(t_te *dst, t_te *src)
 	if (!dst || !src)
 		return (NULL);
 	ft_memclear(dst, sizeof(*dst));
+	stk_clear(dst->ts);
 	dst->ts = &dst->stk_ts;
-//	dst->threashold = src->threashold;
 //	ft_printf("te_copy : stk_copy attempt\n");
 	if (!stk_copy(dst->ts, src->ts))
 		return (NULL);
 //	ft_printf("te_copy : stk_copy SUCCESS\n");
 //	ft_printf("te_copy : varr_copy attempt\n");
-	dst->moves = varr_copy(src->moves);
-	if (!dst->moves)
+	varr_clear(&dst->moves);
+	varr_clear(&dst->members);
+	if (!varr_copy(src->moves, &dst->moves) || varr_copy(src->members, &dst->members))
+	{
+		varr_clear(&dst->moves);
+		varr_clear(&dst->members);
 		return (stk_clear(dst->ts));
-	dst->members = varr_copy(src->members);
-	if (!dst->members)
-		return (stk_clear(dst->ts));
+	}
 //	ft_printf("te_copy : varr_copy SUCCESS\n");
 	dst->near_c = src->near_c;
 	dst->near_cc = src->near_cc;

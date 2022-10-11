@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:49:37 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 20:20:20 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:50:29 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 // declare t_varr struct in some previous function and give ptr to this func.
 t_varr	*varr_create(size_t n)
 {
+
 	t_varr	*va;
 	int		div;
 	int		mod;
@@ -27,8 +28,9 @@ t_varr	*varr_create(size_t n)
 	mod = n % VARR_CHUNK_LEN;
 	div += !!mod + !n;
 	size = sizeof(int) * VARR_CHUNK_LEN * div;
-	if (!malloc_free_p(sizeof(t_varr), (void **)&va)
-		|| !malloc_free_p(size, (void **)&va->arr))
+	va = NULL;
+	if (!ft_malloc_p(sizeof(t_varr), (void **)&va)
+		|| !ft_malloc_p(size, (void **)&va->arr))
 		return (NULL);
 	va->len = 0;
 	va->__alloced_chks = div;
@@ -49,10 +51,10 @@ t_varr	*varr_append(t_varr *va, int value)
 		va->__alloced_chks++;
 		va->__max_len += VARR_CHUNK_LEN;
 		new_size = va->__max_len * sizeof(int);
-		if (!malloc_free_p(new_size, (void **)&new_arr))
+		if (!ft_malloc_p(new_size, (void **)&new_arr))
 			return (NULL);
 		ft_memcpy(new_arr, va->arr, old_size);
-		malloc_free_p(0, (void **)&va->arr);
+		ft_free_p((void **)&va->arr);
 		va->arr = new_arr;
 		va->__cur_size = new_size;
 	}
@@ -74,10 +76,10 @@ t_varr	*varr_remove_idx(t_varr *va, size_t i)
 		va->__alloced_chks /= 2;
 		va->__max_len = va->__alloced_chks * VARR_CHUNK_LEN;
 		new_size = va->__max_len * sizeof(int);
-		if (!malloc_free_p(new_size, (void **)&new_arr))
+		if (!ft_malloc_p(new_size, (void **)&new_arr))
 			return (NULL);
 		ft_memcpy(new_arr, va->arr, old_size);
-		malloc_free_p(0, (void **)&va->arr);
+		ft_free_p((void **)&va->arr);
 		va->arr = new_arr;
 		va->__cur_size = new_size;
 	}
@@ -106,7 +108,7 @@ t_varr	*varr_concatenate(t_varr *dst, t_varr *va)
 
 	if (!dst || !va)
 		return (NULL);
-	if (!malloc_free_p(dst->__cur_size + va->__cur_size, (void **)&arr))
+	if (!ft_malloc_p(dst->__cur_size + va->__cur_size, (void **)&arr))
 		return (NULL);
 	dst->__cur_size += va->__cur_size;
 	dst->__alloced_chks += va->__alloced_chks;
@@ -114,7 +116,7 @@ t_varr	*varr_concatenate(t_varr *dst, t_varr *va)
 	ft_memcpy(arr, dst->arr, dst->len * sizeof(int));
 	ft_memcpy(arr + dst->len, va->arr, va->len * sizeof(int));
 	dst->len += va->len;
-	malloc_free_p(0, (void **)&dst->arr);
+	ft_free_p((void **)&dst->arr);
 	dst->arr = arr;
 	return (dst);
 }

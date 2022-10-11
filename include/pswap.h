@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 04:27:43 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:31:32 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 typedef struct	s_stack
 {
-	int	*arr;
-	int	len;
+	int		*arr;
+	size_t	len;
 }	t_stk;
 
 typedef struct	s_chunk_stack
@@ -78,8 +78,8 @@ typedef struct s_push_swap
 	t_stk		*B;
 	t_stk		*ref;
 	t_stk		*temp;
-	t_varr		*va_temp;
 	t_chks		*ch;
+	t_varr		*shortest[2];
 	char		**strmoves;
 	int			nb_moves;
 }	t_ps;
@@ -116,7 +116,7 @@ int		build_ref_array_and_substitute_in_stack_a(t_ps *ps);
 ////// CHECKER FUNCS /////////
 int		stk_issorted(t_stk *s);
 int		stk_seek_sorted_phase(t_ps *ps, t_stk *s);
-int		stk_slice_issorted(t_stk *s, int start, int end);
+int		stk_slice_issorted(t_stk *s, size_t start, size_t end);
 
 ////// REGULAR SORTING ALGOS //////////
 void	garbage_sort(int *arr, int size);
@@ -125,7 +125,7 @@ void	garbage_sort(int *arr, int size);
 void	psw_sort2(t_ps *ps, t_stk *s);
 void	psw_sort3(t_ps *ps, t_stk *s);
 void	psw_sort4(t_ps *ps, t_stk *s);
-void	psw_sort5(t_ps *ps);
+int		psw_sort5(t_ps *ps);
 
 ////// ANALYSIS FUNCTION //////////
 int		*find_value_in_stack(t_stk *s, int value);
@@ -140,8 +140,8 @@ int		*find_fst_chks_member_in_stk_counter_clockwise(t_stk *s, t_chks *chks);
 int		distance_from_head(t_stk *s, int value);
 int		distance_from_head_to_vptr(t_stk *s, int *vptr);
 int		find_longest_sorted_sequence(t_stk *s, int **seq_start);
-t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, int n);
-t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, int n);
+t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, size_t n);
+t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, size_t  n);
 int		get_nb_members_intersect(t_stk *large, t_stk *small);
 
 ///// STACK_MOVES ///////
@@ -171,7 +171,7 @@ int		chks_are_empty(t_chks *chks);
 ///// TEST STACK ENV FUNCS /////////
 t_te	*te_init(t_te *te, t_stk *s);
 void	te_print(t_te *te);
-void	*te_clear(t_te *te, int clear_moves);
+void	*te_clear(t_te *te);
 void	*te_copy(t_te *dst, t_te *src);
 void	te_rotate(t_te *te, int rev);
 void	te_push(t_te *te);
@@ -193,7 +193,7 @@ void	tec_move_to(t_tec *tec, int value);
 void	tec_move_to_vptr(t_tec *tec, int *vptr);
 
 /////// PUSH_SWAP ALGORITH FUNCS //////////
-t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, int n, int find_lowest);
+t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, size_t n, int find_lowest);
 t_varr	*optimal_push_a_to_b(t_ps *ps);
 ///////////////////////////////////////////
 

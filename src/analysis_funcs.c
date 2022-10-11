@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 20:22:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 16:52:19 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:19:19 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	*find_lowest(t_stk *s)
 {
-	int	val;
-	int	*low;
-	int	*arr;
-	int	i;
+	int		val;
+	int		*low;
+	int		*arr;
+	size_t	i;
 
 	val = INT_MAX;
 	low = &val;
@@ -31,10 +31,10 @@ int	*find_lowest(t_stk *s)
 
 int	*find_highest(t_stk *s)
 {
-	int	val;
-	int	*high;
-	int	*arr;
-	int	i;
+	int		val;
+	int		*high;
+	int		*arr;
+	size_t	i;
 
 	val = INT_MIN;
 	high = &val;

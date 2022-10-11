@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:59:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 08:51:24 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:11:23 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	*find_fst_chk_member_in_stk_clockwise(t_stk *s, t_stk *chk)
 {
-	int		i;
+	size_t	i;
 	
 	if (!s || !chk)
 		return (NULL);
@@ -30,7 +30,7 @@ int	*find_fst_chk_member_in_stk_clockwise(t_stk *s, t_stk *chk)
 
 int	*find_fst_chk_member_in_stk_counter_clockwise(t_stk *s, t_stk *chk)
 {
-	int	i;
+	size_t	i;
 
 //	ft_printf("find counter_clock member : Entered\n");
 	if (!s || !chk)
@@ -51,7 +51,7 @@ int	*find_fst_chk_member_in_stk_counter_clockwise(t_stk *s, t_stk *chk)
 
 int	*find_fst_chks_member_in_stk_clockwise(t_stk *s, t_chks *chks)
 {
-	int		i;
+	size_t	i;
 	
 //	ft_printf("find clock member : Entered\n");
 	if (!s || !chks)
@@ -71,7 +71,7 @@ int	*find_fst_chks_member_in_stk_clockwise(t_stk *s, t_chks *chks)
 
 int	*find_fst_chks_member_in_stk_counter_clockwise(t_stk *s, t_chks *chks)
 {
-	int	i;
+	size_t	i;
 
 //	ft_printf("find counter_clock member : Entered\n");
 	if (!s || !chks)

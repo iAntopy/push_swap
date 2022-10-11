@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 04:28:57 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 22:38:02 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	psw_clear(t_ps *ps, int status)
 	stk_clear(ps->B);
 	stk_clear(ps->ref);
 	stk_clear(ps->temp);
-	varr_clear(&ps->va_temp);
+	varr_clear(&ps->shortest[0]);
+	varr_clear(&ps->shortest[1]);
 	chks_clear(&ps->chks);
 	return (status);
 }
@@ -91,9 +92,13 @@ int	main(int argc, char **argv)
 	if (psw_algo_manager(&ps) < 0)
 		return (psw_clear(&ps, repport_error()));
 
-	ft_printf("main : nb moves at exit : %d\n", ps.nb_moves);
+	ft_printf("main : nb moves at exit : %d, to sort %d nbs.\n", ps.nb_moves, ps.stack_max);
 	ft_printf("main : stacks at exit : \n");
 	print_stacks(&ps);
+	if (stk_issorted(ps.A))
+		ft_printf("main : Is Stack A sorted : %s\n", GREEN_BC"TRUE"WHITE_C);
+	else	
+		ft_printf("main : Is Stack A sorted ? %s\n", RED_BC"FALSE"WHITE_C);
 	return (psw_clear(&ps, EXIT_SUCCESS));
 }
 //	ft_printf("\n\nPre sort print : \n");

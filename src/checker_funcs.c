@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 21:05:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 09:42:11 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:12:34 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	stk_head(t_stk *s)
 
 int	stk_issorted(t_stk *s)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
 	while (++i < (s->len - 1))
@@ -31,9 +31,9 @@ int	stk_issorted(t_stk *s)
 	return (1);
 }
 
-int	stk_slice_issorted(t_stk *s, int start, int end)
+int	stk_slice_issorted(t_stk *s, size_t start, size_t end)
 {
-	int	i;
+	size_t	i;
 
 	if ((0 <= start) && (start <= end) && (end < s->len))
 		return (repport_error());
@@ -46,9 +46,9 @@ int	stk_slice_issorted(t_stk *s, int start, int end)
 
 int	stk_seek_sorted_phase(t_ps *ps, t_stk *s)
 {
-	int	*low;
-	int	start;
-	int	end;
+	int		*low;
+	size_t	start;
+	size_t	end;
 
 	if (!ps || !s)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 23:16:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/07 21:49:32 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:45:02 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -32,6 +32,8 @@ int	ft_malloc_p(size_t size, void **ptr)
 {
 	if (!ptr)
 		return (0);
+	if (*ptr)
+		ft_eprintf("ft_malloc_p can only malloc if *ptr is NULL. Clear it first then malloc\n");
 	*ptr = malloc(size);
 	return (*ptr != NULL);
 }

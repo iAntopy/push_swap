@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 04:05:46 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/09/25 23:30:45 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:27:04 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	print_stacks(t_ps *ps)
 {
 	t_stk	*A;
 	t_stk	*B;
-	int	i;
-	int	max_len;
+	size_t	i;
+	size_t	max_len;
 
 	A = ps->A;
 	B = ps->B;
@@ -85,27 +85,27 @@ void	print_stacks(t_ps *ps)
 	{
 		if (i < A->len && i < B->len)
 			printf("@%c@          %13d  ||        %13d  @%c@\n",
-				')' - (i % 2), A->arr[i], B->arr[i], '(' + (i % 2));
+				')' - (int)(i % 2), A->arr[i], B->arr[i], '(' + (int)(i % 2));
 		else if (i < A->len)
 			printf("@%c@          %13d  ||        %13s  @%c@\n",
-				')' - (i % 2), A->arr[i], "", '(' + (i % 2));
+				')' - (int)(i % 2), A->arr[i], "", '(' + (int)(i % 2));
 		else if (i < B->len)
 			printf("@%c@          %13s  ||        %13d  @%c@\n",
-				')' - (i % 2), "", B->arr[i], '(' + (i % 2));
+				')' - (int)(i % 2), "", B->arr[i], '(' + (int)(i % 2));
 	}
 	print_bottom();
 }
 
 void	print_single_stack(t_stk *s)
 {
-	int	i;
+	size_t	i;
 
 	print_header_single();
 	
 	i = -1;
 	while (++i < s->len)
 		printf("@%c@          %10d                @%c@\n",
-			')' - (i % 2), s->arr[i], '(' + (i % 2));
+			')' - (int)(i % 2), s->arr[i], '(' + (int)(i % 2));
 	print_bottom_single();
 }
 /*

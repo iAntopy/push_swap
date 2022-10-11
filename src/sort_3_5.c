@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/06 23:15:10 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:42:03 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,34 +104,39 @@ void	psw_sort4(t_ps *ps, t_stk *s)
 }
 
 // Assumes sort stack A
-void	psw_sort5(t_ps *ps)//, t_stk *s)
+int	psw_sort5(t_ps *ps)//, t_stk *s)
 {
-	t_varr	*shortest_path;
 	int		move;
+	t_varr	*shortest_path;
+	t_varr	*shortest_members;
 
 	if (!ps || ps->A->len > 5 || stk_issorted(ps->A) || stk_seek_sorted_phase(ps, ps->A))
-		return ;
+		return (-1);
 	if (ps->A->len < 5)
 	{
 		psw_sort4(ps, ps->A);
-		return ;
+		return (0);
 	}
-	shortest_path = path_to_n_extreme(ps, ps->A, 2, 1);
+	if (!path_to_n_extreme(ps, ps->A, 2, 1))
+		return (-1);
+	shortest_path = ps->shortest[0];
+	shortest_members = ps->shortest[1];
 	ft_printf("sort5 : shortest path found to 2 lowest : \n");
 	varr_print(shortest_path);
-	while (find_value_in_stack(ps->temp, ps->A->arr[0]))
-		psw_move(ps, M_PB);
+//	while (find_value_in_stack(ps->temp, stk_head(ps->A)))
+//		psw_move(ps, M_PB);
 	while (ps->A->len > 3 && !varr_isempty(shortest_path))
 	{
-		varr_pop_front(shortest_path, &move);
-		ft_printf("sort5 : moves to exec : %d\n", move);
+		if(varr_pop_front(shortest_path, &move) < 0)
+			return (-1);
+		ft_printf("sort5 : moves to exec : %d, path len left : %d\n", move, shortest_path->len);
 		if (move < 0)
 			while (move++)
 				psw_move(ps, M_RRA);
 		else if (move > 0)
 			while (move--)
 				psw_move(ps, M_RA);
-		while (find_value_in_stack(ps->temp, ps->A->arr[0]))
+		while (find_value_in_stack(ps->temp, stk_head(ps->A)))
 			psw_move(ps, M_PB);
 	}
 	ft_printf("sort5 : stacks after push 2 lowest :\n");
@@ -141,5 +146,8 @@ void	psw_sort5(t_ps *ps)//, t_stk *s)
 	psw_move(ps, M_PA);
 	if (ps->A->arr[0] > ps->A->arr[1])
 		psw_move(ps, M_SA);
-	varr_clear(&shortest_path);
+	varr_clear(ps->shortest);
+	varr_clear(ps->shortest + 1);
+	ft_printf("sort5 : EXIT\n");
+	return (0);
 }

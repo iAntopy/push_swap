@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 08:45:02 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:45:36 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,31 @@ void	*tec_clear(t_tec *tec, int clear_moves)
 {
 	if (!tec)
 		return (NULL);
-//	ft_printf("tec_clear : entered, attempting to stk_clear. clear_moves : %d\n", clear_moves);
+	ft_printf("tec_clear : entered, attempting to stk_clear. clear_moves : %d\n", clear_moves);
 //	tec_print(tec);
 	stk_clear(tec->ts);
 	chks_clear(tec->ch);
+	tec->ts = NULL;
+	tec->ch = NULL;
+	tec->near_c = NULL;
+	tec->near_cc = NULL;
 	if (clear_moves)
+	{
+		ft_printf("tec clear : clearing tec moves at ptr %p \n", tec->moves);
 		varr_clear(&tec->moves);
-	ft_memclear(tec, sizeof(*tec));
-	return (NULL);
+		ft_printf("tec clear : tec->moves ptr after clear : %p\n", tec->moves);
+		return (NULL);
+	}
+	else
+	{
+		ft_printf("tec clear : returning moves %p : \n", tec->moves);
+		varr_print(tec->moves);
+		return (tec->moves);
+	}
+//	ft_memclear(tec, sizeof(*tec));
+//	ft_printf("tec clear : tec post clear : \n");
+//	tec_print(tec);
+//	return (NULL);
 }
 
 // Creates copy of some reference stack to test hypothetical moves and
@@ -79,9 +96,10 @@ void	*tec_copy(t_tec *dst, t_tec *src)
 //	ft_printf("tec_copy : chk copy SUCCESS\n");
 //	ft_printf("tec_copy : varr copy attempt\n");
 //	varr_print(src->moves);
-	dst->moves = varr_copy(src->moves);
-	if (!dst->moves)
+	if (!varr_copy(src->moves, &dst->moves))
 		return (tec_clear(dst, 1));
+//	if (!dst->moves)
+//		return (tec_clear(dst, 1));
 //	ft_printf("tec_copy : varr copy SUCCESS\n");
 	dst->near_c = src->near_c;
 	dst->near_cc = src->near_cc;

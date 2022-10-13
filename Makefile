@@ -43,7 +43,7 @@ CC			= gcc
 CFLAGS		= -g -Wall -Wextra -Werror
 
 NAME		= push_swap
-#NAME_BONUS	= pipex_bonus
+#NAME_BONUS	= checker_bonus
 
 %.o:		%.c
 		-$(CC) $(CFLAGS) -I$(INCL) -c $< -o $@

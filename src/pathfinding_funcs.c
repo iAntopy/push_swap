@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 04:06:49 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:50:48 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, t_varr *ret[2], 
 
 	if(!te || !sub || !sub->len)
 		return (NULL);
-	winner = NULL;
 	ft_printf("\n\n\n\n\n----------------REC : RECURSIVE PATHFINDING (depth %d, side %s) --------------\n\n", depth, side);
 //	ft_printf("REC : te->nb_moves : %d\n", te->nb_moves);
 	ft_memclear(&te1, sizeof(te1));
 	ft_memclear(&te2, sizeof(te2));
+	winner = NULL;
 	while (te->members->len < sub->len)
 	{
 		ft_printf("\nREC : Big loopadoop !\n");
@@ -64,8 +64,11 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, t_varr *ret[2], 
 		if ((te->members->len < (sub->len - 1)) && (ft_abs(delta2 - delta1)) <= (te->ts->len * PATH_THREASHOLD))//te->threashold)
 		{
 			ft_printf("\nREC : Split\n");
-			if (!te_copy(&te1, te) || te_clear(te) || !te_copy(&te2, &te1))
+			if (!te_copy(&te1, te) || !te_copy(&te2, &te1))
+			{
+				ft_printf("REC : te copies or clear FAILED !\n");
 				return (te_clear_all(te, &te1, &te2));
+			}
 //				return (te_clear(&te1, 1));
 			ft_printf("REC : copy DONE\n");
 			te_move_to_vptr(&te1, te1.near_c);
@@ -124,7 +127,7 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, t_varr *ret[2], 
 //		return ((t_varr *)((size_t)te_clear(&te1) | (size_t)te_clear(&te2)));
 	if (!varr_copy(winner->moves, ret) || !varr_copy(winner->members, ret + 1))
 		return (te_clear_all(te, &te1, &te2));
-	te_clear_all(te, &te1, &te2);
+	te_clear_all(NULL, &te1, &te2);
 	return (ret[0]);
 
 //	ft_printf("REC : EXITED BIG WHILE !!\n");
@@ -150,6 +153,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, t_varr *ret[2], int depth, char *s
 //	ft_printf("RECC : tec->nb_moves : %d\n", tec->nb_moves);
 	ft_memclear(&tec1, sizeof(tec1));
 	ft_memclear(&tec2, sizeof(tec2));
+	winner = NULL;
 	while (tec->ts->len > 5)
 	{
 //		ft_printf("current tec stack : \n");
@@ -171,7 +175,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, t_varr *ret[2], int depth, char *s
 		if (tec->ts->len > 6 && (ft_abs(delta2 - delta1)) <= (tec->ts->len * PATH_THREASHOLD))//tec->threashold))
 		{
 			ft_printf("\nRECC : Split\n");
-			if (!tec_copy(&tec1, tec) || tec_clear(tec) || !tec_copy(&tec2, &tec1))
+			if (!tec_copy(&tec1, tec) || !tec_copy(&tec2, &tec1))
 //			{
 //				ft_printf("\nRECC : TEC COPY FAILED\n");
 				return (tec_clear_all(tec, &tec1, &tec2));
@@ -234,7 +238,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, t_varr *ret[2], int depth, char *s
 //		return ((t_varr *)((size_t)te_clear(&te1) | (size_t)te_clear(&te2)));
 	if (!varr_copy(winner->moves, ret))
 		return (tec_clear_all(tec, &tec1, &tec2));
-	tec_clear_all(tec, &tec1, &tec2);
+	tec_clear_all(NULL, &tec1, &tec2);
 
 	return (ret[0]);
 /*

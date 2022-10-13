@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 04:01:25 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:03:57 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,17 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 		return (0);
 	}
 	if (!path_to_n_extreme(ps, ps->A, 2, 1))
+	{
+		ft_printf("sort5 : recursive algo FAILED !\n");
 		return (-1);
+	}
 	varr_clear(ps->shortest + 1);
 	shortest_path = ps->shortest[0];
 	ft_printf("sort5 : shortest path found to 2 lowest : \n");
 	varr_print(shortest_path);
 //	while (find_value_in_stack(ps->temp, stk_head(ps->A)))
 //		psw_move(ps, M_PB);
+//
 	while (ps->A->len > 3 && !varr_isempty(shortest_path))
 	{
 		if(varr_pop_front(shortest_path, &move) < 0)
@@ -137,7 +141,7 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 			while (move--)
 				psw_move(ps, M_RA);
 //		while (find_value_in_stack(ps->temp, stk_head(ps->A)))
-//			psw_move(ps, M_PB);
+		psw_move(ps, M_PB);
 	}
 	ft_printf("sort5 : stacks after push 2 lowest :\n");
 	print_stacks(ps);

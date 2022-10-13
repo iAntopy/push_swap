@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:18:12 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:44:05 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*te_clear(t_te *te)//, int clear_moves)
 {
 	if (!te)
 		return (NULL);
-	ft_printf("te_clear : entered, attempting to stk_clear.");
+	ft_printf("te_clear : entered, attempting to stk_clear.\n");
 //	te_print(te);
 	stk_clear(te->ts);
 	te->ts = NULL;
@@ -74,7 +74,10 @@ void	*te_copy(t_te *dst, t_te *src)
 {
 //	ft_printf("\n\nte_copy : Entered\n");
 	if (!dst || !src)
+	{
+		ft_printf("te_copy : dst or src not provided\n");
 		return (NULL);
+	}
 	ft_memclear(dst, sizeof(*dst));
 	stk_clear(dst->ts);
 	dst->ts = &dst->stk_ts;
@@ -85,7 +88,7 @@ void	*te_copy(t_te *dst, t_te *src)
 //	ft_printf("te_copy : varr_copy attempt\n");
 	varr_clear(&dst->moves);
 	varr_clear(&dst->members);
-	if (!varr_copy(src->moves, &dst->moves) || varr_copy(src->members, &dst->members))
+	if (!varr_copy(src->moves, &dst->moves) || !varr_copy(src->members, &dst->members))
 	{
 		varr_clear(&dst->moves);
 		varr_clear(&dst->members);

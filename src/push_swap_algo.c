@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/12 18:02:30 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:33:30 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ int	psw_algo_manager(t_ps *ps)
 	ft_printf("psw_algo_manager : Entered. Stack A len : %d\n", ps->A->len);
 	if (ps->A->len <= 5)
 	{
-//		ft_printf("algo man : sort 5\n");
+		ft_printf("psw_algo_manager algo : sort 5\n");
 		psw_sort5(ps);
 		return (0);
 	}

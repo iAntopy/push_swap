@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:49:37 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:50:29 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 18:34:05 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 // declare t_varr struct in some previous function and give ptr to this func.
 t_varr	*varr_create(size_t n)
 {
-
 	t_varr	*va;
 	int		div;
 	int		mod;
@@ -29,7 +28,7 @@ t_varr	*varr_create(size_t n)
 	div += !!mod + !n;
 	size = sizeof(int) * VARR_CHUNK_LEN * div;
 	va = NULL;
-	if (!ft_malloc_p(sizeof(t_varr), (void **)&va)
+	if (!ft_calloc_p(sizeof(t_varr), (void **)&va)
 		|| !ft_malloc_p(size, (void **)&va->arr))
 		return (NULL);
 	va->len = 0;

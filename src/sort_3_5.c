@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:42:03 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 18:12:35 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,8 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 		else if (move > 0)
 			while (move--)
 				psw_move(ps, M_RA);
-		while (find_value_in_stack(ps->temp, stk_head(ps->A)))
-			psw_move(ps, M_PB);
+//		while (find_value_in_stack(ps->temp, stk_head(ps->A)))
+//			psw_move(ps, M_PB);
 	}
 	ft_printf("sort5 : stacks after push 2 lowest :\n");
 	print_stacks(ps);

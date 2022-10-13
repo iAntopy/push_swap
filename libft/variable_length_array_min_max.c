@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 04:35:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 04:41:37 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 18:34:34 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	varr_max(t_varr *va)
 		return (*val_p);
 	return (0);
 }
-
-
 /*
 int	main()
 {

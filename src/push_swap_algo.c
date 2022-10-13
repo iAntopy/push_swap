@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:41:45 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 18:02:30 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 const char	*get_solution_for_high_chunk(int *hc)
 {
 	static const char	*solver_table[24] = {
-//		"pppp", "pp", "ppps", "p", "p", "p", 
-//		"pps", "pps", "pp+ps-", "pp+psp-", "pp+p+ps--", "ppp++ps--",
-///		"ppsps", "ppsp+ps-", "p+pps-", "ppp+s+ps--", "pp++pp--", "pp++pps--",
-//		"p+ppp-", "p+ppps-", "p+ppsp-", "p+pp+ps--", "p+ppsps-", "p+p+pps--"};
-//	{
 		"pppp",		"pp",		"ppps",		"p",			"p",		"p",
 		"pps",		"pps",		"pp+ps-",	"ppp++ps--",	"pp+psp-",	"pp+p+ps--",
 		"ppsps",	"ppsp+ps-",	"p+pps-",	"ppp+s+ps--",	"pp++pp--",	"pp++pps--",
@@ -87,12 +82,12 @@ const char	*get_solution_for_high_chunk(int *hc)
 	return (NULL);
 }
 
-static int	follow_path_step_and_push(t_ps *ps, t_varr *path, int i, int to_a)
+static int	follow_path_step_and_push(t_ps *ps, t_varr *path, size_t i, int to_a)
 {
 	int	delta;
 	int	head;
 
-	if (varr_get(path, i, &delta) < 0)
+	if (!ps || !path || varr_get(path, i, &delta) < 0)
 		return (-1);
 	if (delta > 0)
 		while (delta--)
@@ -104,7 +99,7 @@ static int	follow_path_step_and_push(t_ps *ps, t_varr *path, int i, int to_a)
 		head = stk_head(ps->B);
 	else
 		head = stk_head(ps->A);
-	if (varr_is_in(ps->ch->cur_low, head))//stk_head(ps->A)))
+	if (varr_is_in(ps->ch->cur_low, head))
 	{
 		psw_move(ps, M_PB - to_a);
 		psw_move(ps, M_RB - to_a);
@@ -250,8 +245,8 @@ int	psw_algo_manager(t_ps *ps)
 		ft_printf("Algo manager : recursive pathfinder failed !\n");
 		return (-1);
 	}
-	opt_path = NULL;
-	opt_mbrs = NULL;
+//	opt_path = NULL;
+//	opt_mbrs = NULL;
 	opt_path = ps->shortest[0];
 	opt_mbrs = ps->shortest[1];
 	ft_printf("optimal path : ");

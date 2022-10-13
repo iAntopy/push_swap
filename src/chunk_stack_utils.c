@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:45:21 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 19:02:26 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	*chks_clear(t_chks *chks)
 	while (++i < chks->nb_chks)
 		varr_clear(chks->chk_stk + i);
 	ft_free_p((void **)&chks->chk_stk);
+	ft_memclear(chks, sizeof(t_chks));
 	chks->cur_high = NULL;
 	chks->cur_low = NULL;
 	return (NULL);
@@ -62,7 +63,7 @@ t_chks	*chks_copy(t_chks *dst, t_chks *src)
 //	ft_printf("chks_copy : entered\n");
 	ft_memclear(dst, sizeof(*dst));
 //	ft_printf("chks_copy : attempt malloc chk_stk\n");
-	if (!ft_malloc_p(sizeof(t_varr *) * src->nb_chks, (void **)&dst->chk_stk))
+	if (!ft_calloc_p(sizeof(t_varr *) * src->nb_chks, (void **)&dst->chk_stk))
 		return (NULL);
 //	ft_printf("chks_copy : malloc SUCCESSFULL\n");
 	i = -1;
@@ -143,17 +144,13 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 //	ft_printf("chks_init : chks %p, ps %p\n", chks, ps);
 //	ft_printf("chks_init : nb_chks = %d, chk_size = %d \n", chks->nb_chks, chks->chk_size);
 
-	printf("chks init : sizeof(*chks) vs sizeof(chks) vs sizeof(t_chks) : %zu vs %zu vs %zu\n", sizeof(*chks), sizeof(chks), sizeof(t_chks));
-	ft_memclear(chks, sizeof(*chks));
 	if (!chks || !ps)
 		return (NULL);
+	ft_memclear(chks, sizeof(t_chks));
 	chks_init_data(chks, ps);
-	chks->chk_stk = ft_calloc(sizeof(t_varr *), chks->nb_chks);
-	if (!chks->chk_stk)
+	if (!ft_calloc_p(sizeof(t_varr *) * chks->nb_chks, (void **)&chks->chk_stk))
 		return (NULL);
 	ft_printf("chks_init : malloced chk_stk (%p) SUCCESSFULL\n", chks->chk_stk);
-///	if (!ft_malloc_p(sizeof(t_varr *) * chks->nb_chks, (void **)&chks->chk_stk))
-//		return (NULL);
 //	ft_printf("chks_init : clearing chk_stk\n");
 //	ft_memclear(chks->chk_stk, sizeof(t_varr *) * chks->nb_chks);
 //	ft_printf("chks_init : chk_stk after clear : %p\n", chks->chk_stk);

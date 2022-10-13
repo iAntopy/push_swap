@@ -35,7 +35,7 @@ OBJS_M		= ${SRCS_M:.c=.o}
 OBJS_B		= ${SRCS_B:.c=.o}
 
 CC		= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -g -Wall -Wextra -Werror
 
 AR		= ar -rcs
 

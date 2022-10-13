@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:12:24 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 19:49:46 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ void	*te_clear_all(t_te *te, t_te *te1, t_te *te2)
 		te_clear(te1);
 	if (te2)
 		te_clear(te2);
+	return (NULL);
+}
+
+void	*tec_clear_all(t_tec *tec, t_tec *tec1, t_tec *tec2)
+{
+	if (tec)
+		tec_clear(tec);
+	if (tec1)
+		tec_clear(tec1);
+	if (tec2)
+		tec_clear(tec2);
 	return (NULL);
 }
 
@@ -125,7 +136,7 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, t_varr *ret[2], 
 //	return (ret[0]);
 }
 
-t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth, char *side)
+t_varr	*recursive_pathfinder_chks(t_tec *tec, t_varr * int depth, char *side)
 {
 	t_tec	tec1;
 	t_tec	tec2;
@@ -159,7 +170,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth, char *side)
 		if (tec->ts->len > 6 && (ft_abs(delta2 - delta1)) <= (tec->ts->len * PATH_THREASHOLD))//tec->threashold))
 		{
 			ft_printf("\nRECC : Split\n");
-			if (!tec_copy(&tec1, tec) || !tec_copy(&tec2, tec))
+			if (!tec_copy(&tec1, tec) || tec_clear(tec) || !tec_copy(&tec2, &tec1))
 //			{
 //				ft_printf("\nRECC : TEC COPY FAILED\n");
 				return (tec_clear(&tec1, 1));
@@ -172,7 +183,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth, char *side)
 			while (chks_is_in_cur_chks(tec->ch, stk_head(tec1.ts), NULL))
 				tec_push(&tec1);
 			if (tec1.ts->len <= 5)
-				return ((t_varr *)((size_t)tec_clear(&tec1, 0) | (size_t)tec_clear(&tec2, 1)));
+				return (tec_clear_all(tec, &tec1, &tec2));//(t_varr *)((size_t)tec_clear(&tec1, 0) | (size_t)tec_clear(&tec2, 1)));
 //				break ;
 //			ft_printf("RECC : post split moving tec2 to near_cc\n");
 			tec_move_to_vptr(&tec2, tec2.near_cc);
@@ -180,7 +191,7 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth, char *side)
 //			ft_printf("RECC : post split going recursive baby !\n");
 			if (!recursive_pathfinder_chks(&tec1, depth + 1, "left")
 				|| !recursive_pathfinder_chks(&tec2, depth + 1, "right"))
-				return ((t_varr *)((size_t)tec_clear(&tec1, 1) & (size_t)tec_clear(&tec2, 1)));
+				return (tec_clear_all(tec, &tec1, &tec2));//(t_varr *)((size_t)tec_clear(&tec1, 1) & (size_t)tec_clear(&tec2, 1)));
 			ft_printf("RECC : Returned from recursions at depth %d\n", depth);
 			varr_clear(&tec->moves);
 			if (tec2.nb_moves < tec1.nb_moves)
@@ -230,13 +241,14 @@ t_varr	*optimal_push_a_to_b(t_ps *ps)
 	if (!ps || ps->stack_max <= 5 || !tec_init(ps, &tec, ps->A))
 		return (NULL);
 
-	ft_printf("\n\n\noptimal push a to b : init stack : %d\n", tec.nb_moves);
+	ft_printf("\n\n\noptimal push a to b : init stack nb_moves : %d\n", tec.nb_moves);
 	print_single_stack(tec.ts);
 	shortest_path = recursive_pathfinder_chks(&tec, 0, "root");
 	if (!shortest_path)
 		return (tec_clear(&tec, 1));
 	ft_printf("path to n highest : shortest path found : %p\n", shortest_path);
 	varr_print(shortest_path);
+	tec_print(&tec);
 	ft_printf("\n\n\noptimal push a to b : optimal nb of moves : %d\n", tec.nb_moves);
 	tec_clear(&tec, 0);
 	return (shortest_path);

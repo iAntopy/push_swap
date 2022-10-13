@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:20:53 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 22:22:46 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/12 17:58:51 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int		ft_randint(int min, int range);
 
 int		malloc_free_p(size_t size, void **ptr);
 int		ft_malloc_p(size_t size, void **ptr);
+int		ft_calloc_p(size_t size, void **ptr);
 int		ft_free_p(void **ptr);
 void	*malloc_free(size_t size, void **ptr);
 

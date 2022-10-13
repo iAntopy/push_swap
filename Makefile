@@ -40,7 +40,7 @@ INCL		= include/
 LIBFT		= libft/libft.a
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -g -Wall -Wextra -Werror
 
 NAME		= push_swap
 #NAME_BONUS	= pipex_bonus

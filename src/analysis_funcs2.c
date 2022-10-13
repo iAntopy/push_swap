@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:59:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 19:11:23 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 03:42:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ int	*find_fst_chk_member_in_stk_counter_clockwise(t_stk *s, t_stk *chk)
 //	ft_printf("find counter_clock member : Passed checks\n");
 	i = s->len;
 //	ft_printf("find counter_clock member : init len : %d, %d\n", s->len, i);
-	while (--i >= 0)
+	while (--i)
 	{
 //		ft_printf("find counter_clock member : looking for %d in chunk\n", s->arr[i]);
 		if (find_value_in_stack(chk, s->arr[i]))
 //		if (chks_is_in_cur_chks(chks, s->arr[i]))
 			return (s->arr + i);
 	}
+	if (find_value_in_stack(chk, s->arr[0]))
+		return (s->arr);
 //	ft_printf("find counter_clock member : no member found\n");
 	return (NULL);
 }
@@ -80,13 +82,15 @@ int	*find_fst_chks_member_in_stk_counter_clockwise(t_stk *s, t_chks *chks)
 //	ft_printf("find counter_clock member : Passed checks\n");
 	i = s->len;
 //	ft_printf("find counter_clock member : init len : %d, %d\n", s->len, i);
-	while (--i >= 0)
+	while (--i)
 	{
 //		ft_printf("find counter_clock member : looking for %d in chunk\n", s->arr[i]);
 //		if (find_value_in_stack(chk, s->arr[i]))
 		if (chks_is_in_cur_chks(chks, s->arr[i], NULL))
 			return (s->arr + i);
 	}
+	if (chks_is_in_cur_chks(chks, s->arr[0], NULL))
+		return (s->arr);
 //	ft_printf("find counter_clock member : no member found\n");
 	return (NULL);
 }

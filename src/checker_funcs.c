@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 21:05:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 19:12:34 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 03:45:44 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	stk_issorted(t_stk *s)
 			return (0);
 	return (1);
 }
-
+/*
 int	stk_slice_issorted(t_stk *s, size_t start, size_t end)
 {
 	size_t	i;
@@ -43,6 +43,7 @@ int	stk_slice_issorted(t_stk *s, size_t start, size_t end)
 			return (0);
 	return (1);
 }
+*/
 
 int	stk_seek_sorted_phase(t_ps *ps, t_stk *s)
 {

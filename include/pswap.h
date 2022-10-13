@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:31:32 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 04:00:12 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	te_move_to_vptr(t_te *te, int *vptr);
 ///// TEST STACK CHUNKS ENV FUNCS /////////
 t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s);
 void	tec_print(t_tec *tec);
-void	*tec_clear(t_tec *tec, int clear_moves);
+void	*tec_clear(t_tec *tec);
 void	*tec_copy(t_tec *dst, t_tec *src);
 void	tec_rotate(t_tec *tec, int rev);
 void	tec_push(t_tec *tec);

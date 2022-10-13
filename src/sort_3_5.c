@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/12 18:12:35 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 04:01:25 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 {
 	int		move;
 	t_varr	*shortest_path;
-	t_varr	*shortest_members;
+//	t_varr	*shortest_members;
 
 	if (!ps || ps->A->len > 5 || stk_issorted(ps->A) || stk_seek_sorted_phase(ps, ps->A))
 		return (-1);
@@ -119,8 +119,8 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 	}
 	if (!path_to_n_extreme(ps, ps->A, 2, 1))
 		return (-1);
+	varr_clear(ps->shortest + 1);
 	shortest_path = ps->shortest[0];
-	shortest_members = ps->shortest[1];
 	ft_printf("sort5 : shortest path found to 2 lowest : \n");
 	varr_print(shortest_path);
 //	while (find_value_in_stack(ps->temp, stk_head(ps->A)))
@@ -147,7 +147,6 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 	if (ps->A->arr[0] > ps->A->arr[1])
 		psw_move(ps, M_SA);
 	varr_clear(ps->shortest);
-	varr_clear(ps->shortest + 1);
 	ft_printf("sort5 : EXIT\n");
 	return (0);
 }

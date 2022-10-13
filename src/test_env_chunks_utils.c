@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 23:45:36 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 04:04:15 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	tec_print(t_tec *tec)
 	ft_printf("o-----------------------------------------o\n\n");
 }
 
-void	*tec_clear(t_tec *tec, int clear_moves)
+void	*tec_clear(t_tec *tec)//, int clear_moves)
 {
 	if (!tec)
 		return (NULL);
-	ft_printf("tec_clear : entered, attempting to stk_clear. clear_moves : %d\n", clear_moves);
+	ft_printf("tec_clear : entered, attempting to stk_clear\n");
 //	tec_print(tec);
 	stk_clear(tec->ts);
 	chks_clear(tec->ch);
@@ -34,6 +34,10 @@ void	*tec_clear(t_tec *tec, int clear_moves)
 	tec->ch = NULL;
 	tec->near_c = NULL;
 	tec->near_cc = NULL;
+	varr_clear(&tec->moves);
+	return (NULL);
+}
+/*
 	if (clear_moves)
 	{
 		ft_printf("tec clear : clearing tec moves at ptr %p \n", tec->moves);
@@ -52,6 +56,7 @@ void	*tec_clear(t_tec *tec, int clear_moves)
 //	tec_print(tec);
 //	return (NULL);
 }
+*/
 
 // Creates copy of some reference stack to test hypothetical moves and
 // find optimal paths.
@@ -64,12 +69,12 @@ t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s)
 	tec->ch = &tec->chks;
 //	tec->threashold = (int)(s->len * (2.0f/100.0f));
 	if (!stk_copy(tec->ts, s))
-		return (tec_clear(tec, 1));
+		return (tec_clear(tec));
 	if (!chks_init(tec->ch, ps))
-		return (tec_clear(tec, 1));
+		return (tec_clear(tec));
 	tec->moves = varr_create(1);
 	if (!tec->moves)
-		return (tec_clear(tec, 1));
+		return (tec_clear(tec));
 	return (tec);
 }
 
@@ -92,12 +97,12 @@ void	*tec_copy(t_tec *dst, t_tec *src)
 //	ft_printf("tec_copy : chk copy attempt\n");
 //	chks_print(src->ch);
 	if (!chks_copy(dst->ch, src->ch))
-		return (tec_clear(dst, 1));
+		return (tec_clear(dst));
 //	ft_printf("tec_copy : chk copy SUCCESS\n");
 //	ft_printf("tec_copy : varr copy attempt\n");
 //	varr_print(src->moves);
 	if (!varr_copy(src->moves, &dst->moves))
-		return (tec_clear(dst, 1));
+		return (tec_clear(dst));
 //	if (!dst->moves)
 //		return (tec_clear(dst, 1));
 //	ft_printf("tec_copy : varr copy SUCCESS\n");

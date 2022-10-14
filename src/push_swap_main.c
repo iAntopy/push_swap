@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 22:38:02 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 19:02:37 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	psw_clear(t_ps *ps, int status)
 {
-	stk_clear(ps->A);
-	stk_clear(ps->B);
-	stk_clear(ps->ref);
-	stk_clear(ps->temp);
-	varr_clear(&ps->shortest[0]);
-	varr_clear(&ps->shortest[1]);
-	chks_clear(&ps->chks);
+	stk_clear(&ps->A);
+	stk_clear(&ps->B);
+	stk_clear(&ps->ref);
+	stk_clear(&ps->temp);
+	chks_clear(&ps->ch);
+	varr_clear(&ps->shortest_mvs);
+	varr_clear(&ps->shortest_mbrs);
 	return (status);
 }
 /*
@@ -74,7 +74,7 @@ int	main(int argc, char **argv)
 
 	ft_printf("argv [1] : %s\n", argv[1]);
 //	return (0);
-	ft_memclear(&ps, sizeof(t_ps));
+	ft_memclear(&ps, sizeof(ps));
 	if (parse_inputs(&ps, argc, argv) < 0)
 		return (psw_clear(&ps, repport_error()));
 	ft_printf("main : parse inputs SUCCESS\n");

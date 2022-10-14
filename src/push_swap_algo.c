@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 16:33:30 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:41:39 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int	follow_path_step_and_push(t_ps *ps, t_varr *path, size_t i, int to_a)
 	int	delta;
 	int	head;
 
+	ft_printf("follow path step n push : Entered\n");
 	if (!ps || !path || varr_get(path, i, &delta) < 0)
 		return (-1);
 	if (delta > 0)
@@ -95,37 +96,99 @@ static int	follow_path_step_and_push(t_ps *ps, t_varr *path, size_t i, int to_a)
 	else if (delta < 0)
 		while (delta++)
 			psw_move(ps, M_RRA + to_a);
+	ft_printf("follow path step n push : rotates DONE\n");
 	if (to_a)
 		head = stk_head(ps->B);
 	else
 		head = stk_head(ps->A);
-	if (varr_is_in(ps->ch->cur_low, head))
+	ft_printf("follow path step n push : head : %d\n", head);
+	if (ps->ch && varr_is_in(ps->ch->cur_low, head))
 	{
+		ft_printf("follow path step n push : cur chunk lows : ");
+		varr_print(ps->ch->cur_low);
 		psw_move(ps, M_PB - to_a);
 		psw_move(ps, M_RB - to_a);
 	}
 	else
 		psw_move(ps, M_PB - to_a);
+	ft_printf("follow path step n push : EXIT\n", head);
 	return (0);
 }
+
+static const int	g_optimize = 1;
 
 static int	execute_recipe(t_ps *ps, t_varr *path, const char *recipe)
 {
 	int	i;
+	int	delta_b;
 
+	ft_eprintf("execute_recipe : ps %p, path %p, recipe %p (%s)\n", ps, path, recipe, recipe);
+	ft_eprintf("execute_recipe : moves :");
+	varr_eprint(ps->shortest_mvs);
+	ft_eprintf("execute_recipe : identity :");
+	varr_eprint(ps->shortest_mbrs);
+	if (!ps || !path || !recipe)
+		return (-1);
 	i = 0;
 	while (*recipe)
 	{
+		delta_b = 0;
+//		ft_printf("execute recipe : checking recipe char : %c at i : %d\n", *recipe, i);
 		if (*recipe == 'p')
 			follow_path_step_and_push(ps, path, i++, 1);
 		else if (*recipe == 's')
 			psw_move(ps, M_SA);
 		else if (*recipe == '+')
-			psw_move(ps, M_RA);
+		{
+			if (g_optimize)
+			{
+				varr_get(path, i, &delta_b);
+				if (delta_b > 0)
+				{
+					eprintf("execute recipe : M_RR : delta_b %d\n", delta_b);
+					eprintf("OPTIMIZER : M_RR : i = %d, delta_b = %d, recipe = %s\n", i, delta_b, recipe);
+					eprintf("OPTIMIZER : path : ");
+					varr_eprint(path);
+					eprintf("OPTIMIZER : identity : ");
+					varr_eprint(ps->shortest_mbrs);
+					psw_move(ps, M_RR);
+					varr_set(path, i, delta_b - 1);
+					eprintf("OPTIMIZER : stacks after optimization\n");
+					print_stacks(ps);
+				}
+				else
+					psw_move(ps, M_RA);
+			}
+			else
+					psw_move(ps, M_RA);
+		}
 		else if (*recipe == '-')
-			psw_move(ps, M_RRA);
+		{
+			if (g_optimize)
+			{
+				varr_get(path, i, &delta_b);
+				if (delta_b < 0)
+				{
+					eprintf("execute recipe : M_RRR : delta_b %d\n", delta_b);
+					eprintf("OPTIMIZER : M_RRR : i = %d, delta_b = %d, recipe = %s\n", i, delta_b, recipe);
+					eprintf("OPTIMIZER : path : ");
+					varr_eprint(path);
+					eprintf("OPTIMIZER : identity : ");
+					varr_eprint(ps->shortest_mbrs);
+					psw_move(ps, M_RRR);
+					varr_set(path, i, delta_b + 1);
+					eprintf("OPTIMIZER : stacks after optimization\n");
+					print_stacks(ps);
+				}
+				else
+					psw_move(ps, M_RRA);
+			}
+			else
+				psw_move(ps, M_RRA);
+		}
 		recipe++;
 	}
+//	ft_printf("execute recipe : EXIT\n");
 	return (0);
 }
 
@@ -171,6 +234,7 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 		ft_printf("psw_push stack a : stacks after first push batch : \n");
 		print_stacks(ps);
 	}
+	return (0);
 /*
 	{
 		ft_printf("psw_push stack a : in while. Move delta : %d \n", path->arr[i]);
@@ -203,8 +267,6 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 	}
 */
 //	ft_printf("psw_push stack a : big push DONE \n");
-
-	return (0);
 }
 
 // Called after inputs have been validated and stacks are malloced.
@@ -247,8 +309,8 @@ int	psw_algo_manager(t_ps *ps)
 	}
 //	opt_path = NULL;
 //	opt_mbrs = NULL;
-	opt_path = ps->shortest[0];
-	opt_mbrs = ps->shortest[1];
+	opt_path = ps->shortest_mvs;
+	opt_mbrs = ps->shortest_mbrs;
 	ft_printf("optimal path : ");
 	varr_print(opt_path);
 	print_stacks(ps);
@@ -259,12 +321,15 @@ int	psw_algo_manager(t_ps *ps)
 	ft_printf("Chunks after push : \n");
 	chks_print(ps->ch);
 
-	chks_clear(ps->ch);
-	varr_clear(ps->shortest);
-	varr_clear(ps->shortest + 1);
+	chks_clear(&ps->ch);
+	varr_clear(&ps->shortest_mvs);
+	varr_clear(&ps->shortest_mbrs);
 
 	if (psw_sort5(ps) < 0)
+	{
+		ft_printf("Algo manager : pre Stage 2 sort5 has FAILED! \n");
 		return (-1);
+	}
 
 /*
 ///////////////////////// STAGE 2 \\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -354,26 +419,30 @@ int	psw_algo_manager(t_ps *ps)
 	while (ps->B->len >= 4)
 	{
 		ft_printf("Algo manager : stacks while pushing B to A :\n");
-		print_single_stack(ps->B);
-		if (!path_to_n_extreme(ps, ps->B, 4, 0) || !opt_path || !opt_mbrs)
+		print_stacks(ps);
+		if (!path_to_n_extreme(ps, ps->B, 4, 0))
+			return (-1);
+		ps->shortest_mvs = ps->shortest_mvs;
+		ps->shortest_mbrs = ps->shortest_mbrs;
+		
+		ft_printf("Algo manager : ps->shortest_mvs : %p\n", ps->shortest_mvs);
+		varr_print(ps->shortest_mvs);
+
+		ft_printf("Algo manager : members found in order : %p\n", ps->shortest_mbrs);
+		varr_print(ps->shortest_mbrs);
+		
+		varr_isub(ps->shortest_mbrs, varr_min(ps->shortest_mbrs));
+		ft_printf("Algo manager : members path identity (after sub min) : \n");
+		varr_print(ps->shortest_mbrs);
+		
+		recipe = get_solution_for_high_chunk(ps->shortest_mbrs->arr);
+		if (!recipe)
 			return (-1);
 		
-		ft_printf("Algo manager : opt_path : %p\n", opt_path);
-		varr_print(opt_path);
-
-		ft_printf("Algo manager : members found in order : %p\n", opt_mbrs);
-		varr_print(opt_mbrs);
-		
-		varr_isub(opt_mbrs, varr_min(opt_mbrs));
-		ft_printf("Algo manager : members path identity (after sub min) : \n");
-		varr_print(opt_mbrs);
-		
-		recipe = get_solution_for_high_chunk(opt_mbrs->arr);
-		
 		ft_printf("Algo manager : solution found for high path : %s\n", recipe);
-		execute_recipe(ps, opt_path, recipe);
-		varr_clear(&opt_path);
-		varr_clear(&opt_mbrs);
+		execute_recipe(ps, ps->shortest_mvs, recipe);
+		varr_clear(&ps->shortest_mvs);
+		varr_clear(&ps->shortest_mbrs);
 	}
 
 	ft_printf("Algo manager : stack before last 3 :\n");

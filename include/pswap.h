@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 04:00:12 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:00:59 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <unistd.h>
 
 # include "libft.h"
+
+# define eprintf(args...) fprintf(stderr, ##args)
 
 # define PATH_THREASHOLD 2.0f / 100.0f
 
@@ -79,7 +81,8 @@ typedef struct s_push_swap
 	t_stk		*ref;
 	t_stk		*temp;
 	t_chks		*ch;
-	t_varr		*shortest[2];
+	t_varr		*shortest_mvs;
+	t_varr		*shortest_mbrs;
 	char		**strmoves;
 	int			nb_moves;
 }	t_ps;
@@ -155,14 +158,14 @@ void	psw_recipe(t_ps *ps, int nb_moves, ...);
 
 ////// STACK UTILS ////////
 int		stk_head(t_stk *s);
-void	*stk_clear(t_stk *s);
+void	*stk_clear(t_stk **s);
 t_stk	*stk_copy(t_stk *dst, t_stk *src);
 //////////////////////////
 
 ///// CHUNK STACK UTILS ///////
 t_chks	*chks_init(t_chks *chks, t_ps *ps);
 t_chks	*chks_copy(t_chks *dst, t_chks *src);
-void	*chks_clear(t_chks *chks);
+void	*chks_clear(t_chks **chks);
 void	chks_print(t_chks *chks);
 t_varr	*chks_is_in_cur_chks(t_chks *chks, int value, t_varr **holder);
 int		chks_are_empty(t_chks *chks);

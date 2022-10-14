@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 04:04:15 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 19:03:20 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	*tec_clear(t_tec *tec)//, int clear_moves)
 		return (NULL);
 	ft_printf("tec_clear : entered, attempting to stk_clear\n");
 //	tec_print(tec);
-	stk_clear(tec->ts);
-	chks_clear(tec->ch);
+	stk_clear(&tec->ts);
+	chks_clear(&tec->ch);
 	tec->ts = NULL;
 	tec->ch = NULL;
 	tec->near_c = NULL;

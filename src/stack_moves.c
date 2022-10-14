@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 03:11:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 08:37:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:20:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	psw_move(t_ps *ps, int move)
 	else if (move == M_PB)
 		psw_push(ps->B, ps->A, ps->ch);
 	ps->nb_moves++;
-	ft_printf("%s\n", ps->strmoves[move]);
+	ft_eprintf("%s\n", ps->strmoves[move]);
 }
 
 void	psw_recipe(t_ps *ps, int nb_moves, ...)

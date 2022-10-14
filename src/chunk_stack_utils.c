@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/12 19:02:26 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 19:05:51 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ void	chks_print(t_chks *chks)
 	ft_printf("*----------------------------------*\n\n");
 }
 
-void	*chks_clear(t_chks *chks)
+void	*chks_clear(t_chks **chks_p)
 {
 	int		i;
+	t_chks	*chks;
 
+	if (!chks_p)
+		return (NULL);
+	chks = *chks_p;
 	if (!chks || !chks->chk_stk)
 		return (NULL);
 	i = -1;
@@ -51,6 +55,7 @@ void	*chks_clear(t_chks *chks)
 	ft_memclear(chks, sizeof(t_chks));
 	chks->cur_high = NULL;
 	chks->cur_low = NULL;
+	*chks_p = NULL;
 	return (NULL);
 }
 
@@ -70,7 +75,7 @@ t_chks	*chks_copy(t_chks *dst, t_chks *src)
 	while (++i < src->nb_chks)
 	{
 		if (!varr_copy(src->chk_stk[i], dst->chk_stk + i))
-			return (chks_clear(dst));
+			return (chks_clear(&dst));
 //		ft_printf("chks_copy : i = %d, varr_copy result ptr : %p\n", i, dst->chk_stk[i]);
 //		if (!dst->chk_stk[i])
 //			return (chks_clear(dst));
@@ -161,7 +166,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 //		ft_printf("chk ptr out : %p\n", chks->chk_stk + i);
 		if (!chks_init_single_chk(chks->chk_stk + i,
 				(i * chks->chk_size), chks->chk_size))
-			return (chks_clear(chks));
+			return (chks_clear(&chks));
 ///		ft_printf("chks_init : varr at ptr 0 ");
 //		varr_print(chks->chk_stk[0]);
 ///		ft_printf("chks_init : varr at ptr %d ", i);
@@ -172,7 +177,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 	if (!chks_init_single_chk(chks->chk_stk + i, (i * chks->chk_size), chks->last_chk_size))
 //	{
 //		ft_printf("chks_init : last chk FAILED !\n");
-		return (chks_clear(chks));
+		return (chks_clear(&chks));
 //	}
 //	ft_printf("chks_init : varr at ptr 0 post last ");
 //	varr_print(chks->chk_stk[0]);

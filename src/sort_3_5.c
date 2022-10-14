@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 17:03:57 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 21:39:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,17 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 	t_varr	*shortest_path;
 //	t_varr	*shortest_members;
 
-	if (!ps || ps->A->len > 5 || stk_issorted(ps->A) || stk_seek_sorted_phase(ps, ps->A))
+	if (!ps || ps->A->len > 5)
+	{
+		ft_printf("sort5 : checks FAILEDi\n");
 		return (-1);
+	}
+	if (stk_issorted(ps->A) || stk_seek_sorted_phase(ps, ps->A))
+	{
+		ft_printf("sort5 : Already sorted or sorted phase seeked.\n");
+		return (0);
+	}
+	ft_printf("sort5 : checks PASSED\n");
 	if (ps->A->len < 5)
 	{
 		psw_sort4(ps, ps->A);
@@ -122,8 +131,8 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 		ft_printf("sort5 : recursive algo FAILED !\n");
 		return (-1);
 	}
-	varr_clear(ps->shortest + 1);
-	shortest_path = ps->shortest[0];
+	varr_clear(&ps->shortest_mbrs);
+	shortest_path = ps->shortest_mvs;
 	ft_printf("sort5 : shortest path found to 2 lowest : \n");
 	varr_print(shortest_path);
 //	while (find_value_in_stack(ps->temp, stk_head(ps->A)))
@@ -140,7 +149,6 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 		else if (move > 0)
 			while (move--)
 				psw_move(ps, M_RA);
-//		while (find_value_in_stack(ps->temp, stk_head(ps->A)))
 		psw_move(ps, M_PB);
 	}
 	ft_printf("sort5 : stacks after push 2 lowest :\n");
@@ -150,7 +158,7 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 	psw_move(ps, M_PA);
 	if (ps->A->arr[0] > ps->A->arr[1])
 		psw_move(ps, M_SA);
-	varr_clear(ps->shortest);
+	varr_clear(&ps->shortest_mvs);
 	ft_printf("sort5 : EXIT\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 16:44:05 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/13 19:01:51 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*te_clear(t_te *te)//, int clear_moves)
 		return (NULL);
 	ft_printf("te_clear : entered, attempting to stk_clear.\n");
 //	te_print(te);
-	stk_clear(te->ts);
+	stk_clear(&te->ts);
 	te->ts = NULL;
 	te->near_c = NULL;
 	te->near_cc = NULL;
@@ -79,7 +79,7 @@ void	*te_copy(t_te *dst, t_te *src)
 		return (NULL);
 	}
 	ft_memclear(dst, sizeof(*dst));
-	stk_clear(dst->ts);
+	stk_clear(&dst->ts);
 	dst->ts = &dst->stk_ts;
 //	ft_printf("te_copy : stk_copy attempt\n");
 	if (!stk_copy(dst->ts, src->ts))
@@ -92,7 +92,7 @@ void	*te_copy(t_te *dst, t_te *src)
 	{
 		varr_clear(&dst->moves);
 		varr_clear(&dst->members);
-		return (stk_clear(dst->ts));
+		return (stk_clear(&dst->ts));
 	}
 //	ft_printf("te_copy : varr_copy SUCCESS\n");
 	dst->near_c = src->near_c;

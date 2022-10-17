@@ -6,15 +6,11 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/16 22:18:12 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/17 17:06:23 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
-
-static const int	g_optimize = 1;
-static const int	g_optimize_sorting = 0;
-static const int	g_optimize_rotates = 1;
 
 const char	*get_solution_for_high_chunk(int *hc)
 {
@@ -113,40 +109,34 @@ static int	seek_rev_sorted_highs(t_ps *ps, int high)
 	return (0);
 }
 
-static int	follow_path_step_and_push_a_to_b(t_ps *ps, int delta)//t_varr *path, )
+static int	follow_path_and_push_a_to_b(t_ps *ps, t_varr *path)
 {
+	size_t	i;
+	int		delta;
+
 	if (!ps || !ps->A || !ps->B || !ps->ch)
 		return (-1);
-	if (delta > 0)
-		while (delta--)
-			psw_move(ps, M_RA);
-	else if (delta < 0)
-		while (delta++)
-			psw_move(ps, M_RRA);
-
-	if (varr_is_in(ps->ch->cur_low, stk_head(ps->A)))
+	i = -1;
+	while (++i < path->len && varr_get(path, i, &delta))
 	{
-		if (g_optimize && g_optimize_sorting && ps->A->len > 1
-			&& varr_is_in(ps->ch->cur_low, ps->A->arr[1]) && ps->A->arr[0] < ps->A->arr[1])
-			psw_move(ps, M_SA);
-
-		psw_move(ps, M_PB);
-		psw_move(ps, M_RB);
-	}
-	else
-	{
-		if (g_optimize && g_optimize_sorting && ps->A->len > 1
-			&& varr_is_in(ps->ch->cur_high, ps->A->arr[1]) && ps->A->arr[0] > ps->A->arr[1])
-			psw_move(ps, M_SA);
-		psw_move(ps, M_PB);
-		if (g_optimize && g_optimize_sorting && ps->B->len > 1
-			&&ps->B->arr[0] < ps->B->arr[1])
-			psw_move(ps, M_SB);
+		if (delta > 0)
+			while (delta--)
+				psw_move(ps, M_RA);
+		else if (delta < 0)
+			while (delta++)
+				psw_move(ps, M_RRA);
+		if (varr_is_in(ps->ch->cur_low, stk_head(ps->A)))
+		{
+			psw_move(ps, M_PB);
+			psw_move(ps, M_RB);
+		}
+		else
+			psw_move(ps, M_PB);
 	}
 	return (0);
 }
 
-static int	follow_path_step_and_push_b_to_a(t_ps *ps, int delta)//t_varr *path, )
+static int	follow_path_step_and_push_b_to_a(t_ps *ps, int delta)
 {
 	if (!ps || !ps->A || !ps->B)
 		return (-1);
@@ -159,155 +149,36 @@ static int	follow_path_step_and_push_b_to_a(t_ps *ps, int delta)//t_varr *path, 
 	psw_move(ps, M_PA);
 	return (0);
 }
-/*
-static int	follow_path_step_and_push(t_ps *ps, t_varr *path, size_t i, int to_a)
-{
-	int	delta;
-	int	*head_p;
 
-//	ft_printf("follow path step n push : Entered\n");
-	if (!ps || !path || !ps->A || !ps->B || !ps->ch || varr_get(path, i, &delta) < 0)
-		return (-1);
-	if (delta > 0)
-		while (delta--)
-			psw_move(ps, M_RA + to_a);
-	else if (delta < 0)
-		while (delta++)
-			psw_move(ps, M_RRA + to_a);
-//	ft_printf("follow path step n push : rotates DONE\n");
-	if (to_a)
-		head_p = ps->B->arr;
-	else
-		head_p = ps->A->arr;
-//	ft_printf("follow path step n push : head : %d\n", head);
-	if (ps->ch && varr_is_in(ps->ch->cur_low, *head_p))
-	{
-//		ft_printf("follow path step n push : cur chunk lows : ");
-//		varr_print(ps->ch->cur_low);
-		ft_eprintf("follow path step n push : head : %d, head + 1 : %d\n", *head_p, *(head_p + 1));
-		if (g_optimize && g_optimize_sorting && varr_is_in(ps->ch->cur_low, *(head_p + 1)) && (*head_p < *(head_p + 1)))
-		{
-			ft_eprintf("OPTIMIZER : swapping chunk members found in stack A before push B. Values %d <-> %d\n", ps->A->arr[0], ps->A->arr[1]);
-			psw_move(ps, M_SA + to_a);
-		}
-		ft_eprintf("follow path : push rotate %d %s\n", (to_a) ? ps->B->arr[0] : ps->A->arr[0], (to_a) ? "from B to A" : "from A to B");
-		psw_move(ps, M_PB - to_a);
-		psw_move(ps, M_RB - to_a);
-	}
-	else
-	{
-		ft_eprintf("follow path step n push : head : %d, head + 1 : %d\n", *head_p, *(head_p + 1));
-		if (g_optimize && varr_is_in(ps->ch->cur_high, *(head_p + 1)) && (*head_p > *(head_p + 1)))
-		{
-			ft_eprintf("OPTIMIZER : swapping chunk members found in stack A before push B. Values %d <-> %d\n", ps->A->arr[0], ps->A->arr[1]);
-			psw_move(ps, M_SA + to_a);
-		}
-		ft_eprintf("follow path : pushing %d %s\n", (to_a) ? ps->B->arr[0] : ps->A->arr[0], (to_a) ? "from B to A" : "from A to B");
-		psw_move(ps, M_PB - to_a);
-	}
-//	ft_printf("follow path step n push : EXIT\n", head);
-	return (0);
-}
-*/
 static int	execute_recipe(t_ps *ps, t_varr *path, const char *recipe)
 {
 	int	i;
 	int	delta_b;
 
-//	ft_eprintf("execute_recipe : ps %p, path %p, recipe %p (%s)\n", ps, path, recipe, recipe);
-//	ft_eprintf("execute_recipe : moves :");
-//	varr_eprint(ps->shortest_mvs);
-//	ft_eprintf("execute_recipe : identity :");
-//	varr_eprint(ps->shortest_mbrs);
 	if (!ps || !path || !recipe)
 		return (-1);
 	i = 0;
-	while (*recipe)
+	while (*(++recipe))
 	{
 		delta_b = 0;
-//		ft_printf("execute recipe : checking recipe char : %c at i : %d\n", *recipe, i);
-		if (*recipe == 'p')
-		{
-			varr_get(path, i++, &delta_b);
-			follow_path_step_and_push_b_to_a(ps, delta_b);//, path, i++, 1);
-		}
+		if (*recipe == 'p' && varr_get(path, i++, &delta_b))
+			follow_path_step_and_push_b_to_a(ps, delta_b);
 		else if (*recipe == 's')
 			psw_move(ps, M_SA);
+		else if (*recipe == '+' && varr_get(path, i, &delta_b)
+				&& (delta_b > 0) && varr_set(path, i, delta_b - 1))
+			psw_move(ps, M_RR);
 		else if (*recipe == '+')
-		{
-			if (g_optimize && g_optimize_rotates)
-			{
-				varr_get(path, i, &delta_b);
-				if (delta_b > 0)
-				{
-					ft_eprintf("OPTIMIZER : stacks before optimized double rotation M_RR :\n");
-					print_stacks(ps);
-					ft_eprintf("execute recipe : M_RR : delta_b %d\n", delta_b);
-					ft_eprintf("OPTIMIZER : M_RR : i = %d, delta_b = %d, recipe = %s\n", i, delta_b, recipe);
-					ft_eprintf("OPTIMIZER : path : ");
-					varr_eprint(path);
-					ft_eprintf("OPTIMIZER : identity : ");
-					varr_eprint(ps->shortest_mbrs);
-					psw_move(ps, M_RR);
-					varr_set(path, i, delta_b - 1);
-					ft_eprintf("OPTIMIZER : stacks after optimization\n");
-					print_stacks(ps);
-				}
-				else
-					psw_move(ps, M_RA);
-			}
-			else
-				psw_move(ps, M_RA);
-		}
+			psw_move(ps, M_RA);
+		else if (*recipe == '-' && varr_get(path, i, &delta_b)
+				&& (delta_b < 0) && varr_set(path, i, delta_b + 1))
+			psw_move(ps, M_RRR);
 		else if (*recipe == '-')
-		{
-			if (g_optimize && g_optimize_rotates)
-			{
-				varr_get(path, i, &delta_b);
-				if (delta_b < 0)
-				{
-					eprintf("execute recipe : M_RRR : delta_b %d\n", delta_b);
-					eprintf("OPTIMIZER : M_RRR : i = %d, delta_b = %d, recipe = %s\n", i, delta_b, recipe);
-					eprintf("OPTIMIZER : path : ");
-					varr_eprint(path);
-					eprintf("OPTIMIZER : identity : ");
-					varr_eprint(ps->shortest_mbrs);
-					psw_move(ps, M_RRR);
-					varr_set(path, i, delta_b + 1);
-					eprintf("OPTIMIZER : stacks after optimization\n");
-					print_stacks(ps);
-				}
-				else
-					psw_move(ps, M_RRA);
-			}
-			else
-				psw_move(ps, M_RRA);
-		}
-		recipe++;
+			psw_move(ps, M_RRA);
 	}
-//	ft_printf("execute recipe : EXIT\n");
 	return (0);
 }
-
 /*
-static void	psw_push_all_cur_chks_members_to_b(t_ps *ps)
-{
-	t_varr	*holder;
-
-	ft_printf("push_all_cur_chks_members : entered\n");
-	while (chks_is_in_cur_chks(ps->ch, stk_head(ps->A), &holder))
-	{
-		if (holder == ps->ch->cur_low)
-		{
-			psw_move(ps, M_PB);
-			psw_move(ps, M_RB);
-		}
-		else
-			psw_move(ps, M_PB);
-	}
-}
-*/
-
 static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 {
 	size_t	i;
@@ -316,23 +187,15 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 //	ft_printf("psw_push stack a : ENTERED \n");
 	if (!ps || !path)
 		return (-1);
-//	ft_printf("psw_push stack a : checks cleared \n");
-//	psw_push_all_cur_chks_members_to_b(ps);
-//	ft_printf("psw_push stack a : start push DONE \n");
-//	ft_printf("psw_push stack a : list of moves : \n");
-//	varr_print(path);
-//	ft_printf("psw_push stack a : path len %d\n", path->len);
-//	ft_printf("psw_push stack a : stack at start of push opt path :\n");
-//	print_stacks(ps);
 	i = -1;
 	while (++i < path->len)
 	{
 		varr_get(path, i, &delta);
-		follow_path_step_and_push_a_to_b(ps, delta);//, path, i, 0);
-//		ft_printf("psw_push stack a : stacks after push batch : \n");
-//		print_stacks(ps);
+		follow_path_step_and_push_a_to_b(ps, delta);
 	}
 	return (0);
+}
+*/
 /*
 	{
 		ft_printf("psw_push stack a : in while. Move delta : %d \n", path->arr[i]);
@@ -365,7 +228,7 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 	}
 */
 //	ft_printf("psw_push stack a : big push DONE \n");
-}
+//}
 
 // Called after inputs have been validated and stacks are malloced.
 int	psw_algo_manager(t_ps *ps)
@@ -414,7 +277,8 @@ int	psw_algo_manager(t_ps *ps)
 //	print_stacks(ps);
 //	ft_printf("Chunks before push : \n");
 //	chks_print(ps->ch);
-	if (psw_push_stack_a_with_opt_path(ps, opt_path) < 0)
+//	if (psw_push_stack_a_with_opt_path(ps, opt_path) < 0)
+	if (follow_path_and_push_a_to_b(ps, opt_path) < 0)
 		return (-1);
 //	varr_clear(&opt_path);
 //	ft_printf("Chunks after push A to B: \n");
@@ -547,7 +411,7 @@ int	psw_algo_manager(t_ps *ps)
 			return (-1);
 		
 //		ft_printf("Algo manager : solution found for high path : %s\n", recipe);
-		execute_recipe(ps, ps->shortest_mvs, recipe);
+		execute_recipe(ps, ps->shortest_mvs, recipe - 1);
 		varr_clear(&ps->shortest_mvs);
 		varr_clear(&ps->shortest_mbrs);
 	}

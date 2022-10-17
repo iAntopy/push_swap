@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/15 05:50:57 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/17 17:04:38 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,11 @@ typedef struct s_push_swap
 	int			stack_max;
 	t_stk		stk_a;
 	t_stk		stk_b;
-	t_stk		stk_ref;
 	t_stk		stk_temp;
 	t_chks		chks;
 	t_stk		*A;
 	t_stk		*B;
-	t_stk		*ref;
+//	t_stk		*ref;
 	t_stk		*temp;
 	t_chks		*ch;
 	t_varr		*shortest_mvs;
@@ -114,7 +113,7 @@ void	print_single_stack(t_stk *s);
 //void	print_ref_array(t_ps *ps);
 
 ////// REFFERENCE ARRAY FUNCS ////////// 
-int		build_ref_array_and_substitute_in_stack_a(t_ps *ps);
+//int		build_ref_array_and_substitute_in_stack_a(t_ps *ps);
 
 ////// CHECKER FUNCS /////////
 int		stk_issorted(t_stk *s);
@@ -123,7 +122,7 @@ int		stk_seek_rev_sorted_phase(t_ps *ps, t_stk *s);
 int		stk_slice_issorted(t_stk *s, size_t start, size_t end);
 
 ////// REGULAR SORTING ALGOS //////////
-void	garbage_sort(int *arr, int size);
+//void	garbage_sort(int *arr, int size);
 
 ////// PUSH SWAP SORTING ALGOS //////////
 void	psw_sort2(t_ps *ps, t_stk *s);

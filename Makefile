@@ -5,7 +5,6 @@ _SRC	=	push_swap_main			\
 			push_swap_algo			\
 			parse_inputs			\
 			error_handling			\
-			std_sorting_algos		\
 			stack_utils				\
 			stack_moves				\
 			stack_moves2			\
@@ -14,7 +13,6 @@ _SRC	=	push_swap_main			\
 			stack_moves_tec			\
 			stack_moves2_tec		\
 			checker_funcs			\
-			reference_arr_utils 	\
 			print_stacks			\
 			sort_3_5				\
 			dist_funcs				\

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 19:02:37 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/16 22:20:48 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,15 @@ int	main(int argc, char **argv)
 
 	if (build_ref_array_and_substitute_in_stack_a(&ps) < 0)
 		return (psw_clear(&ps, repport_error()));
-	ft_printf("\n\nPost build refs print : \n");
 
-//	print_ref_array(&ps);
-	print_single_stack(ps.ref);
+//	ft_printf("\n\nPost build refs print : \n");
+//	print_single_stack(ps.ref);
 	if (psw_algo_manager(&ps) < 0)
 		return (psw_clear(&ps, repport_error()));
 
 	ft_printf("main : nb moves at exit : %d, to sort %d nbs.\n", ps.nb_moves, ps.stack_max);
-	ft_printf("main : stacks at exit : \n");
-	print_stacks(&ps);
+//	ft_printf("main : stacks at exit : \n");
+//	print_stacks(&ps);
 	if (stk_issorted(ps.A))
 		ft_printf("main : Is Stack A sorted : %s\n", GREEN_BC"TRUE"WHITE_C);
 	else	

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 22:00:59 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/15 05:50:57 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		build_ref_array_and_substitute_in_stack_a(t_ps *ps);
 ////// CHECKER FUNCS /////////
 int		stk_issorted(t_stk *s);
 int		stk_seek_sorted_phase(t_ps *ps, t_stk *s);
+int		stk_seek_rev_sorted_phase(t_ps *ps, t_stk *s);
 int		stk_slice_issorted(t_stk *s, size_t start, size_t end);
 
 ////// REGULAR SORTING ALGOS //////////

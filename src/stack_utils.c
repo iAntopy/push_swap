@@ -6,11 +6,27 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:35:39 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 18:59:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/15 00:56:45 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
+
+int	stk_head(t_stk *s)
+{
+	if (s->len)
+		return (s->arr[0]);
+	else
+		return (-1);
+}
+
+int	stk_tail(t_stk *s)
+{
+	if (s->len)
+		return (s->arr[s->len - 1]);
+	else
+		return (-1);
+}
 
 void	*stk_clear(t_stk **stk_p)
 {

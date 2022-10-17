@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 19:05:51 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/16 22:19:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 {
 	int		i;
 
-	ft_printf("chks_init : Entered \n");
+//	ft_printf("chks_init : Entered \n");
 //	ft_printf("chks_init : chks %p, ps %p\n", chks, ps);
 //	ft_printf("chks_init : nb_chks = %d, chk_size = %d \n", chks->nb_chks, chks->chk_size);
 
@@ -155,7 +155,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 	chks_init_data(chks, ps);
 	if (!ft_calloc_p(sizeof(t_varr *) * chks->nb_chks, (void **)&chks->chk_stk))
 		return (NULL);
-	ft_printf("chks_init : malloced chk_stk (%p) SUCCESSFULL\n", chks->chk_stk);
+//	ft_printf("chks_init : malloced chk_stk (%p) SUCCESSFULL\n", chks->chk_stk);
 //	ft_printf("chks_init : clearing chk_stk\n");
 //	ft_memclear(chks->chk_stk, sizeof(t_varr *) * chks->nb_chks);
 //	ft_printf("chks_init : chk_stk after clear : %p\n", chks->chk_stk);
@@ -186,7 +186,7 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 	chks->cur_high = chks->chk_stk[chks->i_high];
 //	ft_printf("chks_init : chk_stk ptrs 0 1 2 : %p, %p, %p\n", chks->chk_stk[0], chks->chk_stk[1], chks->chk_stk[2]);
 //	varr_print(chks->chk_stk[0]);
-	chks_print(chks);
+//	chks_print(chks);
 //	ft_printf("chks_init : chk_stk at exit : %p\n", chks->chk_stk);
 	return (chks);
 }

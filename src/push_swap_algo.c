@@ -6,11 +6,15 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 22:41:39 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/16 22:18:12 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
+
+static const int	g_optimize = 1;
+static const int	g_optimize_sorting = 0;
+static const int	g_optimize_rotates = 1;
 
 const char	*get_solution_for_high_chunk(int *hc)
 {
@@ -26,8 +30,8 @@ const char	*get_solution_for_high_chunk(int *hc)
 		ft_printf("get solution for high chunk : hc ptr is NULL\n", hc);
 		return (NULL);
 	}
-	else
-		ft_printf("get solution for high chunk : hc = [%d, %d, %d, %d]\n", hc[0], hc[1], hc[2], hc[3]);
+//	else
+//		ft_printf("get solution for high chunk : hc = [%d, %d, %d, %d]\n", hc[0], hc[1], hc[2], hc[3]);
 	if (hc[0] == 3 && hc[1] == 2 && hc[2] == 1 && hc[3] == 0)
 		return (solver_table[0]);
 	else if (hc[0] == 3 && hc[1] == 2 && hc[2] == 0 && hc[3] == 1)
@@ -82,13 +86,87 @@ const char	*get_solution_for_high_chunk(int *hc)
 	return (NULL);
 }
 
+static int	seek_rev_sorted_highs(t_ps *ps, int high)
+{
+	size_t	len;
+	int	*arr;
+	int	*max;
+	int	idx;
+
+	len = ps->B->len;
+	arr = ps->B->arr;
+	max = find_value_in_stack(ps->B, high);
+	idx = max - arr;
+//	ft_printf("seek_rev_sorted_highs : max : %d, idx : %d\n", *max, idx);
+	if ((len - idx) < 4 && arr[(idx + 1) % len] == (*max - 1)
+		&& arr[(idx + 2) % len] == (*max - 2)
+		&& arr[(idx + 3) % len] == (*max - 3))
+	{
+//		ft_printf("seek_rev_sorted_highs : FULLY SEEKED \n");
+		psw_move_to_vptr(ps, ps->B, max);
+		psw_move(ps, M_PA);
+		psw_move(ps, M_PA);
+		psw_move(ps, M_PA);
+		psw_move(ps, M_PA);
+		return (1);
+	}
+	return (0);
+}
+
+static int	follow_path_step_and_push_a_to_b(t_ps *ps, int delta)//t_varr *path, )
+{
+	if (!ps || !ps->A || !ps->B || !ps->ch)
+		return (-1);
+	if (delta > 0)
+		while (delta--)
+			psw_move(ps, M_RA);
+	else if (delta < 0)
+		while (delta++)
+			psw_move(ps, M_RRA);
+
+	if (varr_is_in(ps->ch->cur_low, stk_head(ps->A)))
+	{
+		if (g_optimize && g_optimize_sorting && ps->A->len > 1
+			&& varr_is_in(ps->ch->cur_low, ps->A->arr[1]) && ps->A->arr[0] < ps->A->arr[1])
+			psw_move(ps, M_SA);
+
+		psw_move(ps, M_PB);
+		psw_move(ps, M_RB);
+	}
+	else
+	{
+		if (g_optimize && g_optimize_sorting && ps->A->len > 1
+			&& varr_is_in(ps->ch->cur_high, ps->A->arr[1]) && ps->A->arr[0] > ps->A->arr[1])
+			psw_move(ps, M_SA);
+		psw_move(ps, M_PB);
+		if (g_optimize && g_optimize_sorting && ps->B->len > 1
+			&&ps->B->arr[0] < ps->B->arr[1])
+			psw_move(ps, M_SB);
+	}
+	return (0);
+}
+
+static int	follow_path_step_and_push_b_to_a(t_ps *ps, int delta)//t_varr *path, )
+{
+	if (!ps || !ps->A || !ps->B)
+		return (-1);
+	if (delta > 0)
+		while (delta--)
+			psw_move(ps, M_RB);
+	else if (delta < 0)
+		while (delta++)
+			psw_move(ps, M_RRB);
+	psw_move(ps, M_PA);
+	return (0);
+}
+/*
 static int	follow_path_step_and_push(t_ps *ps, t_varr *path, size_t i, int to_a)
 {
 	int	delta;
-	int	head;
+	int	*head_p;
 
-	ft_printf("follow path step n push : Entered\n");
-	if (!ps || !path || varr_get(path, i, &delta) < 0)
+//	ft_printf("follow path step n push : Entered\n");
+	if (!ps || !path || !ps->A || !ps->B || !ps->ch || varr_get(path, i, &delta) < 0)
 		return (-1);
 	if (delta > 0)
 		while (delta--)
@@ -96,37 +174,51 @@ static int	follow_path_step_and_push(t_ps *ps, t_varr *path, size_t i, int to_a)
 	else if (delta < 0)
 		while (delta++)
 			psw_move(ps, M_RRA + to_a);
-	ft_printf("follow path step n push : rotates DONE\n");
+//	ft_printf("follow path step n push : rotates DONE\n");
 	if (to_a)
-		head = stk_head(ps->B);
+		head_p = ps->B->arr;
 	else
-		head = stk_head(ps->A);
-	ft_printf("follow path step n push : head : %d\n", head);
-	if (ps->ch && varr_is_in(ps->ch->cur_low, head))
+		head_p = ps->A->arr;
+//	ft_printf("follow path step n push : head : %d\n", head);
+	if (ps->ch && varr_is_in(ps->ch->cur_low, *head_p))
 	{
-		ft_printf("follow path step n push : cur chunk lows : ");
-		varr_print(ps->ch->cur_low);
+//		ft_printf("follow path step n push : cur chunk lows : ");
+//		varr_print(ps->ch->cur_low);
+		ft_eprintf("follow path step n push : head : %d, head + 1 : %d\n", *head_p, *(head_p + 1));
+		if (g_optimize && g_optimize_sorting && varr_is_in(ps->ch->cur_low, *(head_p + 1)) && (*head_p < *(head_p + 1)))
+		{
+			ft_eprintf("OPTIMIZER : swapping chunk members found in stack A before push B. Values %d <-> %d\n", ps->A->arr[0], ps->A->arr[1]);
+			psw_move(ps, M_SA + to_a);
+		}
+		ft_eprintf("follow path : push rotate %d %s\n", (to_a) ? ps->B->arr[0] : ps->A->arr[0], (to_a) ? "from B to A" : "from A to B");
 		psw_move(ps, M_PB - to_a);
 		psw_move(ps, M_RB - to_a);
 	}
 	else
+	{
+		ft_eprintf("follow path step n push : head : %d, head + 1 : %d\n", *head_p, *(head_p + 1));
+		if (g_optimize && varr_is_in(ps->ch->cur_high, *(head_p + 1)) && (*head_p > *(head_p + 1)))
+		{
+			ft_eprintf("OPTIMIZER : swapping chunk members found in stack A before push B. Values %d <-> %d\n", ps->A->arr[0], ps->A->arr[1]);
+			psw_move(ps, M_SA + to_a);
+		}
+		ft_eprintf("follow path : pushing %d %s\n", (to_a) ? ps->B->arr[0] : ps->A->arr[0], (to_a) ? "from B to A" : "from A to B");
 		psw_move(ps, M_PB - to_a);
-	ft_printf("follow path step n push : EXIT\n", head);
+	}
+//	ft_printf("follow path step n push : EXIT\n", head);
 	return (0);
 }
-
-static const int	g_optimize = 1;
-
+*/
 static int	execute_recipe(t_ps *ps, t_varr *path, const char *recipe)
 {
 	int	i;
 	int	delta_b;
 
-	ft_eprintf("execute_recipe : ps %p, path %p, recipe %p (%s)\n", ps, path, recipe, recipe);
-	ft_eprintf("execute_recipe : moves :");
-	varr_eprint(ps->shortest_mvs);
-	ft_eprintf("execute_recipe : identity :");
-	varr_eprint(ps->shortest_mbrs);
+//	ft_eprintf("execute_recipe : ps %p, path %p, recipe %p (%s)\n", ps, path, recipe, recipe);
+//	ft_eprintf("execute_recipe : moves :");
+//	varr_eprint(ps->shortest_mvs);
+//	ft_eprintf("execute_recipe : identity :");
+//	varr_eprint(ps->shortest_mbrs);
 	if (!ps || !path || !recipe)
 		return (-1);
 	i = 0;
@@ -135,36 +227,41 @@ static int	execute_recipe(t_ps *ps, t_varr *path, const char *recipe)
 		delta_b = 0;
 //		ft_printf("execute recipe : checking recipe char : %c at i : %d\n", *recipe, i);
 		if (*recipe == 'p')
-			follow_path_step_and_push(ps, path, i++, 1);
+		{
+			varr_get(path, i++, &delta_b);
+			follow_path_step_and_push_b_to_a(ps, delta_b);//, path, i++, 1);
+		}
 		else if (*recipe == 's')
 			psw_move(ps, M_SA);
 		else if (*recipe == '+')
 		{
-			if (g_optimize)
+			if (g_optimize && g_optimize_rotates)
 			{
 				varr_get(path, i, &delta_b);
 				if (delta_b > 0)
 				{
-					eprintf("execute recipe : M_RR : delta_b %d\n", delta_b);
-					eprintf("OPTIMIZER : M_RR : i = %d, delta_b = %d, recipe = %s\n", i, delta_b, recipe);
-					eprintf("OPTIMIZER : path : ");
+					ft_eprintf("OPTIMIZER : stacks before optimized double rotation M_RR :\n");
+					print_stacks(ps);
+					ft_eprintf("execute recipe : M_RR : delta_b %d\n", delta_b);
+					ft_eprintf("OPTIMIZER : M_RR : i = %d, delta_b = %d, recipe = %s\n", i, delta_b, recipe);
+					ft_eprintf("OPTIMIZER : path : ");
 					varr_eprint(path);
-					eprintf("OPTIMIZER : identity : ");
+					ft_eprintf("OPTIMIZER : identity : ");
 					varr_eprint(ps->shortest_mbrs);
 					psw_move(ps, M_RR);
 					varr_set(path, i, delta_b - 1);
-					eprintf("OPTIMIZER : stacks after optimization\n");
+					ft_eprintf("OPTIMIZER : stacks after optimization\n");
 					print_stacks(ps);
 				}
 				else
 					psw_move(ps, M_RA);
 			}
 			else
-					psw_move(ps, M_RA);
+				psw_move(ps, M_RA);
 		}
 		else if (*recipe == '-')
 		{
-			if (g_optimize)
+			if (g_optimize && g_optimize_rotates)
 			{
 				varr_get(path, i, &delta_b);
 				if (delta_b < 0)
@@ -214,25 +311,26 @@ static void	psw_push_all_cur_chks_members_to_b(t_ps *ps)
 static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 {
 	size_t	i;
-//	int		delta;
+	int		delta;
 
-	ft_printf("psw_push stack a : ENTERED \n");
+//	ft_printf("psw_push stack a : ENTERED \n");
 	if (!ps || !path)
 		return (-1);
 //	ft_printf("psw_push stack a : checks cleared \n");
 //	psw_push_all_cur_chks_members_to_b(ps);
 //	ft_printf("psw_push stack a : start push DONE \n");
-	ft_printf("psw_push stack a : list of moves : \n");
-	varr_print(path);
+//	ft_printf("psw_push stack a : list of moves : \n");
+//	varr_print(path);
 //	ft_printf("psw_push stack a : path len %d\n", path->len);
-	ft_printf("psw_push stack a : stack at start of push opt path :\n");
-	print_stacks(ps);
+//	ft_printf("psw_push stack a : stack at start of push opt path :\n");
+//	print_stacks(ps);
 	i = -1;
 	while (++i < path->len)
 	{
-		follow_path_step_and_push(ps, path, i, 0);
-		ft_printf("psw_push stack a : stacks after first push batch : \n");
-		print_stacks(ps);
+		varr_get(path, i, &delta);
+		follow_path_step_and_push_a_to_b(ps, delta);//, path, i, 0);
+//		ft_printf("psw_push stack a : stacks after push batch : \n");
+//		print_stacks(ps);
 	}
 	return (0);
 /*
@@ -273,17 +371,17 @@ static int	psw_push_stack_a_with_opt_path(t_ps *ps, t_varr *path)
 int	psw_algo_manager(t_ps *ps)
 {
 	t_varr	*opt_path;
-	t_varr	*opt_mbrs;
+//	t_varr	*opt_mbrs;
 
-	ft_printf("psw_algo_manager : Entered. Stack A len : %d\n", ps->A->len);
+//	ft_printf("psw_algo_manager : Entered. Stack A len : %d\n", ps->A->len);
 	if (ps->A->len <= 5)
 	{
-		ft_printf("psw_algo_manager algo : sort 5\n");
+//		ft_printf("psw_algo_manager algo : sort 5\n");
 		psw_sort5(ps);
 		return (0);
 	}
 	opt_path = NULL;
-	opt_mbrs = NULL;
+//	opt_mbrs = NULL;
 /*
 ///////////////////////// STAGE 1 \\\\\\\\\\\\\\\\\\\\\\\\\\
 //	- Push all stack A members except 5 in stack B
@@ -297,7 +395,7 @@ int	psw_algo_manager(t_ps *ps)
 //	- greatest chunk ready to push back.
 */
 //	ft_printf("Trying to init chks\n");
-	ft_printf("Algo manager : chks ptr ps->ch vs chks ptr &ps->chks : %p vs %p\n", ps->ch, &ps->chks);
+//	ft_printf("Algo manager : chks ptr ps->ch vs chks ptr &ps->chks : %p vs %p\n", ps->ch, &ps->chks);
 	if (!chks_init(ps->ch, ps))
 		return (-1);
 //	ft_printf("init chks SUCCESS\n");
@@ -310,16 +408,19 @@ int	psw_algo_manager(t_ps *ps)
 //	opt_path = NULL;
 //	opt_mbrs = NULL;
 	opt_path = ps->shortest_mvs;
-	opt_mbrs = ps->shortest_mbrs;
+//	opt_mbrs = ps->shortest_mbrs;
 	ft_printf("optimal path : ");
 	varr_print(opt_path);
-	print_stacks(ps);
-	ft_printf("Chunks before push : \n");
-	chks_print(ps->ch);
-	psw_push_stack_a_with_opt_path(ps, opt_path);
+//	print_stacks(ps);
+//	ft_printf("Chunks before push : \n");
+//	chks_print(ps->ch);
+	if (psw_push_stack_a_with_opt_path(ps, opt_path) < 0)
+		return (-1);
 //	varr_clear(&opt_path);
-	ft_printf("Chunks after push : \n");
-	chks_print(ps->ch);
+//	ft_printf("Chunks after push A to B: \n");
+//	chks_print(ps->ch);
+//	ft_printf("Stacks after push A to B: \n");
+//	print_stacks(ps);
 
 	chks_clear(&ps->ch);
 	varr_clear(&ps->shortest_mvs);
@@ -413,40 +514,46 @@ int	psw_algo_manager(t_ps *ps)
 //						"ppspsr", "ppsp+ps-", "p+pps", "ppp+s+ps--", "pp++pp--", "pp++pps--",
 //						"p+ppp-", "p+ppps-", "p+ppsp-", "p+pp+ps--", "p+ppsps-", "p+p+pps--"};
 
-
+	
 	const char	*recipe;
 
 	while (ps->B->len >= 4)
 	{
-		ft_printf("Algo manager : stacks while pushing B to A :\n");
-		print_stacks(ps);
+//		ft_printf("Algo manager : stacks while pushing B to A :\n");
+//		print_stacks(ps);
+		if (stk_seek_rev_sorted_phase(ps, ps->B))
+		{
+			while (ps->B->len)
+				psw_move(ps, M_PA);
+			break ;
+		}
 		if (!path_to_n_extreme(ps, ps->B, 4, 0))
-			return (-1);
-		ps->shortest_mvs = ps->shortest_mvs;
-		ps->shortest_mbrs = ps->shortest_mbrs;
+			return (-1);			
+		if (seek_rev_sorted_highs(ps, varr_max(ps->shortest_mbrs)))
+			continue ;
 		
-		ft_printf("Algo manager : ps->shortest_mvs : %p\n", ps->shortest_mvs);
-		varr_print(ps->shortest_mvs);
+//		ft_printf("Algo manager : ps->shortest_mvs : %p\n", ps->shortest_mvs);
+//		varr_print(ps->shortest_mvs);
 
-		ft_printf("Algo manager : members found in order : %p\n", ps->shortest_mbrs);
-		varr_print(ps->shortest_mbrs);
+//		ft_printf("Algo manager : members found in order : %p\n", ps->shortest_mbrs);
+//		varr_print(ps->shortest_mbrs);
 		
 		varr_isub(ps->shortest_mbrs, varr_min(ps->shortest_mbrs));
-		ft_printf("Algo manager : members path identity (after sub min) : \n");
-		varr_print(ps->shortest_mbrs);
+//		ft_printf("Algo manager : members path identity (after sub min) : \n");
+//		varr_print(ps->shortest_mbrs);
 		
 		recipe = get_solution_for_high_chunk(ps->shortest_mbrs->arr);
 		if (!recipe)
 			return (-1);
 		
-		ft_printf("Algo manager : solution found for high path : %s\n", recipe);
+//		ft_printf("Algo manager : solution found for high path : %s\n", recipe);
 		execute_recipe(ps, ps->shortest_mvs, recipe);
 		varr_clear(&ps->shortest_mvs);
 		varr_clear(&ps->shortest_mbrs);
 	}
 
-	ft_printf("Algo manager : stack before last 3 :\n");
-	print_stacks(ps);
+//	ft_printf("Algo manager : stack before last 3 :\n");
+//	print_stacks(ps);
 	if (ps->B->len == 1)
 		psw_move(ps, M_PA);
 	else if (ps->B->len == 2)
@@ -468,7 +575,7 @@ int	psw_algo_manager(t_ps *ps)
 			ft_printf("Algo manager : M_RB to but smallest (at idx 1) at the bottom of stack B\n");
 			psw_move(ps, M_RRB);
 		}
-		ft_printf("Algo manager : stack before last 3 :\n");
+//		ft_printf("Algo manager : stack before last 3 :\n");
 		print_stacks(ps);
 		psw_move(ps, M_PA);
 		psw_move(ps, M_PA);

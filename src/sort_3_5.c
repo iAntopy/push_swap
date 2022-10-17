@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 21:39:08 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/16 21:37:44 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 		ft_printf("sort5 : Already sorted or sorted phase seeked.\n");
 		return (0);
 	}
-	ft_printf("sort5 : checks PASSED\n");
+//	ft_printf("sort5 : checks PASSED\n");
 	if (ps->A->len < 5)
 	{
 		psw_sort4(ps, ps->A);
@@ -133,8 +133,8 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 	}
 	varr_clear(&ps->shortest_mbrs);
 	shortest_path = ps->shortest_mvs;
-	ft_printf("sort5 : shortest path found to 2 lowest : \n");
-	varr_print(shortest_path);
+//	ft_printf("sort5 : shortest path found to 2 lowest : \n");
+//	varr_print(shortest_path);
 //	while (find_value_in_stack(ps->temp, stk_head(ps->A)))
 //		psw_move(ps, M_PB);
 //
@@ -142,7 +142,7 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 	{
 		if(varr_pop_front(shortest_path, &move) < 0)
 			return (-1);
-		ft_printf("sort5 : moves to exec : %d, path len left : %d\n", move, shortest_path->len);
+//		ft_printf("sort5 : moves to exec : %d, path len left : %d\n", move, shortest_path->len);
 		if (move < 0)
 			while (move++)
 				psw_move(ps, M_RRA);
@@ -151,14 +151,14 @@ int	psw_sort5(t_ps *ps)//, t_stk *s)
 				psw_move(ps, M_RA);
 		psw_move(ps, M_PB);
 	}
-	ft_printf("sort5 : stacks after push 2 lowest :\n");
-	print_stacks(ps);
+//	ft_printf("sort5 : stacks after push 2 lowest :\n");
+//	print_stacks(ps);
 	psw_sort3(ps, ps->A);
 	psw_move(ps, M_PA);
 	psw_move(ps, M_PA);
 	if (ps->A->arr[0] > ps->A->arr[1])
 		psw_move(ps, M_SA);
 	varr_clear(&ps->shortest_mvs);
-	ft_printf("sort5 : EXIT\n");
+//	ft_printf("sort5 : EXIT\n");
 	return (0);
 }

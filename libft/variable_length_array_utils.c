@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 22:45:39 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 22:13:39 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/16 19:53:25 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ void	*varr_clear(t_varr **va_p)
 {
 	t_varr	*va;
 
-	ft_printf("varr_clear : clearing t_varr **va %p\n", va_p);
 	if (!va_p)
 		return (NULL);
 	va = *va_p;
 	if (!va)
 		return (NULL);
-	ft_printf("varr_clear : clearing t_varr **va %p, and *va %p\n", va_p, va);
 	if (va->arr)
 		ft_free_p((void **)&va->arr);
 	ft_free_p((void **)va_p);

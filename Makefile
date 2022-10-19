@@ -3,6 +3,7 @@ SRC_DIR		= src/
 
 _SRC	=	push_swap_main			\
 			push_swap_algo			\
+			cook_book				\
 			parse_inputs			\
 			error_handling			\
 			stack_utils				\

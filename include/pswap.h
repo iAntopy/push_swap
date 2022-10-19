@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/17 17:04:38 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/18 23:52:58 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # include "libft.h"
 
-# define eprintf(args...) fprintf(stderr, ##args)
+//# define eprintf(args...) fprintf(stderr, ##args)
 
 # define PATH_THREASHOLD 2.0f / 100.0f
 
@@ -42,16 +42,14 @@ typedef struct	s_chunk_stack
 
 typedef struct s_test_stacks_env
 {
-//	t_chks	chks;
 	t_stk	stk_ts;
 	t_stk	*ts;
 	t_varr	*moves;
 	t_varr	*members;
-	int		*near_c;
-	int		*near_cc;
+//	int		*near_c;
+//	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
-//	int		threashold;
 }	t_te;
 
 typedef struct s_test_stacks_chunks_env
@@ -61,11 +59,10 @@ typedef struct s_test_stacks_chunks_env
 	t_stk	*ts;
 	t_chks	*ch;
 	t_varr	*moves;
-	int		*near_c;
-	int		*near_cc;
+//	int		*near_c;
+//	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
-//	int		threashold;
 }	t_tec;
 
 typedef struct s_push_swap
@@ -106,25 +103,25 @@ enum	e_decoder
 	M_PB = 10
 };
 
+////// MANAGER FUNCS ////////
 int		psw_algo_manager(t_ps *ps);
 int		parse_inputs(t_ps *ps, int argc, char **argv);
+const char	*get_solution_for_high_chunk(t_varr *high_chk);
+
+////// PATHFINDING FUNCS //////
+
+
+////// PRINTER FUNCS ////////
 void	print_stacks(t_ps *ps);
 void	print_single_stack(t_stk *s);
-//void	print_ref_array(t_ps *ps);
-
-////// REFFERENCE ARRAY FUNCS ////////// 
-//int		build_ref_array_and_substitute_in_stack_a(t_ps *ps);
 
 ////// CHECKER FUNCS /////////
 int		stk_issorted(t_stk *s);
 int		stk_seek_sorted_phase(t_ps *ps, t_stk *s);
 int		stk_seek_rev_sorted_phase(t_ps *ps, t_stk *s);
-int		stk_slice_issorted(t_stk *s, size_t start, size_t end);
+int		stk_seek_rev_sorted_highs(t_ps *ps, int high);
 
-////// REGULAR SORTING ALGOS //////////
-//void	garbage_sort(int *arr, int size);
-
-////// PUSH SWAP SORTING ALGOS //////////
+////// PUSH SWAP BASIC SORTING ALGOS //////////
 void	psw_sort2(t_ps *ps, t_stk *s);
 void	psw_sort3(t_ps *ps, t_stk *s);
 void	psw_sort4(t_ps *ps, t_stk *s);
@@ -145,13 +142,15 @@ int		distance_from_head_to_vptr(t_stk *s, int *vptr);
 int		find_longest_sorted_sequence(t_stk *s, int **seq_start);
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, size_t n);
 t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, size_t  n);
-int		get_nb_members_intersect(t_stk *large, t_stk *small);
+//int		get_nb_members_intersect(t_stk *large, t_stk *small);
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);
 void	psw_push(t_stk *dst, t_stk *src, t_chks *chks);
 void	psw_rotate(t_stk *A, t_stk *B, int reverse);
 void	psw_move(t_ps *ps, int move);
+void	psw_move_delta(t_ps *ps, t_stk *s, int delta);
+void	psw_move_delta_push(t_ps *ps, t_stk *s, int delta);
 void	psw_move_to(t_ps *ps, t_stk *s, int value);
 void	psw_move_to_vptr(t_ps *ps, t_stk *s, int *vptr);
 void	psw_recipe(t_ps *ps, int nb_moves, ...);
@@ -175,27 +174,37 @@ int		chks_are_empty(t_chks *chks);
 t_te	*te_init(t_te *te, t_stk *s);
 void	te_print(t_te *te);
 void	*te_clear(t_te *te);
+void	*te_clear_all(t_te *te, t_te *te1, t_te *te2);
 void	*te_copy(t_te *dst, t_te *src);
 void	te_rotate(t_te *te, int rev);
 void	te_push(t_te *te);
+void	te_push_all_members_at_head(t_te *te, t_stk *sub);
 void	te_move(t_te *te, int move);
-void	te_recipe(t_te *te, int nb_move, ...);
+//void	te_recipe(t_te *te, int nb_move, ...);
 void	te_move_to(t_te *te, int value);
 void	te_move_to_vptr(t_te *te, int *vptr);
+void	te_move_delta(t_te *te, int delta);
+void	te_move_delta_and_push_all_members(t_te *te, t_stk *sub, int delta);
+void	te_find_deltas_to_addj_clusters(t_stk *stk, t_stk *sub, int *d1, int d2);
 
 ///// TEST STACK CHUNKS ENV FUNCS /////////
 t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s);
 void	tec_print(t_tec *tec);
 void	*tec_clear(t_tec *tec);
+void	*tec_clear_all(t_tec *tec, t_tec *tec1, t_tec *tec2);
 void	*tec_copy(t_tec *dst, t_tec *src);
 void	tec_rotate(t_tec *tec, int rev);
 void	tec_push(t_tec *tec);
+void	tec_push_all_members_at_head(t_tec *tec, t_chks *ch);
 void	tec_move(t_tec *tec, int move);
-void	tec_recipe(t_tec *tec, int nb_move, ...);
+//void	tec_recipe(t_tec *tec, int nb_move, ...);
 void	tec_move_to(t_tec *tec, int value);
 void	tec_move_to_vptr(t_tec *tec, int *vptr);
+void	tec_move_delta(t_tec *tec, int delta);
+void	tec_move_delta_and_push_all_members(t_tec *tec, t_chks *ch, int delta);
+void	tec_find_deltas_to_addj_clusters(t_stk *stk, t_chks *ch, int *d1, int d2);
 
-/////// PUSH_SWAP ALGORITH FUNCS //////////
+/////// PUSH_SWAP ALGORITHM FUNCS //////////
 t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, size_t n, int find_lowest);
 t_varr	*optimal_push_a_to_b(t_ps *ps);
 ///////////////////////////////////////////

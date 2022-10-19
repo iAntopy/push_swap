@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 03:11:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/13 22:20:13 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:34:50 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	psw_rotate(t_stk *A, t_stk *B, int rev)
 
 void	psw_swap(t_stk *A, t_stk *B)
 {
-//	ft_printf("psw_swap : entered \n");
 	if (A && (A->len > 1))
 		ft_swap_i(A->arr, A->arr + 1);
 	if (B && (B->len > 1))
@@ -63,7 +62,7 @@ void	psw_push(t_stk *dst, t_stk *src, t_chks *chks)
 	src->len--;
 	dst->len++;
 	if (!chks)
-		return;
+		return ;
 	varr_remove(chks->cur_low, val);
 	varr_remove(chks->cur_high, val);
 	if (varr_is_empty(chks->cur_low))
@@ -101,14 +100,13 @@ void	psw_move(t_ps *ps, int move)
 	else if (move == M_PB)
 		psw_push(ps->B, ps->A, ps->ch);
 	ps->nb_moves++;
-	ft_eprintf("%s\n", ps->strmoves[move]);
+	ft_printf("%s\n", ps->strmoves[move]);
 }
 
 void	psw_recipe(t_ps *ps, int nb_moves, ...)
 {
 	va_list	ap;
 
-//	ft_printf("psw_recipe : entered \n");
 	va_start(ap, nb_moves);
 	while (nb_moves--)
 		psw_move(ps, (int)va_arg(ap, int));

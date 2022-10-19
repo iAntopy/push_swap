@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 20:22:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/10 19:19:19 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:48:21 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,8 @@ int	find_longest_sorted_sequence(t_stk *s, int **seq_start)
 		seq_p = arr + ((i + 1) % s->len);
 		ft_printf("Starting new seq at value : %d\n", *seq_p);//arr[(i + 1) % s->len]);
 		while ((++seq_len < s->len) && (++i >= 0))
-		{
 			if (arr[i % s->len] > arr[(i + 1) % s->len])
-			{
-				ft_printf("seq broken at i = %d,  idx1 %d, idx2 %d\n", i, i % s->len, (i + 1) % s->len);
 				break ;
-			}
-		}
 		ft_printf("seq found : len %d, value at start : %d\n", seq_len, *seq_p);
 		if (seq_len > longest_seq)
 		{

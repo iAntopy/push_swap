@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:55:00 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/09 08:45:42 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:56:36 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	tec_rotate(t_tec *tec, int rev)
 {
-	int	temp;
-	int	len;
-	int	idx_from;
-	int	idx_to;
+	int		temp;
+	int		len;
+	int		idx_from;
+	int		idx_to;
 	t_stk	*ts;
 
-//	ft_printf("tec_rotate : enter. rev = %d\n", rev);
-//	ft_printf("tec_rotate : tec->ts->len : %d, tec->nb_moves : %d\n", tec->ts->len, tec->nb_moves);
 	ts = tec->ts;
 	if (ts && (ts->len > 1))
 	{
@@ -43,8 +41,6 @@ void	tec_push(t_tec *tec)
 
 	if (!tec)
 		return ;
-//	ft_printf("<=== TEC PUSH ACTIVATE !! PUSH VALUE : %d ===>\n", tec->ts->arr[0]);
-//	ft_printf("tec_push : tec->ts->len : %d, tec->nb_moves : %d\n", tec->ts->len, tec->nb_moves);
 	ts = tec->ts;
 	if (ts->len == 0)
 		return ;
@@ -52,10 +48,8 @@ void	tec_push(t_tec *tec)
 	if (ts->len > 1)
 		ft_memmove(ts->arr, ts->arr + 1, sizeof(int) * (ts->len - 1));
 	ts->len--;
-//	if (tec->cur_run)
 	varr_append(tec->moves, tec->cur_run);
 	tec->cur_run = 0;
-
 	varr_remove(tec->ch->cur_low, value);
 	varr_remove(tec->ch->cur_high, value);
 	if (varr_is_empty(tec->ch->cur_low))
@@ -70,32 +64,50 @@ void	tec_push(t_tec *tec)
 
 void	tec_move(t_tec *tec, int move)
 {
-//	ft_printf("tec_move : entered \n");
 	if (move == M_RA)
-	{
-//		ft_printf("tec_move : M_RA\n");
 		tec_rotate(tec, 0);
-	}
 	else if (move == M_RRA)
-	{
-//		ft_printf("tec_move : M_RRA\n");
 		tec_rotate(tec, 1);
-	}
 	else if (move == M_PA)
-	{
-//		ft_printf("tec_move : M_PA\n");
 		tec_push(tec);
+}
+/*
+void	tec_push_all_members_at_head(t_tec *tec, t_chks *ch)
+{
+	while (tec->ts->len && chks_is_in_cur_chks(ch, stk_head(tec->ts), NULL))
+		tec_push(tec);
+}
+*/
+void	tec_move_delta(t_tec *tec, int delta)
+{
+	if (!tec)
+		return ;
+	while (delta > 0)
+	{
+		tec_rotate(tec, 0);
+		delta--;
 	}
-//	ft_printf("%s\n", ps->strmoves[move]);
+	while (delta < 0)
+	{
+		tec_rotate(tec, 1);
+		delta++;
+	}
 }
 
+void	tec_move_delta_and_push_all_members(t_tec *tec, t_chks *ch, int delta)
+{
+	tec_move_delta(tec, delta);
+	while (tec->ts->len && chks_is_in_cur_chks(ch, stk_head(tec->ts), NULL))
+		tec_push(tec);
+}
+/*
 void	tec_recipe(t_tec *tec, int nb_moves, ...)
 {
 	va_list	ap;
 
-//	ft_printf("psw_recipe : entered \n");
 	va_start(ap, nb_moves);
 	while (nb_moves--)
 		tec_move(tec, (int)va_arg(ap, int));
 	va_end(ap);
 }
+*/

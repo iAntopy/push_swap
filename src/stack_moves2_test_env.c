@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:39:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/04 13:55:32 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/18 23:21:36 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,41 @@ void	te_move_to_vptr(t_te *te, int *vptr)
 {
 	int	dist;
 
-//	ft_printf("te_move_to_vptr : Entered\n");
-//	ft_printf("te_move_to_vptr : te recieved\n");
-//	te_print(te);
-//	ft_printf("te_move_to_vptr : te %p, vptr : %p\n", te, vptr);
-//	ft_printf("te_move_to_vptr : te->ts %p, te->near_c %p, te->near_cc %p\n", te->ts, te->near_c, te->near_cc);
 	if (!te || !vptr)
 		return ;
 	dist = distance_from_head_to_vptr(te->ts, vptr);
-//	ft_printf("te_move_to_vptr : dist from %p to %p : %d\n", te->ts->arr, vptr, dist);
 	if (dist > 0)
 		while (dist--)
 			te_move(te, M_RA);
 	else if (dist < 0)
 		while (dist++)
 			te_move(te, M_RRA);
+}
+
+void	te_find_deltas_to_addj_clusters(t_stk *s, t_stk *sub, int *d1, int *d2)
+{
+	int	*clst[4];
+	int	dt[4];
+	int	does_overlap;
+
+	clst[0] = find_fst_chk_member_in_stk_clockwise(s, sub);
+	clst[2] = find_fst_chk_member_in_stk_counter_clockwise(s, sub);
+	clst[1] = clst[0];
+	clst[3] = clst[2];
+	while (clst[1] && ((size_t)(clst[1] + 1 - s->arr) < s->len)
+		&& find_value_in_stack(sub, *(clst[1] + 1)))
+		clst[1]++;
+	while (clst[3] && ((clst[3] - 1 - s->arr) > 0)
+		&& find_value_in_stack(sub, *(clst[3] - 1))
+		&& (*(clst[3] - 1) > *clst[3]))
+		clst[3]--;
+	dt[0] = clst[0] - s->arr;
+	dt[1] = clst[1] - s->arr;
+	dt[2] = s->len - (clst[2] - s->arr);
+	dt[3] = s->len - (clst[3] - s->arr);
+	does_overlap = (dt[0] <= dt[2] && dt[2] <= dt[1])
+		|| (dt[2] <= dt[0] && dt[0] <= dt[3])
+		|| (ft_abs(dt[0] - dt[2]) <= (s->len * PATH_THREASHOLD));
+	*delta1 = dt[0] * (does_overlap || (dt[0] < dt[2]));
+	*delta2 = -dt[3] * (does_overlap || (dt[2] < dt[0]));
 }

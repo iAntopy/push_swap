@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 18:10:23 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 23:52:56 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/19 23:00:53 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	tec_find_deltas_to_addj_clusters(t_stk *s, t_chks *ch, int *d1, int *d2)
 	does_overlap = (dt[0] <= dt[2] && dt[2] <= dt[1])
 		|| (dt[2] <= dt[0] && dt[0] <= dt[3])
 		|| (ft_abs(dt[0] - dt[2]) <= (s->len * PATH_THREASHOLD));
-	*delta1 = dt[0] * (does_overlap || (dt[0] < dt[2]));
-	*delta2 = -dt[3] * (does_overlap || (dt[2] < dt[0]));
+	*d1 = dt[0] * (does_overlap || (dt[0] < dt[2]));
+	*d2 = -dt[3] * (does_overlap || (dt[2] < dt[0]));
 }

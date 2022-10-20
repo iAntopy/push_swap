@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 23:53:37 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/19 21:49:53 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,40 @@ void	tec_find_deltas_to_surrounding_clusters(t_stk *s, t_chks *ch, int *delta1, 
 }
 */
 
-t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, int depth)//, char *side)
+t_te	*te_seek_nearest_neighbors(t_te *te, t_te *te1, t_te *te2, int ori_len, int depth)
+{
+	int	delta1;
+	int	delta2;
+	
+	while (te->members->len < sub->len)
+	{
+		te_find_deltas_to_addj_clusters(te->ts, sub, &delta1, &delta2);
+		if ((te->members->len < (sub->len - 1)) && delta1 && delta2)
+		{
+			if (!te_copy(te1, te) || te_clear(te) || !te_copy(te2, te1))
+				return (te_clear_all(te, te1, te2));
+			te_move_delta_and_push_all_members(te1, sub, delta1);
+			if (te1->members->len == sub->len)
+				return (te1);
+			te_move_delta_and_push_all_members(te2, sub, delta2);
+			if (!te_recursive_pathfinder(te1, sub, ori_len, depth + 1)
+				|| !te_recursive_pathfinder(te2, sub, ori_len, depth + 1))
+				return (te_clear_all(te, te1, te2));
+			return (te1 + (te2 - te1) * (te2->nb_moves < te1->nb_moves));
+//			break ;
+		}
+		else
+			te_move_delta_and_push_all_members(te, sub, delta1 + delta2 * !(delta1 && delta2));
+	}
+	return (te);
+}
+
+t_te	*te_recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, int depth)
 {
 	t_te	te1;
 	t_te	te2;
-	int		delta1;
-	int		delta2;
+//	int		delta1;
+//	int		delta2;
 	t_te	*winner;
 
 	if (!te || !sub || !sub->len || !te->ts->len)
@@ -85,6 +113,11 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, int depth)//, ch
 	ft_memclear(&te2, sizeof(te2));
 	winner = NULL;
 	te_move_delta_and_push_all_members(te, sub, 0);
+	winner = te_seek_nearest_neighbors(te, &te1, &te2, depth);
+	if (!winner)
+		return (NULL);
+
+	/*
 	while (te->members->len < sub->len)
 	{
 		te_find_deltas_to_addj_clusters(te->ts, sub, &delta1, &delta2);
@@ -108,22 +141,55 @@ t_varr	*recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, int depth)//, ch
 		else
 			te_move_delta_and_push_all_members(te, sub, delta1 + delta2 * !(delta1 && delta2));
 	}
-
-	if (!winner)
-		return (te->moves);
+*/
+//	if (!winner)
+//		return (te->moves);
 	if (!varr_copy(winner->moves, &te->moves) || !varr_copy(winner->members, &te->members))
 		return (te_clear_all(te, &te1, &te2));
 	te->nb_moves = winner->nb_moves;
 	te_clear_all(NULL, &te1, &te2);
-	return (te->moves);
+	return (te);
 }
 
-t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth)//, char *side)
+t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec *tec1, t_tec *tec2, int ori_len, int depth)
+{
+	int	delta1;
+	int	delta2;
+
+	while (tec->ts->len > 5)
+	{
+		tec_find_deltas_to_addj_clusters(tec->ts, tec->ch, &delta1, &delta2);
+		if (tec->ts->len > 6 && delta1 && delta2)
+		{
+			if (!tec_copy(tec1, tec) || tec_clear(tec) || !tec_copy(tec2, tec1))
+				return (tec_clear_all(tec, tec1, tec2));
+			tec_move_delta_and_push_all_members(tec1, tec1->ch, delta1);
+			if (tec1->ts->len <= 5)
+				return (tec1);
+//			{
+//				winner = &tec1;
+//				break ;
+//			}
+			tec_move_delta_and_push_all_members(tec2, tec2->ch, delta2);
+			if (!tec_recursive_pathfinder(tec1, depth + 1)
+				|| !tec_recursive_pathfinder(tec2, depth + 1))
+				return (tec_clear_all(tec, tec1, tec2));
+//			winner = tec1 + (tec2 - tec1) * (tec2->nb_moves < tec1->nb_moves);
+			return (tec1 + (tec2 - tec1) * (tec2->nb_moves < tec1->nb_moves));
+//			break ;
+		}
+		else
+			tec_move_delta_and_push_all_members(tec, tec->ch, delta1 + delta2 * !(delta1 && delta2));
+	}
+	return (te);
+}
+
+t_tec	*tec_recursive_pathfinder(t_tec *tec, int depth)
 {
 	t_tec	tec1;
 	t_tec	tec2;
-	int		delta1;
-	int		delta2;
+//	int		delta1;
+//	int		delta2;
 	t_tec	*winner;
 
 	if(!tec || !tec->ch)
@@ -133,6 +199,10 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth)//, char *side)
 	ft_memclear(&tec2, sizeof(tec2));
 	winner = NULL;
 	tec_move_delta_and_push_all_members(tec, tec->ch, 0);
+	winner = tec_seek_nearest_neighbors(tec, &tec1, &tec2, depth);
+	if (!winner)
+		return (NULL);
+/*
 	while (tec->ts->len > 5)
 	{
 		tec_find_deltas_to_addj_clusters(tec->ts, tec->ch, &delta1, &delta2);
@@ -156,8 +226,9 @@ t_varr	*recursive_pathfinder_chks(t_tec *tec, int depth)//, char *side)
 		else
 			tec_move_delta_and_push_all_members(tec, tec->ch, delta1 + delta2 * !(delta1 && delta2));
 	}
-	if (!winner)
-		return (tec->moves);
+*/
+//	if (!winner)
+//		return (tec->moves);
 	if (!varr_copy(winner->moves, &tec->moves))
 		return (tec_clear_all(tec, &tec1, &tec2));
 	tec->nb_moves = winner->nb_moves;

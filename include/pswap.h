@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 23:52:58 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/19 21:41:55 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void	te_move_to(t_te *te, int value);
 void	te_move_to_vptr(t_te *te, int *vptr);
 void	te_move_delta(t_te *te, int delta);
 void	te_move_delta_and_push_all_members(t_te *te, t_stk *sub, int delta);
-void	te_find_deltas_to_addj_clusters(t_stk *stk, t_stk *sub, int *d1, int d2);
+void	te_find_deltas_to_addj_clusters(t_stk *stk, t_stk *sub, int *d1, int *d2);
 
 ///// TEST STACK CHUNKS ENV FUNCS /////////
 t_tec	*tec_init(t_ps *ps, t_tec *tec, t_stk *s);
@@ -202,9 +202,13 @@ void	tec_move_to(t_tec *tec, int value);
 void	tec_move_to_vptr(t_tec *tec, int *vptr);
 void	tec_move_delta(t_tec *tec, int delta);
 void	tec_move_delta_and_push_all_members(t_tec *tec, t_chks *ch, int delta);
-void	tec_find_deltas_to_addj_clusters(t_stk *stk, t_chks *ch, int *d1, int d2);
+void	tec_find_deltas_to_addj_clusters(t_stk *stk, t_chks *ch, int *d1, int *d2);
 
 /////// PUSH_SWAP ALGORITHM FUNCS //////////
+t_te	*te_seek_nearest_neighbors(t_te *te, t_te *te1, t_te *te2, int ori_len, int depth);
+t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec *tec1, t_tec *tec2, int ori_len, int depth);
+t_varr	*te_recursive_pathfinding(t_te *te, t_stk *sub, int ori_len, int depth);
+t_varr	*tec_recursive_pathfinding(t_tec *tec, int depth);
 t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, size_t n, int find_lowest);
 t_varr	*optimal_push_a_to_b(t_ps *ps);
 ///////////////////////////////////////////

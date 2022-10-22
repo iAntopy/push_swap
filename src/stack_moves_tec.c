@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:55:00 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 18:56:36 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/21 22:00:18 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	tec_push_all_members_at_head(t_tec *tec, t_chks *ch)
 		tec_push(tec);
 }
 */
+
 void	tec_move_delta(t_tec *tec, int delta)
 {
 	if (!tec)
@@ -96,6 +97,7 @@ void	tec_move_delta(t_tec *tec, int delta)
 
 void	tec_move_delta_and_push_all_members(t_tec *tec, t_chks *ch, int delta)
 {
+	ft_printf("tec move push all : tec, chks, delta : %p, %p, %d\n", tec, ch, delta);
 	tec_move_delta(tec, delta);
 	while (tec->ts->len && chks_is_in_cur_chks(ch, stk_head(tec->ts), NULL))
 		tec_push(tec);

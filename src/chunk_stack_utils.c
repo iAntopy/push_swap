@@ -6,13 +6,13 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 17:42:19 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/21 18:35:23 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
 
-/*
+
 void	chks_print(t_chks *chks)
 {
 	int	i;
@@ -36,7 +36,6 @@ void	chks_print(t_chks *chks)
 	ft_printf("|\t- cur_high = %p\n", chks->cur_high);
 	ft_printf("*----------------------------------*\n\n");
 }
-*/
 
 void	*chks_clear(t_chks **chks_p)
 {

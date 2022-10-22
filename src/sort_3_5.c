@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/17 23:53:33 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/21 18:54:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	psw_sort5(t_ps *ps)
 		return (-1);
 	psw_move_delta_push(ps, ps->A, ps->shortest_mvs->arr[0]);
 	psw_move_delta_push(ps, ps->A, ps->shortest_mvs->arr[1]);
+//	varr_clear(&ps->shortest_mvs);
+//	varr_clear(&ps->shortest_mbrs);
 	psw_sort3(ps, ps->A);
 	if (ps->B->arr[0] < ps->B->arr[1])
 		psw_recipe(ps, 3, M_SB, M_PA, M_PA);

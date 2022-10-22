@@ -6,25 +6,22 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 17:50:20 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/21 18:34:34 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
 
-//void	tec_print(t_tec *tec)
-//{
-//	ft_printf("\no-----------< test stack chunks env >------------o\n");
-//	ft_printf("o-\tstack arr\t: %p\no-\tstack len\t: %d\no-\tts\t\t: %p\n",
-//		tec->stk_ts.arr, tec->stk_ts.len, tec->ts);
-//	ft_printf("o-\tnear_c\t\t: %p (%d)\no-\tnear_cc\t\t: %p (%d)\n",
-//		tec->near_c, (tec->near_c) ? *tec->near_c : -1, tec->near_cc,
-//		(tec->near_cc) ? *tec->near_cc : -1);
-//	ft_printf("o-\tcur run\t\t: %d\no-\tnb moves\t: %d\n", tec->cur_run,
-//		tec->nb_moves);
-//	chks_print(tec->ch);
-//	ft_printf("o-----------------------------------------o\n\n");
-//}
+void	tec_print(t_tec *tec)
+{
+	ft_printf("\no-----------< test stack chunks env >------------o\n");
+	ft_printf("o-\tstack arr\t: %p\no-\tstack len\t: %d\no-\tts\t\t: %p\n",
+		tec->stk_ts.arr, tec->stk_ts.len, tec->ts);
+	ft_printf("o-\tcur run\t\t: %d\no-\tnb moves\t: %d\n", tec->cur_run,
+		tec->nb_moves);
+	chks_print(tec->ch);
+	ft_printf("o-----------------------------------------o\n\n");
+}
 void	*tec_clear(t_tec *tec)
 {
 	if (!tec)

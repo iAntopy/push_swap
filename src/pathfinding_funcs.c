@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:34:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/19 21:49:53 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/21 21:56:56 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	tec_find_deltas_to_surrounding_clusters(t_stk *s, t_chks *ch, int *delta1, 
 }
 */
 
-t_te	*te_seek_nearest_neighbors(t_te *te, t_te *te1, t_te *te2, int ori_len, int depth)
+t_te	*te_seek_nearest_neighbors(t_te *te, t_te tes[2], t_stk *sub, int ori_len, int depth)
 {
 	int	delta1;
 	int	delta2;
@@ -80,17 +80,17 @@ t_te	*te_seek_nearest_neighbors(t_te *te, t_te *te1, t_te *te2, int ori_len, int
 		te_find_deltas_to_addj_clusters(te->ts, sub, &delta1, &delta2);
 		if ((te->members->len < (sub->len - 1)) && delta1 && delta2)
 		{
-			if (!te_copy(te1, te) || te_clear(te) || !te_copy(te2, te1))
-				return (te_clear_all(te, te1, te2));
-			te_move_delta_and_push_all_members(te1, sub, delta1);
-			if (te1->members->len == sub->len)
-				return (te1);
-			te_move_delta_and_push_all_members(te2, sub, delta2);
-			if (!te_recursive_pathfinder(te1, sub, ori_len, depth + 1)
-				|| !te_recursive_pathfinder(te2, sub, ori_len, depth + 1))
-				return (te_clear_all(te, te1, te2));
-			return (te1 + (te2 - te1) * (te2->nb_moves < te1->nb_moves));
-//			break ;
+			ft_printf("REC : SPLIT !\n");
+			if (!te_copy(tes, te) || te_clear(te) || !te_copy(tes + 1, tes))
+				return (te_clear_all(te, tes, tes + 1));
+			te_move_delta_and_push_all_members(tes, sub, delta1);
+			if (tes->members->len == sub->len)
+				return (tes);
+			te_move_delta_and_push_all_members(tes + 1, sub, delta2);
+			if (!te_recursive_pathfinder(tes, sub, ori_len, depth + 1)
+				|| !te_recursive_pathfinder(tes + 1, sub, ori_len, depth + 1))
+				return (te_clear_all(te, tes, tes + 1));
+			return (tes + ((tes + 1)->nb_moves < tes->nb_moves));
 		}
 		else
 			te_move_delta_and_push_all_members(te, sub, delta1 + delta2 * !(delta1 && delta2));
@@ -100,58 +100,27 @@ t_te	*te_seek_nearest_neighbors(t_te *te, t_te *te1, t_te *te2, int ori_len, int
 
 t_te	*te_recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, int depth)
 {
-	t_te	te1;
-	t_te	te2;
-//	int		delta1;
-//	int		delta2;
+	t_te	tes[2];
 	t_te	*winner;
 
 	if (!te || !sub || !sub->len || !te->ts->len)
 		return (NULL);
-//	ft_printf("\n\n\n\n\n----------------REC : RECURSIVE PATHFINDING (depth %d, side %s) --------------\n\n", depth, side);
-	ft_memclear(&te1, sizeof(te1));
-	ft_memclear(&te2, sizeof(te2));
+//	ft_printf("\n\n\n\n\n----------------REC : RECURSIVE PATHFINDING (depth %d) --------------\n\n", depth);
+	ft_memclear(tes, sizeof(tes));
 	winner = NULL;
 	te_move_delta_and_push_all_members(te, sub, 0);
-	winner = te_seek_nearest_neighbors(te, &te1, &te2, depth);
+	winner = te_seek_nearest_neighbors(te, tes, sub, ori_len, depth);
 	if (!winner)
 		return (NULL);
-
-	/*
-	while (te->members->len < sub->len)
-	{
-		te_find_deltas_to_addj_clusters(te->ts, sub, &delta1, &delta2);
-		if ((te->members->len < (sub->len - 1)) && delta1 && delta2)
-		{
-			if (!te_copy(&te1, te) || te_clear(te) || !te_copy(&te2, &te1))
-				return (te_clear_all(te, &te1, &te2));
-			te_move_delta_and_push_all_members(&te1, sub, delta1);
-			if (te1.members->len == sub->len)
-			{
-				winner = &te1;
-				break ;
-			}
-			te_move_delta_and_push_all_members(&te2, sub, delta2);
-			if (!recursive_pathfinder(&te1, sub, ori_len, depth + 1)
-				|| !recursive_pathfinder(&te2, sub, ori_len, depth + 1))
-				return (te_clear_all(te, &te1, &te2));
-			winner = &te1 + (&te2 - &te1) * (te2.nb_moves < te1.nb_moves);
-			break ;
-		}
-		else
-			te_move_delta_and_push_all_members(te, sub, delta1 + delta2 * !(delta1 && delta2));
-	}
-*/
-//	if (!winner)
-//		return (te->moves);
-	if (!varr_copy(winner->moves, &te->moves) || !varr_copy(winner->members, &te->members))
-		return (te_clear_all(te, &te1, &te2));
+	if ((winner != te) && (!varr_copy(winner->moves, &te->moves)
+				|| !varr_copy(winner->members, &te->members)))
+		return (te_clear_all(te, tes, tes + 1));
 	te->nb_moves = winner->nb_moves;
-	te_clear_all(NULL, &te1, &te2);
+	te_clear_all(NULL, tes, tes + 1);
 	return (te);
 }
 
-t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec *tec1, t_tec *tec2, int ori_len, int depth)
+t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec tecs[2], int depth)
 {
 	int	delta1;
 	int	delta2;
@@ -161,79 +130,51 @@ t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec *tec1, t_tec *tec2, int ori_
 		tec_find_deltas_to_addj_clusters(tec->ts, tec->ch, &delta1, &delta2);
 		if (tec->ts->len > 6 && delta1 && delta2)
 		{
-			if (!tec_copy(tec1, tec) || tec_clear(tec) || !tec_copy(tec2, tec1))
-				return (tec_clear_all(tec, tec1, tec2));
-			tec_move_delta_and_push_all_members(tec1, tec1->ch, delta1);
-			if (tec1->ts->len <= 5)
-				return (tec1);
-//			{
-//				winner = &tec1;
-//				break ;
-//			}
-			tec_move_delta_and_push_all_members(tec2, tec2->ch, delta2);
-			if (!tec_recursive_pathfinder(tec1, depth + 1)
-				|| !tec_recursive_pathfinder(tec2, depth + 1))
-				return (tec_clear_all(tec, tec1, tec2));
-//			winner = tec1 + (tec2 - tec1) * (tec2->nb_moves < tec1->nb_moves);
-			return (tec1 + (tec2 - tec1) * (tec2->nb_moves < tec1->nb_moves));
-//			break ;
+			ft_printf("RECC : SPLIT !\n");
+			if (!tec_copy(tecs, tec) || tec_clear(tec) || !tec_copy(tecs + 1, tecs))
+			{
+				ft_printf("RECC : icopy failed !\n");
+				return (tec_clear_all(tec, tecs, tecs + 1));
+			}
+			ft_printf("RECC : moving all members at delta : %d\n", delta1);
+			ft_printf("RECC : tec->ch : %p\n", tecs->ch);
+			tec_move_delta_and_push_all_members(tecs, tecs->ch, delta1);
+			if (tecs->ts->len <= 5)
+				return (tecs);
+			tec_move_delta_and_push_all_members(tecs + 1, (tecs + 1)->ch, delta2);
+//			ft_printf("RECC : going recursive with te1, te2 : \n");
+//			tec_print(tecs);
+//			tec_print(tecs + 1);
+			if (!tec_recursive_pathfinder(tecs, depth + 1)
+				|| !tec_recursive_pathfinder(tecs + 1, depth + 1))
+				return (tec_clear_all(tec, tecs, tecs + 1));
+			return (tecs + ((tecs + 1)->nb_moves < tecs->nb_moves));
 		}
 		else
 			tec_move_delta_and_push_all_members(tec, tec->ch, delta1 + delta2 * !(delta1 && delta2));
 	}
-	return (te);
+	return (tec);
 }
 
 t_tec	*tec_recursive_pathfinder(t_tec *tec, int depth)
 {
-	t_tec	tec1;
-	t_tec	tec2;
-//	int		delta1;
-//	int		delta2;
+	t_tec	tecs[2];
 	t_tec	*winner;
 
 	if(!tec || !tec->ch)
 		return (NULL);
-//	ft_printf("\n\n\n\n\n----------------RECC : RECURSIVE PATHFINDER CHKS (depth %d, side %s) --------------\n\n", depth, side);
-	ft_memclear(&tec1, sizeof(tec1));
-	ft_memclear(&tec2, sizeof(tec2));
+//	ft_printf("\n\n\n\n\n----------------RECC : RECURSIVE PATHFINDER CHKS (depth %d) --------------\n\n", depth);
+	ft_memclear(tecs, sizeof(tecs));
 	winner = NULL;
 	tec_move_delta_and_push_all_members(tec, tec->ch, 0);
-	winner = tec_seek_nearest_neighbors(tec, &tec1, &tec2, depth);
+	winner = tec_seek_nearest_neighbors(tec, tecs, depth);
 	if (!winner)
 		return (NULL);
-/*
-	while (tec->ts->len > 5)
-	{
-		tec_find_deltas_to_addj_clusters(tec->ts, tec->ch, &delta1, &delta2);
-		if (tec->ts->len > 6 && delta1 && delta2)
-		{
-			if (!tec_copy(&tec1, tec) || tec_clear(tec) || !tec_copy(&tec2, &tec1))
-				return (tec_clear_all(tec, &tec1, &tec2));
-			tec_move_delta_and_push_all_members(&tec1, tec1.ch, delta1);
-			if (tec1.ts->len <= 5)
-			{
-				winner = &tec1;
-				break ;
-			}
-			tec_move_delta_and_push_all_members(&tec2, tec2.ch, delta2);
-			if (!recursive_pathfinder_chks(&tec1, depth + 1)
-				|| !recursive_pathfinder_chks(&tec2, depth + 1))
-				return (tec_clear_all(tec, &tec1, &tec2));
-			winner = &tec1 + (&tec2 - &tec1) * (tec2.nb_moves < tec1.nb_moves);
-			break ;
-		}
-		else
-			tec_move_delta_and_push_all_members(tec, tec->ch, delta1 + delta2 * !(delta1 && delta2));
-	}
-*/
-//	if (!winner)
-//		return (tec->moves);
-	if (!varr_copy(winner->moves, &tec->moves))
-		return (tec_clear_all(tec, &tec1, &tec2));
+	if (!(winner != tec) && (varr_copy(winner->moves, &tec->moves)))
+		return (tec_clear_all(tec, tecs, tecs + 1));
 	tec->nb_moves = winner->nb_moves;
-	tec_clear_all(NULL, &tec1, &tec2);
-	return (tec->moves);
+	tec_clear_all(NULL, tecs, tecs + 1);
+	return (tec);
 }
 
 t_varr	*optimal_push_a_to_b(t_ps *ps)
@@ -245,12 +186,12 @@ t_varr	*optimal_push_a_to_b(t_ps *ps)
 ///	ft_printf("\n\noptimal push a to b : Entered\n");
 	varr_clear(&ps->shortest_mvs);
 	varr_clear(&ps->shortest_mbrs);
-	if (!recursive_pathfinder_chks(&tec, 0))//, "root"))
+	if (!tec_recursive_pathfinder(&tec, 0))//, "root"))
 		return (tec_clear(&tec));
 	ps->shortest_mvs = tec.moves;
 	chks_clear(&tec.ch);
 	stk_clear(&tec.ts);
-	ft_memclear(&tec, sizeof(tec));
+//	ft_memclear(&tec, sizeof(tec));
 	return (ps->shortest_mvs);
 }
 
@@ -271,11 +212,11 @@ t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, size_t n, int find_lowest)
 		ext = get_n_highest_members(ps, s, n);
 	if (!ext || !te_init(&te, s))
 		return (NULL);
-	if (!recursive_pathfinder(&te, ext, s->len, 0))//, "root"))
+	if (!te_recursive_pathfinder(&te, ext, s->len, 0))//, "root"))
 		return (te_clear(&te));
 	ps->shortest_mvs = te.moves;
 	ps->shortest_mbrs = te.members;
 	stk_clear(&te.ts);
-	ft_memclear(&te, sizeof(te));
+//	ft_memclear(&te, sizeof(te));
 	return (ps->shortest_mvs);
 }

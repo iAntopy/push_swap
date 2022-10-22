@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo      #+#    #+#             */
-/*   Updated: 2022/10/17 04:23:19 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/21 18:26:01 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(int argc, char **argv)
 	print_stacks(&ps);
 	if (psw_algo_manager(&ps) < 0)
 		return (psw_clear(&ps, repport_error()));
+	print_stacks(&ps);
 	if (stk_issorted(ps.A))
 		ft_printf("main : Is Stack A (%d) sorted after %d moves : %s\n",
 			ps.stack_max, ps.nb_moves, GREEN_BC"TRUE"WHITE_C);

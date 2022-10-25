@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 17:46:38 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/24 21:20:31 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ int	psw_algo_finale(t_ps *ps)
 // Called after inputs have been validated and stacks are malloced.
 int	psw_algo_manager(t_ps *ps)
 {
-	ft_printf("algo : entered \n");
 	if (ps && ps->A && ps->A->len <= 5)
 	{
 		if (psw_sort5(ps) < 0)

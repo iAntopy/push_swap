@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 05:04:50 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/21 18:54:08 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/24 21:21:46 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	psw_sort4(t_ps *ps, t_stk *s)
 	if (!ps || !s || s->len > 4 || stk_issorted(s)
 		|| stk_seek_sorted_phase(ps, s))
 		return ;
-	printf("sort4 : Up to good start\n");
 	if (s->len < 4)
 	{
 		psw_sort3(ps, s);
@@ -75,7 +74,6 @@ void	psw_sort4(t_ps *ps, t_stk *s)
 // Assumes sort stack A
 int	psw_sort5(t_ps *ps)
 {
-	ft_printf("sort5 : entered \n");
 	if (!ps || ps->A->len > 5)
 		return (-1);
 	if (stk_issorted(ps->A) || stk_seek_sorted_phase(ps, ps->A))
@@ -89,8 +87,6 @@ int	psw_sort5(t_ps *ps)
 		return (-1);
 	psw_move_delta_push(ps, ps->A, ps->shortest_mvs->arr[0]);
 	psw_move_delta_push(ps, ps->A, ps->shortest_mvs->arr[1]);
-//	varr_clear(&ps->shortest_mvs);
-//	varr_clear(&ps->shortest_mbrs);
 	psw_sort3(ps, ps->A);
 	if (ps->B->arr[0] < ps->B->arr[1])
 		psw_recipe(ps, 3, M_SB, M_PA, M_PA);

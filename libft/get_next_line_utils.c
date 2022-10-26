@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils2.c                             :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:15:10 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/12 18:28:13 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:01:38 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -26,6 +26,7 @@ int	get_substr(char *str, size_t start, size_t n, char **ret)
 			r++;
 	if (n)
 	{
+		*ret = NULL;
 		if (!ft_malloc_p(sizeof(char) * (n + 1), (void **)ret))
 			return (0);
 		r = *ret;
@@ -94,6 +95,9 @@ int	join_clear_list(char *line, t_gdl **elem)
 	return (1);
 }
 
+
+
+
 char	*gather_line(t_gdl **chks)
 {
 	size_t	total_len;
@@ -115,6 +119,8 @@ char	*gather_line(t_gdl **chks)
 		elem = elem->next;
 		total_len += elem->n;
 	}
+	elem = NULL;
+	line = NULL;
 	if (!ft_malloc_p(sizeof(char) * (total_len + 1), (void **)(&line))
 		|| !join_clear_list(line, &elem))
 		return ((char *)E_MLC);

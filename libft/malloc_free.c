@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 23:16:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/24 18:27:44 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 14:52:44 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -34,11 +34,29 @@ int	ft_malloc_p(size_t size, void **ptr)
 
 	if (!ptr || !size)
 		return (0);
+	if (*ptr)
+	{
+		ft_eprintf("ft_malloc_p can only malloc if *ptr is NULL.");
+		ft_eprintf(" Clear ptr then malloc\n");
+	}
+	p = malloc(size);
+	*ptr = p;
+	return (p != NULL);
+}
+
+// ft_malloc_p with safe ptr. The void **ptr given MUST be NULL or returns error.
+int	ft_malloc_sp(size_t size, void **ptr)
+{
+	void	*p;
+
+	if (!ptr || !size)
+		return (0);
 	p = NULL;
 	if (*ptr)
 	{
 		ft_eprintf("ft_malloc_p can only malloc if *ptr is NULL.");
 		ft_eprintf(" Clear ptr then malloc\n");
+		return (0);
 	}
 	p = malloc(size);
 	*ptr = p;
@@ -53,20 +71,4 @@ int	ft_free_p(void **ptr)
 		*ptr = NULL;
 	}
 	return (1);
-}
-
-void	*malloc_free(size_t size, void **ptr)
-{	
-	if (size)
-	{
-		*ptr = malloc(size);
-		if (*ptr)
-			return (*ptr);
-	}
-	else if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-	return (NULL);
 }

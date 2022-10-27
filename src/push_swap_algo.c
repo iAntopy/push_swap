@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/24 21:20:31 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 23:14:55 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,12 @@ static int	psw_algo_stage1_a_to_b(t_ps *ps)
 //	- time. This chunk of 4 is passed through the recursive
 //	- pathfinder to check the optimal path in which to push
 //	- them.
-//	- 	If the 2 closest chunk members are the two greatest 
-//	- members of the 4, only push those 2 in the optimal order
-//	- and swap A if HEAD is greater than the first
-//	- value pushed, then delete the chunk, find current 4 greatest
-//	- check recursive pathfinder again.
-//	-	Else if 2 closest are NOT the greatest in the chunk,
-//	- push the 4 members of chunk in optimal order found by
-//	- recursive pathfinder. When one of the 2 smallest in the
-//	- chunk is pushed do M_RA move (rotate A) so that the smallest
-//	- members are behind the head. After all 4 are push, Swap A 
-//	- if A-head > A-head + 1. Then M_RRA twice so that the two 
-//	- smallest members pushed are at A-head and A-head + 1.
-//	- Then again, swap A, if A-head > A-head + 1. 
-//	-	Continue this process while stack B length is > 3.
-
+//
+//	-	Check the path identity, which means taking the 4 members
+//	- of high chunk and subtracting them by the smallest member.
+//	- Then follow the table below for optimal sorting sequence.
+//	- (this table is implemented in the cook_book.c file).
+//
 //	Highest chunk arrangments solver table (excluding rotates) :
 //0	- [3, 2, 1, 0] : PA * 4						4 mvs
 //1	- [3, 2, 0, 1] : PA * 2, <reset>.				+2 mvs (miss 2)
@@ -212,12 +203,10 @@ int	psw_algo_finale(t_ps *ps)
 // Called after inputs have been validated and stacks are malloced.
 int	psw_algo_manager(t_ps *ps)
 {
-	if (ps && ps->A && ps->A->len <= 5)
-	{
-		if (psw_sort5(ps) < 0)
-			return (-1);
+	if (stk_issorted(ps->A) && ps->B->len == 0)
 		return (0);
-	}
+	if (ps && ps->A && ps->A->len <= 5)
+		return (psw_sort5(ps) < 0);
 	if (!ps || !ps->A || !ps->B || !chks_init(ps->ch, ps))
 		return (-1);
 	if (psw_algo_stage1_a_to_b(ps) < 0

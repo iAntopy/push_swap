@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/24 22:22:07 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:41:56 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	tec_print(t_tec *tec)
 	chks_print(tec->ch);
 	ft_printf("o-----------------------------------------o\n\n");
 }
+
 void	*tec_clear(t_tec *tec)
 {
 	if (!tec)
@@ -71,13 +72,10 @@ void	*tec_copy(t_tec *dst, t_tec *src)
 	ft_memclear(dst, sizeof(*dst));
 	dst->ts = &dst->stk_ts;
 	dst->ch = &dst->chks;
-	ft_printf("tec copy : stk_copy\n");
 	if (!stk_copy(dst->ts, src->ts))
 		return (NULL);
-	ft_printf("tec copy : chks_copy\n");
 	if (!chks_copy(dst->ch, src->ch))
 		return (tec_clear(dst));
-	ft_printf("tec copy : varr_copy\n");
 	if (!varr_copy(src->moves, &dst->moves))
 		return (tec_clear(dst));
 	dst->cur_run = src->cur_run;

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:06:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/17 04:16:18 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 23:17:11 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,20 +109,3 @@ int	parse_inputs(t_ps *ps, int argc, char **argv)
 		return (-1);
 	return (0);
 }
-	/*
-	if (!status && init_stacks(ps, nbs_strtab) < 0)
-	{
-		ft_eprintf("parse input : init_stack_failed\n");
-		status = -1;
-	}
-	if (!status && doublon_check(&ps->stk_a) < 0)
-	{
-		ft_eprintf("parse input : doublon limit failed\n");
-		status = -1;
-	}
-	if (is_single_str)
-		strtab_clear(&nbs_strtab);
-	ft_printf("parse input : Exit. status : %d\n", status);
-	return (status);
-	*/
-//}

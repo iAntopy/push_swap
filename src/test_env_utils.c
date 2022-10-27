@@ -6,12 +6,11 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:59:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/21 18:34:54 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:48:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
-
 
 void	te_print(t_te *te)
 {

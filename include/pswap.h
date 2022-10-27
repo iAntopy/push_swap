@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 05:32:59 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/21 18:20:31 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:52:09 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 
 # include "libft.h"
 
-//# define eprintf(args...) fprintf(stderr, ##args)
-
-# define PATH_THREASHOLD 2.0f / 100.0f
+# define PATH_THREASHOLD 0.5f / 100.0f
 
 typedef struct	s_stack
 {
@@ -46,8 +44,6 @@ typedef struct s_test_stacks_env
 	t_stk	*ts;
 	t_varr	*moves;
 	t_varr	*members;
-//	int		*near_c;
-//	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
 }	t_te;
@@ -59,8 +55,6 @@ typedef struct s_test_stacks_chunks_env
 	t_stk	*ts;
 	t_chks	*ch;
 	t_varr	*moves;
-//	int		*near_c;
-//	int		*near_cc;
 	int		cur_run;
 	int		nb_moves;
 }	t_tec;
@@ -74,7 +68,6 @@ typedef struct s_push_swap
 	t_chks		chks;
 	t_stk		*A;
 	t_stk		*B;
-//	t_stk		*ref;
 	t_stk		*temp;
 	t_chks		*ch;
 	t_varr		*shortest_mvs;
@@ -142,7 +135,6 @@ int		distance_from_head_to_vptr(t_stk *s, int *vptr);
 int		find_longest_sorted_sequence(t_stk *s, int **seq_start);
 t_stk	*get_n_lowest_members(t_ps *ps, t_stk *s, size_t n);
 t_stk	*get_n_highest_members(t_ps *ps, t_stk *s, size_t  n);
-//int		get_nb_members_intersect(t_stk *large, t_stk *small);
 
 ///// STACK_MOVES ///////
 void	psw_swap(t_stk *A, t_stk *B);
@@ -180,7 +172,6 @@ void	te_rotate(t_te *te, int rev);
 void	te_push(t_te *te);
 void	te_push_all_members_at_head(t_te *te, t_stk *sub);
 void	te_move(t_te *te, int move);
-//void	te_recipe(t_te *te, int nb_move, ...);
 void	te_move_to(t_te *te, int value);
 void	te_move_to_vptr(t_te *te, int *vptr);
 void	te_move_delta(t_te *te, int delta);
@@ -197,7 +188,6 @@ void	tec_rotate(t_tec *tec, int rev);
 void	tec_push(t_tec *tec);
 void	tec_push_all_members_at_head(t_tec *tec, t_chks *ch);
 void	tec_move(t_tec *tec, int move);
-//void	tec_recipe(t_tec *tec, int nb_move, ...);
 void	tec_move_to(t_tec *tec, int value);
 void	tec_move_to_vptr(t_tec *tec, int *vptr);
 void	tec_move_delta(t_tec *tec, int delta);
@@ -205,10 +195,10 @@ void	tec_move_delta_and_push_all_members(t_tec *tec, t_chks *ch, int delta);
 void	tec_find_deltas_to_addj_clusters(t_stk *stk, t_chks *ch, int *d1, int *d2);
 
 /////// PUSH_SWAP ALGORITHM FUNCS //////////
-t_te	*te_seek_nearest_neighbors(t_te *te, t_te tes[2], t_stk *sub, int ori_len, int depth);
-t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec tecs[2], int depth);
-t_te	*te_recursive_pathfinder(t_te *te, t_stk *sub, int ori_len, int depth);
-t_tec	*tec_recursive_pathfinder(t_tec *tec, int depth);
+t_te	*te_seek_nearest_neighbors(t_te *te, t_te tes[2], t_stk *sub);
+t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec tecs[2]);
+t_te	*te_recursive_pathfinder(t_te *te, t_stk *sub);
+t_tec	*tec_recursive_pathfinder(t_tec *tec);
 t_varr	*path_to_n_extreme(t_ps *ps, t_stk *s, size_t n, int find_lowest);
 t_varr	*optimal_push_a_to_b(t_ps *ps);
 ///////////////////////////////////////////

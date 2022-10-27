@@ -15,20 +15,19 @@ _SRC	=	push_swap_main.c			\
 			stack_moves_tec.c			\
 			stack_moves2_tec.c		\
 			checker_funcs.c			\
-			print_stacks.c			\
 			sort_3_5.c				\
 			dist_funcs.c				\
 			analysis_funcs.c			\
 			analysis_funcs2.c			\
 			chunkers.c				\
 			pathfinding_funcs.c		\
+			pathfinding_recursive_funcs.c		\
 			chunk_stack_utils.c		\
 			chunk_stack_utils2.c		\
 			test_env_utils.c			\
 			test_env_chunks_utils.c
 
 _SRC_B	=	checker_main_bonus.c	\
-			print_stacks_bonus.c	\
 			error_handling_bonus.c			\
 			parse_inputs_bonus.c			\
 			stack_moves_bonus.c			\

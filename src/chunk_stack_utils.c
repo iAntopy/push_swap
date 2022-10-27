@@ -6,36 +6,11 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:28:32 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/21 18:35:23 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 21:18:08 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
-
-
-void	chks_print(t_chks *chks)
-{
-	int	i;
-
-	if (!chks || !chks->chk_stk)
-		return ;
-	i = -1;
-	ft_printf("\n*---------< CHUNK STACK >----------*\n");
-	while (++i < chks->nb_chks)
-	{
-		ft_printf("|\t- %d : ", i);
-		if (chks->chk_stk[i])
-			varr_print(chks->chk_stk[i]);
-		else
-			ft_printf("No chunk.\n");
-	}
-	ft_printf("|\t---------------------------|\n");
-	ft_printf("|\t- i_low = %d\n", chks->i_low);
-	ft_printf("|\t- i_high = %d\n", chks->i_high);
-	ft_printf("|\t- cur_low = %p\n", chks->cur_low);
-	ft_printf("|\t- cur_high = %p\n", chks->cur_high);
-	ft_printf("*----------------------------------*\n\n");
-}
 
 void	*chks_clear(t_chks **chks_p)
 {
@@ -140,14 +115,3 @@ t_chks	*chks_init(t_chks *chks, t_ps *ps)
 	chks->cur_high = chks->chk_stk[chks->i_high];
 	return (chks);
 }
-//	while (++i < (ps->nb_chks - 1))
-//	{
-//		c = varr_create(ps->chk_size);
-//		if (c)
-//			return (chks_clear(chks));
-//		chks->chk_stk[i] = c;
-//		chks_copy_refs_in_chk(c, ref->arr + (i * ps->));
-//		j = -1;
-//		while (++j < ps->chk_size)
-//			c->arr[j] = ref-;
-//}

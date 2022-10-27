@@ -6,13 +6,13 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:32:06 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 17:39:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 21:16:57 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pswap.h"
 
-int	*find_lowest_excluding(t_stk *s, t_stk *exclusions)
+static int	*find_lowest_excluding(t_stk *s, t_stk *exclusions)
 {
 	int		val;
 	int		*low;
@@ -30,7 +30,7 @@ int	*find_lowest_excluding(t_stk *s, t_stk *exclusions)
 	return (low);
 }
 
-int	*find_highest_excluding(t_stk *s, t_stk *exclusions)
+static int	*find_highest_excluding(t_stk *s, t_stk *exclusions)
 {
 	int		val;
 	int		*high;

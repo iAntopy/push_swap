@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 03:19:53 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 17:16:16 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 21:15:13 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	get_move_idx(t_ps *ps, char *s_move)
 int	read_and_exec_moves(t_ps *ps)
 {
 	char	*s_move;
-	int	i_move;
+	int		i_move;
 	char	*new_line_p;
 
 	while (1)
@@ -75,13 +75,15 @@ int	main(int argc, char **argv)
 		"sa", "sb", "ss", "pa", "pb"};
 	t_ps		ps;
 
+	if (argc < 2)
+		return (0);
 	ft_memclear(&ps, sizeof(ps));
 	ps.strmoves = (char **)strmoves;
 	ps.nb_moves = 0;
 	if (parse_inputs(&ps, argc, argv) < 0)
 		return (psw_clear(&ps, repport_error()));
-	read_and_exec_moves(&ps);
-//	print_stacks(&ps);
+	if (read_and_exec_moves(&ps) < 0)
+		return (psw_clear(&ps, repport_error()));
 	if (ps.B->len == 0 && stk_issorted(ps.A))
 		ft_printf("OK\n");
 	else

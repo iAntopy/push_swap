@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:14:12 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 17:00:42 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/10/26 18:48:18 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -100,6 +100,7 @@ static char	*gnl_prep(t_gdl **rems, t_gdl **fd_e, t_gdl **chks, size_t fd)
 		(*fd_e)->str = NULL;
 		return (rec_liner(rems, fd_e, chks, nl_found));
 	}
+	line = NULL;
 	if (!get_substr((*fd_e)->str, 0, idx, &line)
 		|| !get_substr((*fd_e)->str, idx, SIZE_MAX, &((*fd_e)->str)))
 		return (manage_eof(rems, fd_e, chks, E_MLC));

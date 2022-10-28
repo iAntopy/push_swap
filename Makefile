@@ -69,9 +69,9 @@ all:		$(NAME)
 bonus:		$(NAME_BONUS)
 
 clean:
-		rm -f $(OBJ_M) $(LIBFT)
+		rm -f $(OBJ_M) $(OBJ_B) $(LIBFT)
 
 fclean:		clean
-		rm -f $(NAME)
+		rm -f $(NAME) $(NAME_BONUS)
 
 re:			fclean all

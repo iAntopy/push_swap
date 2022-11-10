@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 22:23:27 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/17 21:35:08 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:08:38 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	psw_move_delta(t_ps *ps, t_stk *s, int delta)
 
 	if (!ps || !s || !delta)
 		return ;
-	is_b = (s == ps->B);
+	is_b = (s == ps->b);
 	if (delta > 0)
 		while (delta--)
 			psw_move(ps, M_RA + is_b);
@@ -33,7 +33,7 @@ void	psw_move_delta_push(t_ps *ps, t_stk *s, int delta)
 
 	if (!ps || !s)
 		return ;
-	is_b = (s == ps->B);
+	is_b = (s == ps->b);
 	psw_move_delta(ps, s, delta);
 	psw_move(ps, M_PB - is_b);
 }

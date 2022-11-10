@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo      #+#    #+#             */
-/*   Updated: 2022/11/09 21:00:24 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:06:27 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	psw_clear(t_ps *ps, int status)
 {
-	stk_clear(&ps->A);
-	stk_clear(&ps->B);
+	stk_clear(&ps->a);
+	stk_clear(&ps->b);
 	stk_clear(&ps->temp);
 	chks_clear(&ps->ch);
 	varr_clear(&ps->shortest_mvs);
@@ -59,7 +59,7 @@ int	main(int argc, char **argv)
 	ps.strmoves = (char **)strmoves;
 	ps.nb_moves = 0;
 	if (parse_inputs(&ps, argc, argv) < 0
-		|| replace_nbs_with_indices(ps.A) < 0)
+		|| replace_nbs_with_indices(ps.a) < 0)
 		return (psw_clear(&ps, repport_error()));
 	if (psw_algo_manager(&ps) < 0)
 		return (psw_clear(&ps, repport_error()));

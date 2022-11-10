@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 23:14:55 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:03:44 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	execute_recipe(t_ps *ps, t_varr *path, const char *recipe)
 	{
 		delta_b = 0;
 		if (*recipe == 'p' && varr_get(path, i++, &delta_b) == 0)
-			psw_move_delta_push(ps, ps->B, delta_b);
+			psw_move_delta_push(ps, ps->b, delta_b);
 		else if (*recipe == 's')
 			psw_move(ps, M_SA);
 		else if (*recipe == '+' && varr_get(path, i, &delta_b) == 0
@@ -70,7 +70,7 @@ static int	psw_algo_stage1_a_to_b(t_ps *ps)
 		else if (delta < 0)
 			while (delta++)
 				psw_move(ps, M_RRA);
-		if (varr_is_in(ps->ch->cur_low, stk_head(ps->A)))
+		if (varr_is_in(ps->ch->cur_low, stk_head(ps->a)))
 		{
 			psw_move(ps, M_PB);
 			psw_move(ps, M_RB);
@@ -154,15 +154,15 @@ int	psw_algo_stage2_b_to_a(t_ps *ps)
 
 	if (!ps)
 		return (-1);
-	while (ps->B->len >= 4)
+	while (ps->b->len >= 4)
 	{
-		if (stk_seek_rev_sorted_phase(ps, ps->B))
+		if (stk_seek_rev_sorted_phase(ps, ps->b))
 		{
-			while (ps->B->len)
+			while (ps->b->len)
 				psw_move(ps, M_PA);
 			break ;
 		}
-		if (!path_to_n_extreme(ps, ps->B, 4, 0))
+		if (!path_to_n_extreme(ps, ps->b, 4, 0))
 			return (-1);
 		if (stk_seek_rev_sorted_highs(ps, varr_max(ps->shortest_mbrs)))
 			continue ;
@@ -180,19 +180,19 @@ int	psw_algo_finale(t_ps *ps)
 {
 	if (!ps)
 		return (-1);
-	if (ps->B->len == 1)
+	if (ps->b->len == 1)
 		psw_move(ps, M_PA);
-	else if (ps->B->len == 2)
+	else if (ps->b->len == 2)
 	{
-		if (ps->B->arr[0] < ps->B->arr[1])
+		if (ps->b->arr[0] < ps->b->arr[1])
 			psw_move(ps, M_SB);
 		psw_move(ps, M_PA);
 		psw_move(ps, M_PA);
 	}
-	else if (ps->B->len == 3)
+	else if (ps->b->len == 3)
 	{
-		psw_move_to_vptr(ps, ps->B, find_highest(ps->B));
-		if (ps->B->arr[1] < ps->B->arr[2])
+		psw_move_to_vptr(ps, ps->b, find_highest(ps->b));
+		if (ps->b->arr[1] < ps->b->arr[2])
 			psw_recipe(ps, 4, M_PA, M_SB, M_PA, M_PA);
 		else
 			psw_recipe(ps, 3, M_PA, M_PA, M_PA);
@@ -203,18 +203,18 @@ int	psw_algo_finale(t_ps *ps)
 // Called after inputs have been validated and stacks are malloced.
 int	psw_algo_manager(t_ps *ps)
 {
-	if (stk_issorted(ps->A) && ps->B->len == 0)
+	if (stk_issorted(ps->a) && ps->b->len == 0)
 		return (0);
-	if (ps && ps->A && ps->A->len <= 5)
+	if (ps && ps->a && ps->a->len <= 5)
 		return (psw_sort5(ps) < 0);
-	if (!ps || !ps->A || !ps->B || !chks_init(ps->ch, ps))
+	if (!ps || !ps->a || !ps->b || !chks_init(ps->ch, ps))
 		return (-1);
 	if (psw_algo_stage1_a_to_b(ps) < 0
 		|| psw_sort5(ps) < 0
 		|| psw_algo_stage2_b_to_a(ps) < 0
 		|| psw_algo_finale(ps) < 0)
 		return (-1);
-	if (stk_issorted(ps->A))
+	if (stk_issorted(ps->a))
 		return (0);
 	return (-1);
 }

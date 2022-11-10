@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 04:54:44 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/11/09 23:56:04 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:55:02 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static int	validate_single_input(char *nb)
 	return (1);
 }
 
-static int	duplicate_check(t_stk *A)
+static int	duplicate_check(t_stk *a)
 {
 	int	i;
 	int	j;
 	int	stack_max;
 	int	*arr;
 
-	stack_max = A->len;
-	arr = A->arr;
+	stack_max = a->len;
+	arr = a->arr;
 	i = -1;
 	while (++i < stack_max)
 	{
@@ -54,8 +54,8 @@ static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 	if (!ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_a.arr)
 		|| !ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_b.arr))
 		return (-1);
-	ps->A = &ps->stk_a;
-	ps->B = &ps->stk_b;
+	ps->a = &ps->stk_a;
+	ps->b = &ps->stk_b;
 	ps->stk_a.len = ps->stack_max;
 	ps->stk_b.len = 0;
 	return (0);
@@ -82,9 +82,9 @@ static int	init_ps_struct_and_stacks(t_ps *ps, char **nbs_tab)
 		if ((digit1 && *digit1 && *digit1 != '0' && nb == 0)
 			|| (nb < INT_MIN) || (INT_MAX < nb))
 			return (-1);
-		ps->A->arr[i] = (int)nb;
+		ps->a->arr[i] = (int)nb;
 	}
-	return (duplicate_check(ps->A));
+	return (duplicate_check(ps->a));
 }
 
 int	parse_inputs(t_ps *ps, int argc, char **argv)

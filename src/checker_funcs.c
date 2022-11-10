@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 21:05:54 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/18 17:43:44 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:08:10 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ int	stk_seek_rev_sorted_highs(t_ps *ps, int high)
 	int		*max;
 	int		idx;
 
-	len = ps->B->len;
-	arr = ps->B->arr;
-	max = find_value_in_stack(ps->B, high);
+	len = ps->b->len;
+	arr = ps->b->arr;
+	max = find_value_in_stack(ps->b, high);
 	idx = max - arr;
 	if ((len - idx) < 4 && arr[(idx + 1) % len] == (*max - 1)
 		&& arr[(idx + 2) % len] == (*max - 2)
 		&& arr[(idx + 3) % len] == (*max - 3))
 	{
-		psw_move_to_vptr(ps, ps->B, max);
+		psw_move_to_vptr(ps, ps->b, max);
 		psw_move(ps, M_PA);
 		psw_move(ps, M_PA);
 		psw_move(ps, M_PA);

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 23:16:35 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 14:52:44 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:57:07 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -44,7 +44,7 @@ int	ft_malloc_p(size_t size, void **ptr)
 	return (p != NULL);
 }
 
-// ft_malloc_p with safe ptr. The void **ptr given MUST be NULL or returns error.
+// ft_malloc_p with safe ptr. The void **ptr given MUST be NULL else error.
 int	ft_malloc_sp(size_t size, void **ptr)
 {
 	void	*p;

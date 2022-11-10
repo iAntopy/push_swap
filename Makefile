@@ -16,7 +16,6 @@ _SRC	=	push_swap_main.c			\
 			stack_moves2_tec.c		\
 			checker_funcs.c			\
 			sort_3_5.c				\
-			dist_funcs.c				\
 			analysis_funcs.c			\
 			analysis_funcs2.c			\
 			chunkers.c				\
@@ -35,10 +34,12 @@ _SRC_B	=	checker_main_bonus.c	\
 
 SRC_M		= $(addprefix $(SRC_DIR), $(_SRC))
 SRC_B		= $(addprefix $(SRC_B_DIR), $(_SRC_B))
-
+SRC_RAND	= $(addprefix $(SRC_DIR), randint_gen.c)
 
 OBJ_M		= $(SRC_M:.c=.o)
 OBJ_B		= $(SRC_B:.c=.o)
+
+OBJ_RAND	= $(SRC_RAND:.c=.o)
 
 INCL		= include/
 
@@ -49,9 +50,8 @@ CFLAGS		= -Wall -Wextra -Werror
 
 NAME		= push_swap
 NAME_BONUS	= checker
+NAME_GEN	= randint_gen
 
-%_bonus.o:	%.c
-		-$(CC) $(CFLAGS) -I$(INCL) -c $< -o $@
 %.o:		%.c
 		-$(CC) $(CFLAGS) -I$(INCL) -c $< -o $@
 
@@ -68,10 +68,13 @@ all:		$(NAME) $(NAME_BONUS)
 
 bonus:		$(NAME_BONUS)
 
+generator:	$(LIBFT) $(OBJ_RAND)
+		$(CC) $(CFLAGS) -o $(NAME_GEN) -I$(INCL) $(OBJ_RAND) $(LIBFT)
+
 clean:
 		rm -f $(OBJ_M) $(OBJ_B) $(LIBFT)
 
 fclean:		clean
-		rm -f $(NAME) $(NAME_BONUS)
+		rm -f $(NAME) $(NAME_BONUS) $(NAME_GEN)
 
 re:			fclean all

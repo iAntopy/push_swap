@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 03:19:53 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/11/09 23:55:15 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:54:02 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	psw_clear(t_ps *ps, int status)
 {
-	stk_clear(&ps->A);
-	stk_clear(&ps->B);
+	stk_clear(&ps->a);
+	stk_clear(&ps->b);
 	return (status);
 }
 
@@ -84,7 +84,7 @@ int	main(int argc, char **argv)
 		return (psw_clear(&ps, repport_error()));
 	if (read_and_exec_moves(&ps) < 0)
 		return (psw_clear(&ps, repport_error()));
-	if (ps.B->len == 0 && stk_issorted(ps.A))
+	if (ps.b->len == 0 && stk_issorted(ps.a))
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");

@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 20:39:14 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/21 17:48:53 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:33:41 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	te_move_to_vptr(t_te *te, int *vptr)
 			te_move(te, M_RRA);
 }
 
-void	te_find_deltas_to_addj_clusters(t_stk *s, t_stk *sub, int *d1, int *d2)
+void	te_find_dt_to_addj_clusters(t_stk *s, t_stk *sub, int *d1, int *d2)
 {
 	int	*clst[4];
 	int	dt[4];

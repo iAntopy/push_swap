@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 21:24:01 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 21:25:22 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:34:00 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_te	*te_seek_nearest_neighbors(t_te *te, t_te tes[2], t_stk *sub)
 
 	while (te->members->len < sub->len)
 	{
-		te_find_deltas_to_addj_clusters(te->ts, sub, &delta1, &delta2);
+		te_find_dt_to_addj_clusters(te->ts, sub, &delta1, &delta2);
 		if ((te->members->len < (sub->len - 1)) && delta1 && delta2)
 		{
 			if (!te_copy(tes, te) || te_clear(te) || !te_copy(tes + 1, tes))
@@ -68,7 +68,7 @@ t_tec	*tec_seek_nearest_neighbors(t_tec *tec, t_tec tecs[2])
 
 	while (tec->ts->len > 5)
 	{
-		tec_find_deltas_to_addj_clusters(tec->ts, tec->ch, &delta1, &delta2);
+		tec_find_dt_to_addj_clusters(tec->ts, tec->ch, &delta1, &delta2);
 		if (tec->ts->len > 6 && delta1 && delta2)
 		{
 			if (!tec_copy(tecs, tec)

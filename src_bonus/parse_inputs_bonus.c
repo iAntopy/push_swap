@@ -6,7 +6,7 @@
 /*   By: iamongeo <iamongeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 04:54:44 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 04:55:36 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/09 23:56:04 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	duplicate_check(t_stk *A)
 
 static int	init_push_swap_struct(t_ps *ps, char **nbs_strtab)
 {
+	ps->stk_a.arr = NULL;
+	ps->stk_b.arr = NULL;
 	ps->stack_max = (int)strtab_len(nbs_strtab);
 	if (!ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_a.arr)
 		|| !ft_malloc_p(sizeof(int) * ps->stack_max, (void **)&ps->stk_b.arr))

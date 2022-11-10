@@ -44,8 +44,8 @@ INCL		= include/
 
 LIBFT		= libft/libft.a
 
-CC		= gcc
-CFLAGS		= -g -Wall -Wextra -Werror
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
 
 NAME		= push_swap
 NAME_BONUS	= checker
@@ -64,7 +64,7 @@ $(NAME_BONUS):	$(LIBFT) $(OBJ_B)
 $(LIBFT):
 		make -C libft/
 
-all:		$(NAME)
+all:		$(NAME) $(NAME_BONUS)
 
 bonus:		$(NAME_BONUS)
 

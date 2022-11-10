@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:20:53 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/10/26 14:51:43 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/09 23:28:44 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	ft_putchar(int c);
 void	ft_putstr(char const *s);
 void	ft_putendl(char const *s);
 void	ft_putnbr(int n);
+int		ft_putnbr_buff(char *buff, ssize_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char const *s, int fd);
 void	ft_putendl_fd(char const *s, int fd);
@@ -136,7 +137,6 @@ int		ft_randint(int min, int range);
 
 int		malloc_free_p(size_t size, void **ptr);
 int		ft_malloc_p(size_t size, void **ptr);
-int		ft_malloc_sp(size_t size, void **ptr);
 int		ft_calloc_p(size_t size, void **ptr);
 int		ft_free_p(void **ptr);
 void	*malloc_free(size_t size, void **ptr);
@@ -168,26 +168,12 @@ void	strtab_print(char **tab);
 #  define GNL_BUFFER_SIZE 4096
 # endif
 
-typedef struct s_gdl
-{
-	struct s_gdl	*prev;
-	struct s_gdl	*next;
-	char			*str;
-	size_t			n;
-}	t_gdl;
-
-enum	e_fail_codes
-{
-	E_EOF = SIZE_MAX - 2,
-	E_MLC = SIZE_MAX - 1,
-	E_IFD = SIZE_MAX
-};
-
 char	*get_next_line(int fd);
-int		get_substr(char *str, size_t start, size_t n, char **ret);
-int		gdl_insert(t_gdl **dlst, t_gdl **elem, char *str, size_t push_app);
-int		join_clear_list(char *line, t_gdl **elem);
-char	*gather_line(t_gdl **chks);
+int		gnl_join_swap(char **old, char *new, size_t n);
+//int		get_substr(char *str, size_t start, size_t n, char **ret);
+//int		gdl_insert(t_gdl **dlst, t_gdl **elem, char *str, size_t push_app);
+//int		join_clear_list(char *line, t_gdl **elem);
+//char	*gather_line(t_gdl **chks);
 ////////////////////////////////
 
 ////////// FT_PRINTF ///////////

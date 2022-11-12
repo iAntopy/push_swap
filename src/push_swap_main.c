@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 07:424246:24 by iamongeo      #+#    #+#             */
-/*   Updated: 2022/11/10 17:06:27 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:52:23 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	main(int argc, char **argv)
 	ft_memclear(&ps, sizeof(ps));
 	ps.strmoves = (char **)strmoves;
 	ps.nb_moves = 0;
+	if (argc < 2 || (argc == 2 && !argv[1][0]))
+		return (0);
 	if (parse_inputs(&ps, argc, argv) < 0
 		|| replace_nbs_with_indices(ps.a) < 0)
 		return (psw_clear(&ps, repport_error()));

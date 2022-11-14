@@ -6,7 +6,7 @@
 /*   By: iamongeo <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:36:58 by iamongeo          #+#    #+#             */
-/*   Updated: 2022/11/10 17:03:44 by iamongeo         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:24:16 by iamongeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	execute_recipe(t_ps *ps, t_varr *path, const char *recipe)
 	return (0);
 }
 
-///////////////////////// STAGE 1 \\\\\\\\\\\\\\\\\\\\\\\\\\
+///////////////////////// STAGE 1 ///////////////////////////
 //	- Push all stack A members except 5 in stack B
 //	- organized in chunks, so that chunks are organized 
 //	- from greatest membered chunk first to smallest.
@@ -81,7 +81,7 @@ static int	psw_algo_stage1_a_to_b(t_ps *ps)
 	return (0);
 }
 
-///////////////////////// STAGE 2 \\\\\\\\\\\\\\\\\\\\\\\\\\
+///////////////////////// STAGE 2 /////////////////////////////////
 //	-	Push stack B members from greatest to smallest in 
 //	- chunks of the 4 greatest members of stack B at a 
 //	- time. This chunk of 4 is passed through the recursive
